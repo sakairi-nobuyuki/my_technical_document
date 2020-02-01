@@ -1,0 +1,362 @@
+\chapter{応用数学の基本}
+\section{Fourier級数からのFourier変換の導出}
+有限区間$[-L, L]$で定義された任意の解析関数$f(x)$を三角関数の級数展開で表されると
+する。
+\begin{equation}
+ f(x) = \sum_{n=0}^{\infty}\left\{a_n\cos \left(\frac{n\pi}{L}x\right)
+			   + b_n\sin \left(\frac{n\pi}{L}x\right)\right\}
+\end{equation}
+ここで、三角関数の係数$a_n$と$b_n$を求める方法を考える。今、考えている関
+数が奇関数のときは正弦関数での展開、偶関数のときは余弦関数での展開を使う
+ように仮定する。たまたま余弦関数展開の場合を考えると、これに波長の異なる
+関数を掛けることで求められる。$\cos(n\pi x/L)$を掛けて、このときの積分を考
+える。
+\begin{equation}
+ \int_{-L}^{L}dx \mspace{5mu} f(x) \cos\left(\frac{m\pi}{L}x\right)
+  = \int_{-L}^{L}dx \mspace{5mu}\sum_{n=0}^{\infty}
+  a_n\cos\left(\frac{m\pi}{L}x\right)\cos\left(\frac{n\pi}{L}x\right)
+  = a_n\delta_{mn}L
+\end{equation}
+が三角関数の加法定理を用いて得られる。ここで$\delta_{mn}$はKroneckerのデ
+ルタであり、今後添字の計算についてはEinsteinの総和規約を用いる。
+また、正弦関数での展開も同じように行うことで、
+\begin{equation}
+ a_n = \frac{\delta_{mn}}{L}\int_{-L}^{L}dx \mspace{5mu} f(x) \cos\left(\frac{m\pi}{L}x\right)
+\end{equation}
+\begin{equation}
+ b_n = \frac{\delta_{mn}}{L}\int_{-L}^{L}dx \mspace{5mu} f(x) \sin\left(\frac{m\pi}{L}x\right)
+\end{equation}
+
+ここで、もとのFourier級数に立ち返って、$a_n$、$b_n$を代入すると、
+\begin{equation}
+ f(x) = \sum_{n=0}^{\infty}\frac{\delta_{mn}}{L}
+  \left\{\cos \left(\frac{n\pi}{L}x\right)\int_{-L}^{L}d\xi \mspace{5mu} f(\xi) \cos\left(\frac{m\pi}{L}\xi\right)
+   + \sin \left(\frac{n\pi}{L}x\right)\int_{-L}^{L}d\xi \mspace{5mu} f(\xi) \sin\left(\frac{m\pi}{L}\xi\right)\right\}
+\end{equation}
+のようになるが、ここで、不連続な波長の級数和を$L\rightarrow \infty$のよ
+うに無限区間での変換の定義を行うことで連続的な波数についての積分に変換す
+る。これは、$n\pi/L=k_n$で定義される不連続な波数を、$L\rightarrow\infty$
+の極限を取ることで、$\Delta k=k_{n+1}-k_n\rightarrow dk$として変換が可能
+である。
+\begin{equation}
+ f(x) = \sum_{n=0}^{\infty}\frac{\delta_{mn}\Delta k}{\pi}
+  \left\{\cos \left(k_nx\right)\int_{-\infty}^{\infty}d\xi \mspace{5mu} f(\xi) \cos\left(k_m\xi\right)
+   + \sin \left(k_nx\right)\int_{-L}^{L}d\xi \mspace{5mu} f(\xi) \sin\left(k_m\xi\right)\right\},
+\end{equation}
+が得られるが、Riemann和の性質、
+$\lim_{\Delta x\rightarrow 0} \sum_nf(x_n)\Delta x =\int dx f(x)$から、
+\begin{equation}
+ f(x) = \frac{1}{\pi}\int_{0}^{\infty}dk\int_{-\infty}^{\infty}d\xi \mspace{5mu} f(\xi) 
+  \left\{\cos \left(kx\right)\cos\left(k\xi\right)
+   + \sin \left(kx\right) \sin\left(k\xi\right)\right\},
+\end{equation}
+が得られる。
+
+ここで、これを三角関数の加法定理から、畳み込みの形で表すと、
+\begin{equation}
+ f(x) = \frac{1}{\pi}\int_{0}^{\infty}dk\int_{-\infty}^{\infty}d\xi \mspace{5mu} f(\xi) 
+  \cos \left[k(x - \xi)\right],
+\end{equation}
+が得られる。更に、これを指数関数を使って表すと、
+\begin{equation}
+  f(x) = \frac{1}{2\pi}\int_{0}^{\infty}dk\int_{-\infty}^{\infty}d\xi \mspace{5mu} f(\xi) 
+  \left[e^{ik(x-\xi)}+e^{-ik(x-\xi)}\right],
+\end{equation}
+ここで、この表式から、任意の関数は正の波数のみで定義される波数空間では正の方向へ進行する波と、負
+の方向へ進行する波の和で表されることが分る。これを、$-k\rightarrow k$の
+変換を施すと、$dk\rightarrow -dk$で、積分区間が$[0,-\infty]$なので、
+\begin{equation}
+  f(x) = \frac{1}{2\pi}
+   \left(\int_{0}^{\infty}dk-\int_{0}^{-\infty}dk\right)
+   \int_{-\infty}^{\infty}d\xi \mspace{5mu} f(\xi) e^{ik(x-\xi)},
+\end{equation}
+ここで、積分記号の公式を使うと、無限領域での波数空間で定義された基底によ
+り任意の関数を表現できることがわかる。
+\begin{equation}
+  f(x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}dk\frac{1}{\sqrt{2\pi}}
+   \int_{-\infty}^{\infty}d\xi \mspace{5mu} f(\xi) e^{-ik\xi}e^{ikx}.
+\end{equation}
+これにより、無限区間で定義される物
+理空間上の解析関数が、無限区間で定義される波数空間に写像されることがわか
+る。これがFourier変換であり、逆変換とともに以下のように表される。
+\begin{equation}
+ \mathcal{F} = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}dx\mspace{5mu} e^{ikx},
+\end{equation}
+\begin{equation}
+ \mathcal{F}^{-1} = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}dk\mspace{5mu} e^{-ikx}.
+\end{equation}
+
+\section{拡散方程式}
+\subsection{拡散方程式の初期値問題からのDiracの$\delta$関数}
+拡散方程式を解いてみる。
+\begin{equation}
+ \frac{\partial\Psi}{\partial t} 
+  = \nu\frac{\partial^2\Psi}{\partial x^2},
+\end{equation}
+\begin{equation}
+ \Psi|_{t=0} = \Psi_0(x).
+\end{equation}
+
+普通に変数分離法で解く。$\Psi=X(x)T(t)$とする。これを拡散方程式に代入す
+ると、$X_{xx}/X=T_t/(\nu T)=-k^2$である。ここで、分離された変数の塊は方
+程式の解が十分時間が経った後に発散しない条件から時間微分の固有値が負の値
+を取らなければならない。これより、解が波数$k$の積分で表現される。
+\begin{equation}
+ \Psi = \int_{-\infty}^{\infty}dk\mspace{5mu}
+  e^{-k^2\nu t}\left\{a(k)e^{ikx}+b(k)e^{-ikx}\right\}.
+\end{equation}
+
+これに初期条件を適用して、積分定数がFourier積分の形で表現される。
+\begin{equation}
+ a(k) = \frac{1}{2\pi}\int_{-\infty}^{\infty}d\xi\mspace{5mu}\Psi_0(\xi)e^{-ik\xi},
+\end{equation}
+\begin{equation}
+ b(k) = \frac{1}{2\pi}\int_{-\infty}^{\infty}d\xi\mspace{5mu}\Psi_0(\xi)e^{ik\xi},
+\end{equation}
+これを元に戻すと、
+\begin{equation}
+ \Psi = \frac{1}{\pi}\int_{-\infty}^{\infty}dkd\xi\mspace{5mu}
+  \Psi_0(\xi)e^{-k^2\nu t}\cos (x-\xi),
+\end{equation}
+が得られる。これを変数変換
+\footnote{$\kappa^2 = k^2\nu t$として、部分積分をする。}
+を適宜施すと、以下のような正規分布の形式が得られる。
+\begin{equation}
+  \Psi = \int_{-\infty}^{\infty}d\xi\mspace{5mu}
+  \frac{\Psi_0(\xi)}{2\sqrt{\pi\nu t}}e^{-\frac{(x-\xi)^2}{4\nu t}},
+\end{equation}
+ここで、この被積分関数について、ある矩形領域$2h\times \psi_0$で初期条件
+が与えられていると仮定すると、
+\begin{equation}
+ \Psi_0(\xi) =
+  \begin{cases}
+   \frac{\psi_0}{2h} & (-h \leq \xi \leq h), \\
+   0 & (\xi < -h, h < \xi),
+  \end{cases}
+\end{equation}
+であるから、
+\begin{equation}
+  \Psi = \frac{\psi_0}{2h}\int_{-h}^{h}d\xi\mspace{5mu}
+  \frac{1}{2\sqrt{\pi\nu t}}e^{-\frac{(x-\xi)^2}{4\nu t}},
+\end{equation}
+が得られ、更に積分についての平均値の定理から、積分領域内での$\xi$の平均
+値を$\bar{x}$として、
+\begin{equation}
+   \Psi \xrightarrow[h\to 0]{}
+  \frac{\psi_0}{2\sqrt{\pi\nu t}}e^{-\frac{(x-\bar{x})^2}{4\nu t}},
+\end{equation}
+が得られる。これは$t\rightarrow 0$の極限を取るとDiracの$\delta$関数が定
+義される。
+\begin{equation}
+ \delta(x-\bar{x})=
+  \lim_{t\rightarrow 0}-\frac{e^{\frac{(x-\bar{x})^2}{t}}}{t}=
+  \begin{cases}
+   \infty & (x=\bar{x}), \\
+   0 & (x\neq \bar(x)),
+  \end{cases}
+\end{equation}
+また、これは以下のような便利な畳み込み積分の性質を持つ。
+\begin{equation}
+ \int_{-\infty}^{\infty}d\xi\mspace{5mu} f(\xi)\delta(\xi-x)=f(x),
+\end{equation}
+\begin{equation}
+  \int_{-\infty}^{\infty}d\xi\mspace{5mu} \delta(\xi)=1
+\end{equation}
+\begin{equation}
+  \int_{-\infty}^{\infty}d\xi\mspace{5mu} \delta(\xi-x)=H(x)=
+   \begin{cases}
+    1 & (0 \leq x), \\
+    0 & (x < 0),
+   \end{cases}
+\end{equation}
+ここで$H(x)$はHeavisiteの階段関数であり、また、Delta関数は可積分だが、微
+分が定義できないため超函数と呼ばれることもある。
+
+\subsection{半無限領域での拡散方程式の初期境界値値問題}
+半無限領域$0\leq x$での拡散方程式$\Psi_t=\nu\Psi$に対して、初期条件と境
+界条件が以下のように与えられている場合を考える。
+\begin{equation}
+ \begin{cases}
+  \Psi|_{t=0} = \psi (x) & (0\leq x) \\
+  \Psi|_{x=0} = \varphi (t) & (0\leq x) \\
+ \end{cases}
+\end{equation}
+ここで、拡散方程式が線形であることから、これらの初期境界値問題は、初期値
+問題の解$\Psi_i$と境界値問題の解$\Psi_b$の重ね合わせとして
+$\Psi=\Psi_b+\Psi_i$のように与えられる。
+個別に$\Psi_b$と$\Psi_i$を求めて、その和で求める。
+
+最初に、半無限領域での初期値問題を求める。無限領域での拡散方程式の初期値問題は、初期
+条件に対するGau\ss の正規分布の畳み込みで与えられることが分っている。そ
+こで、
+\begin{equation}
+ \Psi = \int_{-\infty}^{\infty}d\xi\mspace{5mu}
+  \frac{\psi(\xi)}{2\sqrt{\pi\nu t}}e^{-\frac{(x-\xi)^2}{4\nu t}}
+  = \left(\int_{-\infty}^{0} + \int_{0}^{\infty}\right)d\xi\mspace{5mu}
+  \frac{\psi(\xi)}{2\sqrt{\pi\nu t}}e^{-\frac{(x-\xi)^2}{4\nu t}},
+\end{equation}
+となるが、負の領域で変数変換$\xi\rightarrow -\xi$とすると、
+\begin{equation}
+ \Psi = \frac{1}{2\sqrt{\pi\nu t}}\int_{0}^{\infty}d\xi\mspace{5mu}
+  \left\{\psi(\xi)e^{-\frac{(x-\xi)^2}{4\nu t}}+\psi(-\xi)e^{-\frac{(x+\xi)^2}{4\nu t}}\right\},
+\end{equation}
+が得られる。ここで、境界条件として、$\Psi|_{x=0}=0$とすると、
+$\psi(\xi)+\psi(-\xi)=0$が条件になる。これにより、初期条件は奇関数である
+ことが条件となる。今、問題にしているのは初期値問題であり、初期値が
+$\Psi|_{x=0}=0$となる条件を満たしていれば問題ない。これにより、
+\begin{equation}
+  \Psi = \frac{1}{2\sqrt{\pi\nu t}}\int_{0}^{\infty}d\xi\mspace{5mu}
+  \psi(\xi)\left\{e^{-\frac{(x-\xi)^2}{4\nu t}}-e^{-\frac{(x+\xi)^2}{4\nu t}}\right\},
+\end{equation}
+が得られる。
+
+ここで、更に特定の条件として、$\psi(x)=\psi_0$という場合を考える。まず、
+変数変換$\eta^2=(\xi-x)^2/(4\nu t)$と$\eta=(\xi+x)^2/(4\nu t)$を仮定し、
+それぞれの積分核へ適用する。すると、
+\begin{equation}
+ \Psi = \frac{\psi_0}{\sqrt{\pi}}
+  \left(\int_{-\frac{x}{\sqrt{4\nu t}}}^{\infty}-\int_{\frac{x}{\sqrt{4\nu t}}}^{\infty}\right)d\eta\mspace{5mu}
+  e^{-\eta^2}
+  = \frac{\psi_0}{\sqrt{\pi}}
+  \int_{-\frac{x}{\sqrt{4\nu t}}}^{\frac{x}{\sqrt{4\nu t}}}d\eta\mspace{5mu}
+  e^{-\eta^2}
+  = \frac{2\psi_0}{\sqrt{\pi}}
+  \int_{0}^{\frac{x}{\sqrt{4\nu t}}}d\eta\mspace{5mu}
+  e^{-\eta^2}
+\end{equation}
+として、誤差関数を解として得られる。また、誤差関数は以下のように定義する。
+\begin{equation}
+  \text{erf}\left(\frac{x}{\sqrt{4\nu t}}\right) 
+  = \frac{2}{\sqrt{\pi}}
+  \int_{0}^{\frac{x}{\sqrt{4\nu t}}}d\eta\mspace{5mu}
+  e^{-\eta^2}
+\end{equation}
+
+
+更に、境界値問題について考える。
+初期値問題の解を境界条件を満たすように適用することで解析を進める。今、境
+界条件が、$\Psi_{x=0}=\varphi_0H(t-t')$で与えられているとする。また、こ
+こで、$H(t-t')$はHeavisiteの階段関数である。この場合は、
+\begin{equation}
+ \Psi = \varphi_0H(t-t')
+  \left\{1-\text{erf}\left(\frac{x}{2\sqrt{\nu t}}\right)\right\},
+\end{equation}
+である。
+
+更に、$\varphi$が時間により任意の値を取る場合は、上記の解を拡張する。最
+初に境界条件が$t'<t<t'+\Delta t$の間だけ0ではない値をとるとすると、その
+場合は次のような関係が成り立つ。
+\begin{equation}
+ \Psi (t'+\Delta t) - \Psi (t') = \frac{\partial \Psi}{\partial t}\Delta t,
+\end{equation}
+これを、$t'$をずらして適用していくと任意の時間に任意の値をとる境界条件に
+拡張することが出来る。そして、上式は時間についての積分の形式をとっている
+ため、
+\begin{equation}
+ \Psi = -\int_{0}^{t}dt' \varphi(t')\frac{\partial \Psi}{\partial t},
+\end{equation}
+と表される。ここで、これに拡散方程式の一般解を適用すると、
+\begin{equation}
+ \Psi = \frac{x}{2\sqrt{\pi\nu}} \int_{0}^{t}dt'\mspace{5mu}
+  \frac{\varphi(t')}{(t-t')^{3/2}}e^{-\frac{x^2}{4\nu(t-t')}},
+\end{equation}
+だが、ここで、変数変換$\xi=x/(2\sqrt{\nu(t-t')})$とすると、
+\begin{equation}
+ \Psi = \frac{2}{\sqrt{\pi}}\int_{\frac{x}{2\sqrt{\nu t}}}^{\infty}dt'\mspace{5mu}
+  \varphi\left(t-\frac{x^2}{4\nu t'^2}\right)e^{-t'^2},
+\end{equation}
+が得られる。
+
+\section{Green関数法}
+最初にGau\ss の定理からGreenの定理を導出する。Gau\ss の定理は、
+\begin{equation}
+ \int_{\Omega}dV\mspace{5mu}\text{div}\bm{u}
+  =  \int_{\partial\Omega}d\bm{s}\cdot\bm{u}
+\end{equation}
+で与えられているが、ここで、$\bm{u}=p\text{grad}q$と、$\bm{u}=q\text{grad}p$とすると、
+\begin{equation}
+  \int_{\Omega}dV\mspace{5mu}
+   \left(\frac{\partial p}{\partial x_i}\frac{\partial q}{\partial x_i}+p\frac{\partial^2q}{\partial x_i\partial x_i}\right)
+  =  \int_{\partial\Omega}ds_i\frac{\partial q}{\partial n_i}p,
+\end{equation}
+\begin{equation}
+  \int_{\Omega}dV\mspace{5mu}
+   \left(\frac{\partial p}{\partial x_i}\frac{\partial q}{\partial x_i}+q\frac{\partial^2p}{\partial x_i\partial x_i}\right)
+  =  \int_{\partial\Omega}ds_i\frac{\partial p}{\partial n_i}q,
+\end{equation}
+が得られて、これを引き算すると、Greenの定理が得られる。
+\begin{equation}
+  \int_{\Omega}dV\mspace{5mu}\left(p\triangle q - q\triangle p\right)
+  =  \int_{\partial\Omega}d\bm{s}\cdot
+  \left(p\frac{\partial q}{\partial \bm{n}}-q\frac{\partial p}{\partial \bm{n}}\right)
+\end{equation}
+となる。
+
+ここで、ある楕円形の方程式の非同次問題を考える。
+\begin{equation}
+ \triangle \psi = f(\bm{x}),
+\end{equation}
+\begin{equation}
+ \psi|_{\partial\Omega} = \psi_0,
+\end{equation}
+\begin{equation}
+ \left.\frac{\partial \psi}{\partial \bm{n}}\right|_{\partial \Omega} = \psi_1,
+\end{equation}
+のような方程式が与えられていたときに、$\psi$に対するGreen関数が以下のよ
+うに定義される。
+\begin{equation}
+ \triangle G = -\delta (\bm{x}-\bm{x}),
+\end{equation}
+\begin{equation}
+ G|_{\partial\Omega} = 0,
+\end{equation}
+\begin{equation}
+ \left.\frac{\partial G}{\partial \bm{n}}\right|_{\partial \Omega} = 0.
+\end{equation}
+Greenの定理に、$\psi$と$G$を適用することで、次のような形式解が得られる。
+\begin{equation}
+ \psi = \int_{\Omega}dV\mspace{5mu}
+  \psi(\bm{x})G(\bm{x}-\bm{x}') 
+  + \int_{\partial \Omega}d\bm{s}\cdot
+  G\frac{\partial \psi}{\partial \bm{n}},
+\end{equation}
+
+\section{円筒座標系の熱伝導方程式}
+軸対称円筒座標系の熱伝導方程式、
+\begin{equation}
+ \frac{\partial T}{\partial t}
+  + \frac{1}{r}\frac{\partial}{\partial r}
+  r\frac{\partial T}{\partial r}
+  = 0,
+\end{equation}
+を解く。普通に変数分離をして解いていくと、空間方向の変数を$R$、方程式の
+固有値を$k$とすると、$R_{rr}+R_r/r+k2R=0$となる。これは0次のBessel方程式
+であり、Bessel関数とHankel関数の線形和で一般解が与えられる。これと時間方
+向の方程式の解と合わせることで、円筒座標系の解は次のようなBessel関数のFourier積分の
+形で表される。
+\begin{equation}
+ T = \int_{-\infty}^{\infty}dk\mspace{5mu}
+  e^{-k^2¥nu t}
+  ¥left¥{A(k)J_0(kr) + B(k)Y_0(kr)¥right¥}.
+\end{equation}
+
+
+\section{球座標系の熱伝導方程式}
+1次元と3次元は共に奇数次元の方程式であることから類似性がある。球
+座標系の方程式、
+\begin{equation}
+ \frac{\partial T}{\partial t}
+  + \frac{1}{r^2}\frac{\partial}{\partial r}r^2
+  \frac{\partial T}{\partial r}
+  = 0,
+\end{equation}
+の変数$T$を$T/r$と変数変換をすることで、普通の1次元直交座標系の熱伝導方
+程式に変換できて、結局のところは、 解はある種の湯川型ポテンシャルになる。
+
+
+\begin{thebibliography}{10}
+ \bibitem{Kanbe} 神部勉, 偏微分方程式, 講談社
+ \bibitem{Ince} INCE, E. L., Ordinary Differential Equations, Dover
+	 publishing inc., New York
+ \bibitem{Tsuboi} 坪井俊, 微分幾何とベクトル解析, 朝倉書店
+\end{thebibliography}

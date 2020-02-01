@@ -1,0 +1,73 @@
+\chapter{Phase-field法による2相流の解析}
+\section{Cahn-Hilliardの方程式}
+Phase-field法を用いて二相流の定式化をする。相の状態を決定する秩序変数$C$
+を定義する。$C$は有限区間で定義される。例えば、$-1\leq C \leq 1$とする。
+そして、$C=0$を相境界と仮定する。
+
+二相流の相境界の時間発展を考えるにあたって、Noetherの定理から、
+$dC=\delta\mathcal{G}/\delta C$であるから、秩序変数のLagrangean、
+$\mathcal{G}$を考える。
+任意の二相を考える場合は、相の違いによる化学ポテンシャル$\Phi$と相境界で
+の相の違いによる秩序変数の勾配により相の違いによるLagrangeanを定義できる
+とする。また、このLagrangeanは等方性をもつとして、秩序変数の勾配はその自
+乗で作用すると考える。それらの洞察により、
+\begin{equation}
+ \mathcal{G}\left[C,\frac{\partial C}{\partial x_j}\right]
+  =\Phi(C) 
+  + \frac{1}{2}\alpha\frac{\partial C}{\partial x_j}\frac{\partial C}{\partial x_j},
+\end{equation}
+が与えられる。これより秩序変数の変分を取ると、Euler-Langangeの方程式の導
+出過程からの洞察により、
+\begin{equation}
+ \frac{\delta\mathcal{G}}{\delta C}
+  = \frac{\partial\mathcal{G}}{\partial C}
+%  - \frac{d}{d\frac{\partial C}{\partial x_j}}
+  - \frac{d}{dx_j}\frac{\partial\mathcal{G}}{\partial\frac{\partial C}{\partial x_j}},
+\end{equation}
+である。これにLagrangeanの形式を代入すると、
+\begin{equation}
+ dC = \frac{\delta\mathcal{G}}{\delta C}
+  = \frac{\partial\Phi}{\partial C} 
+  - \alpha \frac{\partial C}{\partial x_j\partial x_j},
+\end{equation}
+である。
+
+これより、秩序変数の時間発展$dC/dt$は、場の記述によると、
+\begin{equation}
+ \frac{\partial C}{\partial t} + u_j\frac{\partial C}{\partial x_j}
+  = \frac{\partial\Phi}{\partial C} 
+  - \alpha \frac{\partial C}{\partial x_j\partial x_j},
+\end{equation}
+で与えられる。また、化学ポテンシャル$\Phi$は相転移をする場合や、井戸形ポ
+テンシャル等様々なポテンシャルの形式を仮定できる。
+
+秩序変数の時間発展を保存形式で記述するため、$\rho C$の時間発展を考える。
+これは秩序変数が単位重量あたりの化学ポテンシャルを表現することを意味する。
+\begin{equation}
+ \frac{\partial\rho C}{\partial t} 
+  + \frac{\partial \rho C u_j}{\partial x_j}
+  = \rho\left(\frac{\delta\mathcal{G}}{\delta C}\right)^2.
+\end{equation}
+
+ここで、\ref{ThermoDynamics}章より、Taitの経験式を用いることで、圧力が定
+数$B$により、$p\rightarrow P + B$に変換されることがわかった。秩序変数の
+影響をエネルギー保存則に組み込む際にはこの変換を使用する。まず、系の全エ
+ネルギー$\rho e$、全エンタルピー$\rho w$を再定義する。
+\begin{equation}
+ \rho e = \rho 
+  \left(\epsilon + \frac{u^2}{2} + \mathcal{G}\right),
+\end{equation}
+\begin{equation}
+ \rho w = \rho 
+  \left(\epsilon + \frac{p + B}{\rho} + \frac{u^2}{2} + \mathcal{G}\right),
+\end{equation}
+であり、$w = h + u^2/2$である。
+
+これを、質量保存則、運動量保存則、秩序変数の保存則から、
+\begin{equation}
+ \frac{\partial\rho e}{\partial t}
+  + \frac{\partial}{\partial x_j}\rho u_j \left(h + \frac{u^2}{2}\right)
+  = \rho\left(\frac{\partial\mathcal{G}}{\partial C}\right)^2
+  + \frac{\partial u_j\sigma_{ij}}{\partial x_j}
+  + \kappa \frac{\partial^2T}{\partial x_j \partial x_j}
+\end{equation}

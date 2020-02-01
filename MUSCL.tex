@@ -1,0 +1,1065 @@
+\chapter{前進差分}
+気体の計算を行うので、保存形式を保った数値計算スキームを使う。流体の運動
+方程式を保存形式で書くと、非粘性の1次元の場合は質量保存、運動量保存、エネルギー保存はそれぞれ、
+\begin{equation}
+ \frac{\partial\rho}{\partial t} + \frac{\partial \rho u}{\partial x} =
+  0,   \label{conservertive_low_of_mass}
+\end{equation}
+\begin{equation}
+ \frac{\partial \rho u}{\partial t} + 
+  \frac{\partial}{\partial x}\left(\rho u^2 + p\right) = 0,
+   \label{conservertive_low_of_momentum}
+\end{equation}
+\begin{equation}
+ \frac{\partial \rho e}{\partial t} + \frac{\partial }{\partial
+  x}\rho u \left(e+\frac{p}{\rho}\right) = 0,
+   \label{conservertive_low_of_energy}
+\end{equation}
+ここで、$e$は単位質量あたりの全エネルギーで、内部エネルギ$\epsilon$と運
+動エネルギー$u^2/2$の和によって、$e=\epsilon+u^2/2$で定義される。
+
+ここで、これらの方程式を次のようにして保存形式の離散化に持ち込むことがで
+きる。
+\begin{equation}
+ \bm{Q} =
+  \begin{pmatrix}
+   \rho \\  \rho u \\ \rho e
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \bm{F} =
+ \begin{pmatrix}
+  \rho u \\ \rho u^2 + p \\ \rho u \left(e+\frac{p}{\rho}\right)
+ \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t} + \frac{\partial \bm{F}}{\partial x}
+  = 0.
+\end{equation}
+
+以上の方程式を離散化して解くことになるが、その前に1変数での解法について
+考える。単純な1次元の保存形式の方程式は、
+\begin{equation}
+ \frac{\partial Q}{\partial t} + \frac{\partial F}{\partial t} = 0,
+\end{equation}
+で与えられていて、これをsteggered格子を使って離散化すると、
+\begin{equation}
+ Q^{n+1} = Q^n - \frac{\Delta t}{\Delta x}\left(F_{i+\frac{1}{2}} - F_{i-\frac{1}{2}}\right),
+\end{equation}
+で与えられる。Numerical Recipes程度の簡単な解法については以下の通りであ
+る。
+\begin{equation}
+ F_{i+\frac{1}{2}}=
+  \begin{cases}
+   Q_iu_i & (\text{移流項の符号すら考えない風上一次}) \\
+   u_i\left\{Q_i+\frac{1}{2}(1-\nu)(Q_{i+1} - Q_i)\right\}  &
+   (\text{Lax-Wendroff}) \\
+   \frac{1}{2}\left\{F_i + F_{i+1} - |u_i|(Q_{i+1} - Q_i)\right\} &
+   (\text{符号の変化も考えた1時精度風上})
+  \end{cases}
+\end{equation}
+ここで$u$は移流項の流速で、$F_i=Q_iu_i$で与えられる。
+
+次に風上3次の離散化を考える。空間的に3次の離散化を考える訳なので、空間で
+の3次の補完を考える。そこで任意の未知変
+数$\emptyset$のTaylor展開を行うと、
+\begin{equation}
+ \emptyset(x) = \emptyset_i + \frac{\delta_iu}{\Delta x}(x-x_i) + 
+  \frac{3\kappa\delta_i^2u}{2\Delta x^2}\left\{(x-x_i)^2 - \frac{\Delta
+					 x^2}{12}\right\},\\ (x_{i-\frac{1}{2}}
+  < x < x_{i+\frac{1}{2}})
+\end{equation}
+\begin{equation}
+ \emptyset_i = \frac{1}{\Delta x}\int_{i-\frac{1}{2}}^{i+\frac{1}{2}}dx\mspace{5mu}\emptyset(x),
+\end{equation}
+\begin{equation}
+ \delta_i\emptyset = \frac{1}{2}(\emptyset_{i+1} - \emptyset_{i-1}),
+\end{equation}
+\begin{equation}
+ \delta_i^2\emptyset = \emptyset_{i+1} - 2\emptyset_i + \emptyset_{i-1},
+\end{equation}
+全部まとめると、
+\begin{equation}
+ \emptyset(x) = \emptyset_i + \frac{\emptyset_{i+1} - \emptyset_{i-1}}{2\Delta x}(x-x_i) 
+  + \frac{3\kappa(\emptyset_{i+1} - 2\emptyset_i + \emptyset_{i-1})}{2\Delta x^2}\left\{(x-x_i)^2 - \frac{\Delta x^2}{12}\right\}.
+\end{equation}
+ここで$k=1/3$のときに2次の補完になり、空間的に3時精度までを保証する離散
+化を行うことができる。
+　
+ここである方程式の移流項の未知変数$\emptyset$の$i$番目の値は$i-\frac{1}{2}$番目
+の境界の値の右側$\emptyset_{i-\frac{1}{2}}^R$と$i+\frac{1}{2}$番目の値の左側
+$\emptyset_{i+\frac{1}{2}}^L$で評価されて、それぞれ、
+\begin{equation}
+  \emptyset_{i+\frac{1}{2}}^L = \emptyset_i + \frac{1}{2}\emptyset_i + 
+   \frac{\kappa}{4}\Delta^2\emptyset_i,
+\end{equation}
+これをまとめると、
+\begin{equation}
+ \emptyset_{i+\frac{1}{2}}^L = \emptyset_i + 
+  \frac{1}{4}\left\{(1-\kappa)(\emptyset_i - \emptyset_{i-1}) +
+	      (1+\kappa)(\emptyset_{i+1} - \emptyset_i)\right\},
+\end{equation}
+右側の未知変数は、
+\begin{equation}
+ \emptyset_{i+\frac{1}{2}}^R = \emptyset_{i+1} 
+  - \frac{1}{4}\left\{(1-\kappa)(\emptyset_{i+1} - \emptyset_i) 
+	       + (1+\kappa)(\emptyset_{i+2} - \emptyset_{i+1})\right\},
+\end{equation}
+ここで、$\epsilon =0$のときに1時精度に変更できるように、書き換えると、
+\begin{equation}
+ \emptyset_{i+\frac{1}{2}}^L = \emptyset_i 
+  + \frac{\epsilon}{4}\left\{(1-\kappa)(\emptyset_i - \emptyset_{i-1}) +
+	      (1+\kappa)(\emptyset_{i+1} - \emptyset_i)\right\},
+\end{equation}
+\begin{equation}
+ \emptyset_{i+\frac{1}{2}}^R = \emptyset_{i+1} 
+  - \frac{\epsilon}{4}\left\{(1-\kappa)(\emptyset_{i+1} - \emptyset_i) 
+	       + (1+\kappa)(\emptyset_{i+2} - \emptyset_{i+1})\right\},
+\end{equation}
+のように書ける。
+
+これを数値流束$F=F(Q)$にまとめると、
+\begin{equation}
+ F(Q)_{i+\frac{1}{2}} = \frac{1}{2} 
+  \left\{F(Q)_{i+\frac{1}{2}}^R + F(Q)_{i+\frac{1}{2}}^L -
+  \left|U_{i+\frac{1}{2}}\right|\left(Q_{i+\frac{1}{2}}^R - Q_{i+\frac{1}{2}}^L\right)\right\},
+\end{equation}
+
+ここで、minmod関数をつかって制限関数(Limitter function)を使う場合は、
+\begin{equation}
+ \emptyset_{i+\frac{1}{2}}^L = \emptyset_i + \frac{s}{4}
+  \left\{(1-\kappa s)\bar{\Delta}_- + (1+\kappa s)\bar{\Delta}_+\right\},
+\end{equation}
+\begin{equation}
+ \emptyset_{i+\frac{1}{2}}^R = \emptyset_{i+1} - \frac{s}{4}
+  \left\{(1-\kappa s)\bar{\Delta}_+ + (1+\kappa s)\bar{\Delta}_-\right\},
+\end{equation}
+で表される。ここで、様々出てくる中間変数は以下のように定義される。
+\begin{equation}
+ \bar{\Delta}_+ = \text{minmod}(\Delta_+, b\Delta_-),
+\end{equation}
+\begin{equation}
+ \bar{\Delta}_- = \text{minmod}(\Delta_-, b\Delta_+),
+\end{equation}
+\begin{equation}
+ b = \frac{3 - \kappa}{1 - \kappa},
+\end{equation}
+minmod関数を制限関数として利用して、かつ、slope関数を使う場合は、
+\begin{equation}
+ s = \frac{2\Delta_+\Delta_-+\epsilon}{\Delta_+^2 + \Delta_-^2 +\epsilon},
+\end{equation}
+\begin{equation}
+ \Delta_+|_i = \emptyset_{i+1} - \emptyset_i,
+\end{equation}
+\begin{equation}
+ \Delta_-|_i = \emptyset_{i} - \emptyset_{i-1},
+\end{equation}
+で計算を行う。
+
+ここで、minmod関数の定義は、
+\begin{equation}
+  \text{minmod}(x,y) = \text{sgn}(x)\max\left[0,\min(|x|,\text{sgn}x(x)y)\right], 
+\end{equation}
+で与えられる。ただし、inline展開されていない関数を使用する場合の演算速度
+の関係から、minmod関数はまた別に以下のように表され、場合によって使い分け
+る。
+\begin{equation}
+ \text{minmod}(x,y) =
+ \begin{cases}
+  x & (0 < xy, |x| \le |y|), \\
+  y & (0 < xy, |y| < |x|), \\
+  0 & (xy < 0).
+ \end{cases}
+\end{equation}
+
+定式化のためのまとめは以下の通り。
+\begin{equation}
+ \frac{\partial Q}{\partial t} + U\frac{\partial F}{\partial x} = 0,
+\end{equation}
+\begin{equation}
+ Q^{n+1} = Q^n - \frac{\Delta t}{\Delta x} \left(F_{i+\frac{1}{2}} - F_{i-\frac{1}{2}}\right),
+\end{equation}
+\begin{equation}
+ F_{i+\frac{1}{2}} = \frac{1}{2} \left\{F(Q^R)_{i+\frac{1}{2}} +
+				  F(Q^L)_{i+\frac{1}{2}}
+				  -|U_{i+\frac{1}{2}}|\left(Q^R_{i+\frac{1}{2}}
+						      - Q^L_{i+\frac{1}{2}}\right)\right\},
+\end{equation}
+\begin{equation}
+ \emptyset^R_{i+\frac{1}{2}} = \emptyset_{i+1} - 
+  \frac{s}{4} \left\{(1-\kappa s)\bar{\Delta}_+|_{i+1} + (1+\kappa s)\bar{\Delta}_-|_{i+1}\right\},
+\end{equation}
+\begin{equation}
+ \emptyset^L_{i+\frac{1}{2}} = \emptyset_i +
+  \frac{s}{4} \left\{(1-\kappa s)\bar{\Delta}_-|_i + (1+\kappa s)\bar{\Delta}_+|_i\right\},
+\end{equation}
+\begin{equation}
+ \bar{\Delta}_+|_i = \text{minmod} (\Delta_+|_i, b\Delta_-|_i),
+\end{equation}
+\begin{equation}
+ \bar{\Delta}_-|_i = \text{minmod} (\Delta_-|_i, b\Delta_+|_i),
+\end{equation}
+\begin{equation}
+ \Delta_+|_i = \emptyset_{i+1} - \emptyset_i,
+\end{equation}
+\begin{equation}
+ \Delta_-|_i = \emptyset_i - \emptyset_{i-1},
+\end{equation}
+
+
+
+\begin{equation}
+ F_{i-\frac{1}{2}} = \frac{1}{2} \left\{F(Q^R)_{i-\frac{1}{2}} +
+				  F(Q^L)_{i-\frac{1}{2}}
+				  -|U_{i-\frac{1}{2}}|\left(Q^R_{i-\frac{1}{2}}
+						      - Q^L_{i-\frac{1}{2}}\right)\right\},
+\end{equation}
+\begin{equation}
+ \emptyset^R_{i-\frac{1}{2}} = \emptyset_{i} - 
+  \frac{s}{4} \left\{(1-\kappa s)\bar{\Delta}_+|_{i} + (1+\kappa s)\bar{\Delta}_-|_{i}\right\},
+\end{equation}
+\begin{equation}
+ \emptyset^L_{i-\frac{1}{2}} = \emptyset_{i-1} +
+  \frac{s}{4} \left\{(1-\kappa s)\bar{\Delta}_-|_{i-1} + (1+\kappa s)\bar{\Delta}_+|_{i-1}\right\},
+\end{equation}
+\begin{equation}
+ \bar{\Delta}_+|_{i-1} = \text{minmod} (\Delta_+|_{i-1}, b\Delta_-|_{i-1}),
+\end{equation}
+\begin{equation}
+ \bar{\Delta}_-|_{i-1} = \text{minmod} (\Delta_-|_{i-1}, b\Delta_+|_{i-1}),
+\end{equation}
+\begin{equation}
+ \Delta_+|_{i-1} = \emptyset_{i} - \emptyset_{i-1},
+\end{equation}
+\begin{equation}
+ \Delta_-|_{i-1} = \emptyset_{i-1} - \emptyset_{i-2},
+\end{equation}
+
+
+係数$b$, $s$は以下のように定義されて、3次精度のときに$\kappa=1/3$,
+$\epsilon=$である。
+\begin{equation}
+ b = \frac{3-\kappa}{1-\kappa},
+\end{equation}
+\begin{equation}
+ s = \frac{2\Delta_+\Delta_-+\epsilon}{\Delta_+^2 + \Delta_-^2 + \epsilon}.
+\end{equation}
+
+\chapter{支配方程式}
+\section{1次元非粘性圧縮性流体のMUSCLによる数値計算}
+圧縮性流体の1次元の支配方程式は、
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t} + \frac{\partial \bm{F}}{\partial x}=0,
+\end{equation}
+\begin{equation}
+ \bm{Q} =
+  \begin{pmatrix}
+   \rho \\
+   \rho u \\
+   \rho e
+  \end{pmatrix}
+\end{equation}
+\begin{equation}
+ \bm{F} =
+\begin{pmatrix}
+ \rho u \\
+ \rho u^2 + p \\
+ \rho u \left(e + \frac{p}{\rho}\right)
+\end{pmatrix}
+\end{equation}
+ここで、$e$は単位質量あたりの全エネルギーで、単位質量あたりの内部エネル
+ギー$\epsilon$と流速によって$e=\epsilon+u^2/2$で定義される。
+
+ここで、支配方程式を風上差分の形式に変形するために対角化を行う。
+
+流束$\bm{F}$が変数$\bm{Q}$に対してJacobi行列$A$によって変換できるとする
+と、$\bm{F}=A\bm{Q}$で、これによって方程式が$\bm{Q}_t+A\bm{Q}_x=0$のよう
+な固有値問題に帰着できる。
+
+今、左対角化行列$L$を左から掛けると、
+\begin{equation}
+ \frac{\partial L\bm{Q}}{\partial t}
+  + LAR\frac{\partial L\bm{Q}}{\partial x}=0,
+\end{equation}
+である。
+
+ここで、対角化されたJacobi行列を位相速度$\Lambda$として、$\Lambda=LAR$と
+して定義する。従って、$\bm{P}=L\bm{Q}$とすると、
+$\bm{P}_t+\Lambda\bm{P}_x=0$である。また、対角化された方程式の流束の成分
+から数値流束を定義すると、
+
+\begin{equation}
+ \left.\Lambda\bm{P}\right|_{i+\frac{1}{2}} 
+  = \frac{1}{2}\left\{\left.\Lambda\bm{P}\right|_{i+1} +
+		\left.\Lambda\bm{P}\right|_i
+	       - \left|\Lambda\right|\left(\bm{P}_{i+1}-\bm{P}|_i\right)\right\},
+\end{equation}
+このときに、左から右対角化行列$R$を掛けると、
+\begin{equation}
+ \left.A\bm{Q}\right|_{i+\frac{1}{2}} 
+  = \frac{1}{2}\left\{\left.A\bm{Q}\right|_{i+1} +
+		\left.A\bm{Q}\right|_i
+	       - R\left|\Lambda\right|L\left(\bm{Q}_{i+1}-\bm{Q}|_i\right)\right\},
+\end{equation}
+数値流束を使って書き直すと、
+\begin{equation}
+ \bm{F}_{i+\frac{1}{2}} 
+  = \frac{1}{2}\left\{\bm{F}_{i+1} + \bm{F}_i
+	       - R\left|\Lambda\right|L\left(\bm{Q}_{i+1}-\bm{Q}_i\right)\right\},
+\end{equation}
+のように書き直せる。
+
+このときに、Jacobi行列と対角化行列はそれぞれ、
+\begin{equation}
+ A =
+  \begin{pmatrix}
+   0 & 1 & 0 \\
+   -(3-\gamma)\frac{u^2}{2} & (3-\gamma)u & \gamma-1 \\
+   \left\{(\gamma-1)\frac{u^2}{2} - H\right\}u & H-(\gamma-1)u^2 &
+   \gamma u
+  \end{pmatrix}.
+\end{equation}
+\begin{equation}
+ R=
+  \begin{pmatrix}
+   1 & 1 & 1 \\
+   u-c & u & u+c \\
+   H-cu & \frac{u^2}{2} & H+cu
+  \end{pmatrix}.
+\end{equation}
+\begin{equation}
+ L = 
+ \begin{pmatrix}
+  \frac{1}{2}\left\{\eta\frac{u^2}{2}+\frac{u}{c}\right\} &
+  -\frac{1}{2}(\eta u + \frac{1}{c}) &
+  \frac{\eta}{2} \\
+  1-\eta\frac{u^2}{2} & \eta u & -\eta \\
+  \frac{1}{2}\left\{\eta\frac{u^2}{2}-\frac{u}{c}\right\} &
+  -\frac{1}{2}(\eta u - \frac{1}{c}) &
+  \frac{\eta}{2}
+ \end{pmatrix}
+\end{equation}
+ここで、$\eta=(\gamma-1)/c^2$である。
+
+高次精度の差分形式にするには、以上の流束を高次精度の形式に書き直
+すことで行う。即ち、
+\begin{equation}
+ \bm{F}_{i+\frac{1}{2}}
+  = \frac{1}{2}\left\{\bm{F}(\bm{Q}^R)_{i+\frac{1}{2}} + \bm{F}(\bm{Q}^L)_{i+\frac{1}{2}}
+	       - |A|_{i+\frac{1}{2}}(\bm{Q}^R_{i+\frac{1}{2}} - \bm{Q}^L_{i+\frac{1}{2}})\right\},
+\end{equation}
+である。また、ここで、
+\begin{equation}
+ |A|_{i+\frac{1}{2}}=R_{i+\frac{1}{2}}|\Lambda|_{i+\frac{1}{2}}L_{i+\frac{1}{2}},
+\end{equation}
+である。
+
+このような流束の表現は計算領域の内部の平均の物理量$\bar{\emptyset}$が計
+算領域の両端の物理量$\emptyset^R$、$\emptyset^L$によって表現できて、数値
+流束があるJacobi行列$A$によって、
+$\bm{F}_{i+1/2}=(\bm{F}^R+\bm{F}^L)_{i+1/2}=\bar{A}(\bm{Q}^R+\bm{Q}^L)_{i+1/2}$
+で表され、$A$が線形独立な行列であり、かつ、$\bar{A}$が流速$u$と全エンタル
+ピー$H$により表されることによる(Property U)。
+
+また、ここでの$|A|$はRoeの平均を用いて評価する。Roeの平均は以下のように
+定義される。
+\begin{equation}
+ \bar{\rho} = \sqrt{\rho^R\rho^L},
+\end{equation}
+\begin{equation}
+ \bar{u}=\frac{\sqrt{\rho^R}u^R + \sqrt{\rho^L}u^L}{\sqrt{\rho^R}+\sqrt{\rho^L}},
+\end{equation}
+\begin{equation}
+ \bar{H}=\frac{\sqrt{\rho^R}H^R + \sqrt{\rho^L}H^L}{\sqrt{\rho^R}+\sqrt{\rho^L}},
+\end{equation}
+\begin{equation}
+ \bar{c}^2=(\gamma-1)\left(\bar{H}-\frac{1}{2}\bar{u}^2\right),
+\end{equation}
+
+\section{2次元の支配方程式}
+質量保存則、
+\begin{equation}
+ \frac{\partial\rho}{\rho6 t} + \frac{\partial\rho u}{\partial x} 
+  + \frac{\partial \rho v}{\partial y} = 0.
+\end{equation}
+運動量保存則、
+\begin{equation}
+ \frac{\partial \rho u}{\partial t}
+  + \frac{\partial (\rho u^2 + p)}{\partial x}
+  + \frac{\partial \rho uv}{\partial y} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial \rho v}{\partial t}
+  + \frac{\partial \rho uv}{\partial x}
+  + \frac{\partial (\rho v^2 + p)}{\partial y} = 0.
+\end{equation}
+エネルギー保存則、
+\begin{equation}
+ \frac{\partial\rho e}{\partial t}
+  + \frac{\partial \rho u (e + p/\rho)}{\partial x}
+  + \frac{\partial \rho v (e + p/\rho)}{\partial y} = 0.
+\end{equation}
+行列形式で書く。
+\begin{equation}
+ \bm{Q} = 
+  \begin{pmatrix}
+   \rho \\ \rho u \\ \rho v \\ \rho e
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \bm{E} =
+ \begin{pmatrix}
+  \rho u \\ \rho u^2 + p \\ \rho uv \\ \rho u \left(e + \frac{p}{\rho}\right)
+ \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \bm{F} =
+ \begin{pmatrix}
+  \rho v \\ \rho uv \\ \rho v^2 + p \\ \rho v \left(e + \frac{p}{\rho}\right)
+ \end{pmatrix},
+\end{equation}
+
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t} 
+  + \frac{\partial\bm{E}}{\partial x}
+  + \frac{\partial\bm{F}}{\partial y} = 0.
+\end{equation}
+
+離散化して考える場合にはLagrangeの離散化の方法を考える。
+\begin{equation}
+ \bm{Q}^{n+\frac{1}{2}} = \bm{Q}^n 
+  - \Delta t \left(\frac{\bm{E}^n_{i+\frac{1}{2}} + \bm{E}^n_{i-\frac{1}{2}}}{\Delta x}\right),
+\end{equation}
+
+\begin{equation}
+ \bm{Q}^{n+1} = \bm{Q}^{n+\frac{1}{2}} 
+  - \Delta t \left(\frac{\bm{F}^n_{j+\frac{1}{2}} + \bm{F}^n_{j-\frac{1}{2}}}{\Delta y}\right),
+\end{equation}
+
+\begin{equation}
+  \bm{Q}^{n+\frac{1}{2}} = \bm{Q}^n 
+  - \Delta t \left\{\frac{\bm{E}^n_{i+\frac{1}{2}} + \bm{E}^n_{i-\frac{1}{2}}}{\Delta x}
+	      + \frac{\bm{F}^n_{j+\frac{1}{2}} + \bm{F}^n_{j-\frac{1}{2}}}{\Delta y}\right\},
+\end{equation}
+
+ここで、流束差分離法のやり方で書いたときの数値流束は、
+\begin{equation}
+ \bm{E}_{i+\frac{1}{2}} 
+  = \frac{1}{2}\left\{\bm{E}(\bm{Q}^R)_{i+\frac{1}{2}} +
+		\bm{E}(\bm{Q}^L)_{i+\frac{1}{2}} 
+	       - |A_x|_{i+\frac{1}{2}}\left(\bm{Q}^R_{i+\frac{1}{2}} - \bm{Q}^L_{i+\frac{1}{2}}\right)\right\},
+\end{equation}
+\begin{equation}
+ \bm{F}_{j+\frac{1}{2}} 
+  = \frac{1}{2}\left\{\bm{F}(\bm{Q}^R)_{j+\frac{1}{2}} +
+		\bm{F}(\bm{Q}^L)_{j+\frac{1}{2}} 
+	       - |A_y|_{j+\frac{1}{2}}\left(\bm{Q}^R_{j+\frac{1}{2}} - \bm{Q}^L_{j+\frac{1}{2}}\right)\right\},
+\end{equation}
+また、ここでJacobi行列は以下のように表される。
+\begin{equation}
+ |A^{\emptyset}|_{i+\frac{1}{2}} = L^{\emptyset}_{i+\frac{1}{2}} |\Lambda^{\emptyset}|_{i+\frac{1}{2}} L^{\emptyset}_{i+\frac{1}{2}}.
+\end{equation}
+
+2次元のときのJacobi行列は、
+\begin{equation}
+ A_x =
+  \begin{pmatrix}
+   0 & 1 & 0 & 0 \\
+   \frac{\gamma-3}{2}u^2 + \frac{\gamma-1}{2}v^2 &
+   -(\gamma-3)u & -(\gamma-1)v & \gamma-1 \\
+   -uv & v & u & 0 \\ 
+   -\gamma u e + (\gamma-1)uq^2 &
+   \gamma e - \frac{\gamma-1}{2}(2u^2 + q^2) & 
+   -(\gamma-1)uv & \gamma u
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \Lambda_x=
+  \begin{pmatrix}
+   u-c &    &   *  &  \\
+       &  u &      & \\ 
+       &    &  u+c &  \\
+    *  &    &      & u 
+  \end{pmatrix}
+\end{equation}
+\begin{equation}
+ R_x = 
+  \begin{pmatrix}
+   1 & 1 & 1 & 0 \\
+   u-c & u & u+c & 0 \\
+   v & v & v & 1 \\
+   H - cu & \frac{1}{2}q^2 & H + cu & v 
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ R^{-1}_x =
+ \begin{pmatrix}
+  \frac{1}{2}(b_1 + \frac{u}{c}) & -\frac{1}{2}(b_2u + \frac{1}{c}) &
+  -\frac{1}{2}b_2v & \frac{1}{2}b_2 \\
+  1 - b_1 & b_2u & b_2v & -b_2 \\
+  \frac{1}{2}(b_1 - \frac{u}{c}) & 
+  \frac{1}{2}(\frac{1}{c} - b_2u) &
+  -\frac{1}{2}b_2v &
+  \frac{1}{2}b_2 \\
+  -v & 0 & 1 & 0
+ \end{pmatrix},
+\end{equation}
+y方向について、
+\begin{equation}
+ A_y =
+  \begin{pmatrix}
+   0 & 0 & 1 & 0 \\
+   -uv & v & u & 0 \\ 
+   \frac{\gamma-3}{2}v^2 + \frac{\gamma-1}{2}u^2 &
+   -(\gamma-3)u & -(\gamma-1)v & \gamma-1 \\
+   -\gamma v e + (\gamma-1)vq^2 &
+   -(\gamma-1)uv &
+   \gamma e - \frac{\gamma-1}{2}(2v^2 + q^2) & 
+   \gamma v
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \Lambda_y =
+  \begin{pmatrix}
+   v-c &    &   *  &  \\
+       &  v &      & \\ 
+       &    &  v+c &  \\
+    *  &    &      & v 
+  \end{pmatrix}
+\end{equation}
+\begin{equation}
+ R_y = 
+  \begin{pmatrix}
+   1 & 1 & 1 & 0 \\
+   u & u & u & 1 \\
+   v-c & v & v+c & 0 \\
+   H - cv & \frac{1}{2}q^2 & H + cv & u 
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ R^{-1}_y =
+ \begin{pmatrix}
+  \frac{1}{2}(b_1 + \frac{v}{c}) & 
+  -\frac{1}{2}b_2u &
+  -\frac{1}{2}(\frac{1}{c} + b_2v) &
+  \frac{1}{2}b_2 \\
+  1 - b_1 & b_2u & b_2v & -b_2 \\
+  \frac{1}{2}(b_1 - \frac{v}{c}) & 
+  -\frac{1}{2}b_2u &
+  \frac{1}{2}(\frac{1}{c} - b_2v) &
+  \frac{1}{2}b_2 \\
+  -u & 1 & 0 & 0
+ \end{pmatrix},
+\end{equation}
+
+ここで、式中の記号は以下のように定義される。
+
+\begin{equation}
+ H = e + \frac{p}{\rho} = \frac{c^2}{\gamma - 1} + \frac{1}{2}q^2,
+\end{equation}
+\begin{equation}
+ q^2 = u^2 + v^2,
+\end{equation}
+\begin{equation}
+ b_1 = \frac{\gamma - 1}{c^2}\frac{u^2 + v^2}{2},
+\end{equation}
+\begin{equation}
+ b_2 = \frac{\gamma - 1}{c^2},
+\end{equation}
+
+
+
+
+
+
+\chapter{多方向差分}
+\section{2次元系の多方向差分}
+2次元の場合の多方向差分の定式化を行う。多方向差分を行う座標系を$(x, y)$
+に対して直行等間隔格子で計算して、左に45度傾いた系であるとして、
+それを$(\xi, \eta)$とする。ここで、
+$(x, y)\rightarrow (\xi, \eta)$の変数変換は、
+\begin{equation}
+ \begin{pmatrix}
+  \xi \\ \eta
+ \end{pmatrix}
+ = \sqrt{dx^2 + dy^2}
+ \begin{pmatrix}
+  \cos\theta & -\sin\theta \\
+  \sin\theta & \cos\theta 
+ \end{pmatrix}
+\begin{pmatrix}
+ x \\ y
+\end{pmatrix},
+\end{equation}
+で、座標変換は、$\xi_x = 1/\sqrt{2}$, $\xi_y = -1/\sqrt{2}$
+, $\eta_x = 1/\sqrt{2}$, $\eta_y = 1/\sqrt{2}$で行う。2次元の場合の
+数値流束は、$\partial\bm{E} / \partial x + \partial \bm{F} / \partial y$
+で、2次元系では$f=f(x,y)$で、$f(x,y)\rightarrow g(\xi, \eta)$への変換を
+行う。
+\begin{equation}
+ \frac{\partial}{\partial x} =
+  \frac{d\xi}{dx}\frac{\partial}{\partial \xi}
+  + \frac{d\eta}{dx}\frac{\partial}{\partial \eta} =
+  \frac{1}{\sqrt{2}}\left(
+		    \frac{\partial}{\partial\xi}
+		    -\frac{\partial}{\partial \eta}\right),
+\end{equation}
+\begin{equation}
+ \frac{\partial}{\partial y} =
+  \frac{d\xi}{dy}\frac{\partial}{\partial\xi}
+  + \frac{d\eta}{dy}\frac{\partial}{\partial\eta}
+  =\frac{1}{\sqrt{2}}\left(\frac{\partial}{\partial \xi}
+		     + \frac{\partial}{\partial \eta}\right)
+\end{equation}
+なので、
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t} =
+  \frac{1}{\sqrt{2}}\left\{\frac{\partial}{\partial\xi}(\bm{E} - \bm{F})
+		     + \frac{\partial}{\partial\eta}(\bm{E} + \bm{F})\right\},
+\end{equation}
+ここで、$\tilde{E}=1/\sqrt{2}(\bm{E} - \bm{F})$,
+$\tilde{F}=1/\sqrt{2}(\bm{E} + \bm{F})$として、前進差分は、
+%\begin{equation}
+% \bm{Q}^{n+1} = \bm{Q}^n
+%  - \left[r\left\{\frac{\bm{E}_{i+1/2}^j - \bm{E}_{i-1/2}^j}{\Delta t}\right\}\right]
+%\end{equation}
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t} =
+  r \left(\frac{\partial\bm{E}}{\partial x} +
+     \frac{\partial\bm{F}}{\partial y}\right)
+  (1-r)\left(\frac{\partial\tilde{\bm{E}}}{\partial\xi} +
+       \frac{\partial\tilde{\bm{F}}}{\partial\eta}\right),
+\end{equation}
+によって行う。
+
+付録\ref{chap_jacobi}章の方法によって対角化行列を求める。
+非保存形式の方程式も多方向差分の変数変換を施すと、
+\begin{equation}
+ \frac{\partial\bm{Q}^*}{\partial t}
+  + \tilde{A}_\xi^*\frac{\partial\bm{Q}^*}{\partial \xi}
+  + \tilde{A}_\eta^*\frac{\partial\bm{Q}^*}{\partial \eta}
+  = 0,
+\end{equation}
+\begin{equation}
+ \tilde{A}_{\xi}^* = \frac{1}{\sqrt{2}}\left(A_x^* - A_y^*\right),
+\end{equation}
+\begin{equation}
+ \tilde{A}_{\eta}^* = \frac{1}{\sqrt{2}}\left(A_x^* + A_y^*\right),
+\end{equation}
+
+これと線形化した保存形式の方程式を比較すると、
+\begin{equation}
+ \tilde{A}_\xi = N\tilde{A}_\xi^*N^{-1},
+\end{equation}
+\begin{equation}
+ \tilde{A}_\eta = N\tilde{A}_\eta^*N^{-1},
+\end{equation}
+になる。更に、対角化行列を掛けると、
+\begin{equation}
+ \tilde{\Lambda}_\xi^* = \tilde{L}_\xi^*\tilde{A}_\xi^*\tilde{R}_\xi^*,
+\end{equation}
+\begin{equation}
+ \tilde{\Lambda}_\eta^* = \tilde{L}_\eta^*\tilde{A}_\eta^*\tilde{R}_\eta^*,
+\end{equation}
+が得られる。
+
+ここで、対角化行列は、対角行列を求める過程で、
+\begin{equation}
+ \tilde{\Lambda}_\xi = \tilde{L}_\xi^*N^{-1}\tilde{A}_\xi^*N\tilde{R}_\xi^*,
+\end{equation}
+\begin{equation}
+ \tilde{\Lambda}_\eta = \tilde{L}_\eta^*N^{-1}\tilde{A}_\eta^*N\tilde{R}_\eta^*,
+\end{equation}
+である。従って、
+\begin{equation}
+ \tilde{L}_\xi = \tilde{L}_\xi^*N^{-1},
+\end{equation}
+\begin{equation}
+ \tilde{R}_\xi = N\tilde{R}_\xi^*,
+\end{equation}
+
+以下、諸々行列を書き下す。
+\begin{equation}
+ \bm{Q} =
+  \begin{pmatrix}
+   \rho \\ u \\ v \\ p
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ A_x^*=
+  \begin{pmatrix}
+   u & \rho & 0 & 0 \\
+   0 & u & 0 & \frac{1}{\rho}  \\
+   0 & 0 & u & 0 \\
+   0 & \rho c^2 & 0 & u
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ A_y^* = 
+  \begin{pmatrix}
+   v & 0 & \rho & 0 \\
+   0 & v & 0 & 0 \\
+   0 & 0 & v & \frac{1}{\rho} \\ 
+   0 & 0 & \rho c^2 &  v
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ N = \frac{\partial\bm{Q}}{\partial\bm{Q}^*} =
+  \begin{pmatrix}
+   1 & 0 & 0 & 0 \\
+   u & \rho & 0 & 0 \\ 
+   v & 0 & \rho & 0 \\
+   \frac{q^2}{2} & \rho u & \rho v & \frac{1}{\gamma - 1} 
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ N^{-1} =
+  \begin{pmatrix}
+   1 & 0 & 0 & 0 \\
+   -\frac{u}{\rho} & \frac{1}{\rho} & 0 & 0 \\ 
+   -\frac{v}{\rho} & 0 & \frac{1}{\rho} & 0 \\ 
+   (\gamma - 1)\frac{q^2}{2} & -(\gamma - 1) u & -(\gamma - 1) v &
+   \gamma - 1 
+  \end{pmatrix},
+\end{equation}
+
+Jacobi行列を求める。流束の項は、
+\begin{equation}
+ \frac{\partial \tilde{\bm{E}}}{\partial x}
+  + \frac{\partial \tilde{\bm{F}}}{\partial y} =
+  \left[
+   \begin{pmatrix}
+    \frac{\partial\xi}{\partial x} & \frac{\partial\eta}{\partial x} \\
+    \frac{\partial\xi}{\partial y} & \frac{\partial\eta}{\partial y} 
+   \end{pmatrix}
+   \begin{pmatrix}
+    \frac{\partial}{\partial\xi} \\
+    \frac{\partial}{\partial\eta}
+   \end{pmatrix}
+  \right]^t
+  \begin{pmatrix}
+   \bm{E}  \\  \bm{F}
+  \end{pmatrix}
+\end{equation}
+$\bm{E}=A_x\bm{Q}$, $\bm{F}=A_y\bm{Q}$で、
+$[(\bm{E}, \bm{F})]^t = [(A_x, A_y)]^t\bm{Q}$で表されて、
+$d\bm{F}=dA\bm{Q}=Ad\bm{Q}$
+にも表されるので、
+\begin{equation}
+ \frac{\partial \tilde{\bm{E}}}{\partial x}
+  + \frac{\partial \tilde{\bm{F}}}{\partial y} =
+  [J(\bm{E}\oplus\bm{F})^t]
+  \begin{pmatrix}
+   \frac{\partial}{\partial\xi}  \\  \frac{\partial}{\partial\eta}
+  \end{pmatrix}
+  \bm{Q} =
+   \begin{pmatrix}
+    \frac{\partial\xi}{\partial x}A_x + \frac{\partial\eta}{\partial x}A_y &
+    \frac{\partial\xi}{\partial y}A_x + \frac{\partial\eta}{\partial y}A_y 
+   \end{pmatrix}
+   \begin{pmatrix}
+    \frac{\partial\bm{Q}}{\partial\xi} \\
+    \frac{\partial\bm{Q}}{\partial\eta}
+   \end{pmatrix},
+\end{equation}
+になるので、数値流束の変数変換は以下のようになる。
+\begin{equation}
+ \tilde{A}_{\xi} =
+  \frac{\partial\xi}{\partial x}A_x + \frac{\partial\eta}{\partial x}A_y,
+\end{equation}
+\begin{equation}
+ \tilde{A}_{\eta} =
+  \frac{\partial\xi}{\partial y}A_x + \frac{\partial\eta}{\partial y}A_y,
+\end{equation}
+
+
+
+多方向差分の場合の支配方程式を書き下す。
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t} + 
+  \frac{\partial\tilde{\bm{E}}}{\partial \xi} +
+  \frac{\partial\tilde{\bm{F}}}{\partial \eta} = 
+  \frac{\partial\bm{Q}}{\partial t} + 
+  \tilde{A}_\xi\frac{\partial\bm{Q}}{\partial \xi} +
+  \tilde{A}_\eta\frac{\partial\bm{Q}}{\partial \eta} = 0,
+\end{equation}
+\begin{align}
+ d\xi = \sqrt{dx^2 + dy^2}, & d\eta = \sqrt{dx^2 + dy^2},
+\end{align}
+\begin{equation}
+ \tilde{\bm{E}} =
+  \begin{pmatrix}
+   \rho (u - v) \\
+   \rho u (u - v) + p \\
+   -\rho v (u - v) - p \\
+   \rho (u - v) e
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+  \tilde{\bm{F}} =
+  \begin{pmatrix}
+   \rho (u + v) \\
+   \rho u (u + v) + p \\
+   \rho v (u + v) + p \\
+   \rho (u + v) e
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{A}_{\xi} = 
+  \begin{pmatrix}
+   0 & \frac{1}{\sqrt{2}} & - \frac{1}{\sqrt{2}} & 0 \\
+   \frac{\gamma - 3}{2}\frac{u^2}{\sqrt{2}} + \frac{\gamma - 1}{2}\frac{v^2}{\sqrt{2}} + \frac{uv}{\sqrt{2}} & 
+   \frac{1}{\sqrt{2}} \left\{(3 - \gamma)u - v\right\}&
+   -\frac{1}{\sqrt{2}}\left\{(\gamma - 1)v - u\right\} & 
+   \frac{\gamma - 1}{\sqrt{2}} \\
+   \frac{\gamma - 3}{2}\frac{v^2}{\sqrt{2}} + \frac{\gamma - 1}{2}\frac{u^2}{\sqrt{2}} + \frac{uv}{\sqrt{2}} & 
+   \frac{1}{\sqrt{2}}\left\{(\gamma - 1)u - v\right\} &
+   -\frac{1}{\sqrt{2}} \left\{(3 - \gamma)v - u\right\}& 
+   - \frac{\gamma - 1}{\sqrt{2}}  \\  
+   \frac{u - v}{\sqrt{2}} \left\{H + \frac{\gamma - 1}{2}q^2 - \sqrt{2}q^2\right\} & 
+   \frac{1}{\sqrt{2}}\left\{H - (\gamma - 1)u(u - v)\right\} & 
+   -\frac{1}{\sqrt{2}}\left\{H + (\gamma - 1)v(u - v)\right\} & 
+   \frac{\gamma}{\sqrt{2}}(u - v)
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{L}_\xi =
+  \begin{pmatrix}
+   \frac{b_1}{2} + \frac{u - v}{2\sqrt{2}c} &
+   -\frac{b_2u}{2} - \frac{1}{2\sqrt{2}c}  &
+   -\frac{b_2v}{2} + \frac{1}{2\sqrt{2}c}  &
+   \frac{b_2}{2} \\
+   1 - b_1 & b_2u & b_2v & -b_2 \\
+   \frac{b_1}{2} - \frac{u - v}{2\sqrt{2}c} &
+   -\frac{b_2u}{2} + \frac{1}{2\sqrt{2}c}  &
+   -\frac{b_2v}{2} - \frac{1}{2\sqrt{2}c}  &
+   \frac{b_2}{2} \\
+   -\frac{u + v}{2\rho} & \frac{1}{2\rho} & \frac{1}{2\rho} & 0
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{R}_\xi =
+ \begin{pmatrix}
+  1 & 1 & 1 & 0 \\
+  u - \frac{c}{\sqrt{2}} & u & u + \frac{c}{\sqrt{2}} & \rho \\
+  v + \frac{c}{\sqrt{2}} & v & v - \frac{c}{\sqrt{2}} & \rho \\
+  H - \frac{u-v}{\sqrt{2}}c & \frac{q^2}{2} &
+  H + \frac{u-v}{\sqrt{2}}c & \rho (u + v)
+ \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{\Lambda}_\xi =
+  \begin{pmatrix}
+   \frac{u - v}{\sqrt{2}} - c & & & * \\
+   & \frac{u - v}{\sqrt{2}} &  & \\
+   & &\frac{u - v}{\sqrt{2}} + c & \\
+   * & & & \frac{u - v}{\sqrt{2}}
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{A}_{\eta} = 
+  \begin{pmatrix}
+   0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 0 \\
+   \frac{\gamma - 3}{2}\frac{u^2}{\sqrt{2}} + \frac{\gamma - 1}{2}\frac{v^2}{\sqrt{2}} - \frac{uv}{\sqrt{2}} & 
+   \frac{1}{\sqrt{2}} \left\{(3 - \gamma)u + v\right\}&
+   -\frac{1}{\sqrt{2}}\left\{(\gamma - 1)v - u\right\} & 
+   \frac{\gamma - 1}{\sqrt{2}} \\
+   \frac{\gamma - 3}{2}\frac{v^2}{\sqrt{2}} + \frac{\gamma - 1}{2}\frac{u^2}{\sqrt{2}} - \frac{uv}{\sqrt{2}} & 
+   -\frac{1}{\sqrt{2}}\left\{(\gamma - 1)u + v\right\} &
+   \frac{1}{\sqrt{2}} \left\{(3 - \gamma)v + u\right\}& 
+   \frac{\gamma - 1}{\sqrt{2}}  \\  
+   \frac{u - v}{\sqrt{2}} \left\{H + \frac{\gamma - 1}{2}q^2 - \sqrt{2}q^2\right\} & 
+   \frac{1}{\sqrt{2}}\left\{H - (\gamma - 1)u(u - v)\right\} & 
+   -\frac{1}{\sqrt{2}}\left\{H + (\gamma - 1)v(u - v)\right\} & 
+   \frac{\gamma}{\sqrt{2}}(u - v)
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{L}_\eta = 
+  \begin{pmatrix}
+   \frac{b_1}{2} + \frac{u + v}{2\sqrt{2}} &
+   -\frac{b_2u}{2} - \frac{1}{2\sqrt{2}c} &
+   -\frac{b_2v}{2} - \frac{1}{2\sqrt{2}c} &
+   \frac{b_2}{2} \\
+   1 - b_1 & b_2u & b_2v & -b_2 \\
+   \frac{b_1}{2} - \frac{u + v}{2\sqrt{2}} &
+   -\frac{b_2u}{2} + \frac{1}{2\sqrt{2}c} &
+   -\frac{b_2v}{2} + \frac{1}{2\sqrt{2}c} &
+   \frac{b_2}{2} \\
+   -\frac{u - v}{2\rho} & \frac{1}{2\rho} & -\frac{1}{2\rho} &  0
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{R}_\eta = 
+ \begin{pmatrix}
+  1 & 1 & 1 & 0 \\
+  u - \frac{c}{\sqrt{2}} & u & u + \frac{c}{\sqrt{2}} &  \rho \\
+  v - \frac{c}{\sqrt{2}} & v & v + \frac{c}{\sqrt{2}} & -\rho \\
+  H - \frac{u+v}{\sqrt{2}}c & \frac{q^2}{2} & 
+  H + \frac{u+v}{\sqrt{2}}c & \rho (u - v)
+ \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{\Lambda}_\eta = 
+  \begin{pmatrix}
+   \frac{u + v}{\sqrt{2}} - c & & & * \\
+   & \frac{u + v}{\sqrt{2}} & & \\ 
+   & & \frac{u + v}{\sqrt{2}} + c & \\
+   * & & & \frac{u + v}{\sqrt{2}}
+  \end{pmatrix},
+\end{equation}
+
+\section{多方向差分の離散化形式}
+多方向差分に使う斜行座標系の支配方程式の離散化した形式を考える。
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t} +
+  \frac{\partial\bm{E}}{\partial\xi} +
+  \frac{\partial\bm{F}}{\partial\eta} =0,
+\end{equation}
+これを離散化する。
+\begin{equation}
+ \bm{Q}^{n+1} = \bm{Q}^n -
+  \frac{\Delta t}{\Delta\xi} \left(\tilde{E}^{i+\frac{1}{2}}_{j+\frac{1}{2}} - \tilde{E}^{i-\frac{1}{2}}_{j-\frac{1}{2}}\right) -
+  \frac{\Delta t}{\Delta\eta} \left(\tilde{F}^{i-\frac{1}{2}}_{j+\frac{1}{2}} - \tilde{F}^{i+\frac{1}{2}}_{j-\frac{1}{2}}\right),
+\end{equation}
+\begin{equation}
+ \Delta\xi = \Delta\eta = \sqrt{\Delta x^2 + \Delta y^2},
+\end{equation}
+
+$\xi$軸上での数値流束を考える。
+\begin{equation}
+ \bm{E}^{i+\frac{1}{2}}_{i+\frac{1}{2}} =
+  \frac{1}{2}\left\{\left.\bm{E}(\bm{Q}^R)\right|^{i+\frac{1}{2}}_{j+\frac{1}{2}} +
+	     \left.\bm{E}(\bm{Q}^L)\right|^{i+\frac{1}{2}}_{j+\frac{1}{2}} -
+	     \left|\tilde{A}_\xi\right|^{i+\frac{1}{2}}_{j+\frac{1}{2}}
+	     \left(\left.\bm{Q}^R\right|^{i+\frac{1}{2}}_{j+\frac{1}{2}} -
+	     \left.\bm{Q}^L\right|^{i+\frac{1}{2}}_{j+\frac{1}{2}}\right)\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^R\right|^{i+\frac{1}{2}}_{j+\frac{1}{2}} = \emptyset^{i+1}_{j+1}
+  - \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_+\right|^{i+1}_{j+1} +
+	       (1+\kappa s)\left.\bar{\Delta}_-\right|^{i+1}_{j+1}\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^L\right|^{i+\frac{1}{2}}_{j+\frac{1}{2}} = \emptyset^{i}_{j}
+  + \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_-\right|^{i}_{j} +
+		(1+\kappa s)\left.\bar{\Delta}_+\right|^{i}_{j}\right\},
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_+\right|^i_j = \text{minmod} 
+  \left(\left.\Delta_+\right|^i_j, b\left.\Delta_-\right|^i_j\right),
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_-\right|^i_j = \text{minmod} 
+  \left(\left.\Delta_-\right|^i_j, b\left.\Delta_+\right|^i_j\right),
+\end{equation}
+\begin{equation}
+ \left.\Delta_+\right|^i_j = \emptyset^{i+1}_{j+1} - \emptyset^i_j,
+\end{equation}
+\begin{equation}
+ \left.\Delta_-\right|^i_j = \emptyset^i_j - \emptyset^{i-1}_{j-1},
+\end{equation}
+\begin{equation}
+ \bm{E}^{i-\frac{1}{2}}_{i-\frac{1}{2}} =
+  \frac{1}{2}\left\{\left.\bm{E}(\bm{Q}^R)\right|^{i-\frac{1}{2}}_{j-\frac{1}{2}} +
+	     \left.\bm{E}(\bm{Q}^L)\right|^{i-\frac{1}{2}}_{j-\frac{1}{2}} -
+	     \left|\tilde{A}_\xi\right|^{i-\frac{1}{2}}_{j-\frac{1}{2}}
+	     \left(\left.\bm{Q}^R\right|^{i-\frac{1}{2}}_{j-\frac{1}{2}} -
+	     \left.\bm{Q}^L\right|^{i-\frac{1}{2}}_{j-\frac{1}{2}}\right)\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^R\right|^{i-\frac{1}{2}}_{j-\frac{1}{2}} = \emptyset^{i}_{j}
+  - \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_+\right|^{i}_{j} +
+	       (1+\kappa s)\left.\bar{\Delta}_-\right|^{i}_{j}\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^L\right|^{i-\frac{1}{2}}_{j-\frac{1}{2}} = \emptyset^{i-1}_{j-1}
+  + \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_-\right|^{i-1}_{j-1} +
+		(1+\kappa s)\left.\bar{\Delta}_+\right|^{i-1}_{j-1}\right\},
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_+\right|^{i-1}_{j-1} = \text{minmod} 
+  \left(\left.\Delta_+\right|^{i-1}_{j-1}, b\left.\Delta_-\right|^{i-1}_{j-1}\right),
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_-\right|^{i-1}_{j-1} = \text{minmod} 
+  \left(\left.\Delta_-\right|^{i-1}_{j-1}, b\left.\Delta_+\right|^{i-1}_{j-1}\right),
+\end{equation}
+\begin{equation}
+ \left.\Delta_+\right|^{i-1}_{j-1} = \emptyset^{i}_{j} - \emptyset^{i-1}_{j-1},
+\end{equation}
+\begin{equation}
+ \left.\Delta_-\right|^{i-1}_{j-1} = \emptyset^{i-1}_{j-1} - \emptyset^{i-2}_{j-2},
+\end{equation}
+
+$\eta$軸上での差分、
+\begin{equation}
+ \bm{F}^{i-\frac{1}{2}}_{j+\frac{1}{2}} =
+  \frac{1}{2}\left\{\left.\bm{F}(\bm{Q}^R)\right|^{i-\frac{1}{2}}_{j+\frac{1}{2}} +
+	     \left.\bm{F}(\bm{Q}^L)\right|^{i-\frac{1}{2}}_{j+\frac{1}{2}} -
+	     \left|\tilde{A}_\eta\right|^{i-\frac{1}{2}}_{j+\frac{1}{2}}
+	     \left(\left.\bm{Q}^R\right|^{i-\frac{1}{2}}_{j+\frac{1}{2}} -
+	     \left.\bm{Q}^L\right|^{i-\frac{1}{2}}_{j+\frac{1}{2}}\right)\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^R\right|^{i-\frac{1}{2}}_{j+\frac{1}{2}} = \emptyset^{i-1}_{j+1}
+  - \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_+\right|^{i-1}_{j+1} +
+	       (1+\kappa s)\left.\bar{\Delta}_-\right|^{i+1}_{j-1}\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^L\right|^{i-\frac{1}{2}}_{j+\frac{1}{2}} = \emptyset^{i}_{j}
+  + \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_-\right|^{i}_{j} +
+		(1+\kappa s)\left.\bar{\Delta}_+\right|^{i}_{j}\right\},
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_+\right|^i_j = \text{minmod} 
+  \left(\left.\Delta_+\right|^i_j, b\left.\Delta_-\right|^i_j\right),
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_-\right|^i_j = \text{minmod} 
+  \left(\left.\Delta_-\right|^i_j, b\left.\Delta_+\right|^i_j\right),
+\end{equation}
+\begin{equation}
+ \left.\Delta_+\right|^i_j = \emptyset^{i-1}_{j+1} - \emptyset^i_j,
+\end{equation}
+\begin{equation}
+ \left.\Delta_-\right|^i_j = \emptyset^i_j - \emptyset^{i+1}_{j-1},
+\end{equation}
+
+\begin{equation}
+ \bm{F}^{i+\frac{1}{2}}_{j-\frac{1}{2}} =
+  \frac{1}{2}\left\{\left.\bm{F}(\bm{Q}^R)\right|^{i+\frac{1}{2}}_{j-\frac{1}{2}} +
+	     \left.\bm{F}(\bm{Q}^L)\right|^{i+\frac{1}{2}}_{j-\frac{1}{2}} -
+	     \left|\tilde{A}_\eta\right|^{i+\frac{1}{2}}_{j-\frac{1}{2}}
+	     \left(\left.\bm{Q}^R\right|^{i+\frac{1}{2}}_{j-\frac{1}{2}} -
+	     \left.\bm{Q}^L\right|^{i+\frac{1}{2}}_{j-\frac{1}{2}}\right)\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^R\right|^{i+\frac{1}{2}}_{j-\frac{1}{2}} = \emptyset^{i}_{j}
+  - \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_+\right|^{i}_{j} +
+	       (1+\kappa s)\left.\bar{\Delta}_-\right|^{i}_{j}\right\},
+\end{equation}
+\begin{equation}
+ \left.\emptyset^L\right|^{i+\frac{1}{2}}_{j-\frac{1}{2}} = \emptyset^{i+1}_{j-1}
+  + \frac{s}{4}\left\{(1-\kappa	s)\left.\bar{\Delta}_-\right|^{i+1}_{j-1} +
+		(1+\kappa s)\left.\bar{\Delta}_+\right|^{i+1}_{j-1}\right\},
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_+\right|^{i+1}_{j-1} = \text{minmod} 
+  \left(\left.\Delta_+\right|^{i+1}_{j-1}, b\left.\Delta_-\right|^{i+1}_{j-1}\right),
+\end{equation}
+\begin{equation}
+ \left.\bar{\Delta}_-\right|^{i+1}_{j-1} = \text{minmod} 
+  \left(\left.\Delta_-\right|^{i+1}_{j-1}, b\left.\Delta_+\right|^{i+1}_{j-1}\right),
+\end{equation}
+\begin{equation}
+ \left.\Delta_+\right|^{i+1}_{j-1} = \emptyset^{i}_{j} - \emptyset^{i+1}_{j-1},
+\end{equation}
+\begin{equation}
+ \left.\Delta_-\right|^{i+1}_{j-1} = \emptyset^{i+1}_{j-1} - \emptyset^{i+2}_{j-2},
+\end{equation}
+
+
+
+
+\[\begin{pmatrix}1 & 1 & 1 & 0\cr u-\frac{c}{\sqrt{2}} & u & u+\frac{c}{\sqrt{2}} & r\cr v-\frac{c}{\sqrt{2}} & v & v+\frac{c}{\sqrt{2}} & -r\cr \frac{{c}^{2}}{G-1}+0.5\,\left( {v}^{2}+{u}^{2}\right) -\frac{c\,v}{\sqrt{2}}-\frac{c\,u}{\sqrt{2}} & 0.5\,\left( {v}^{2}+{u}^{2}\right)  & \frac{{c}^{2}}{G-1}+0.5\,\left( {v}^{2}+{u}^{2}\right) +\frac{c\,v}{\sqrt{2}}+\frac{c\,u}{\sqrt{2}} & r\,u-r\,v\end{pmatrix}\]

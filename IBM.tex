@@ -1,0 +1,150 @@
+\chapter{Immersed Boundary Method}
+流体中の物体をモデル化するときに、物体の存在による境界条件を支配方程式の
+中に挿入して解く。領域内の境界を考慮しない支配方程式を、
+\begin{equation}
+ \mathcal{L}[\bm{U}^*] = 0,
+\end{equation}
+で表して、$\bm{R}$を境界が存在することによる外力とする。これによって外力
+項を求めて前進差分を行う。
+\begin{equation}
+ \mathcal{L}'[\bm{U}^*] = \bm{R},
+\end{equation}
+\begin{equation}
+ \mathcal{L}[\bm{U}] = \bm{F}_b,
+\end{equation}
+\begin{equation}
+ \bm{F}_b = \bm{R} + \mathcal{L}[\bm{U}] - \mathcal{L}'[\bm{{U}}].
+\end{equation}
+
+
+
+\section{Ghost-Cell Method}
+固体が変形したり、広がる場合にはこれまでの方法だと上手くいかないので、物
+体の境界内部の境界近傍での値を保管して差分する。物体の境界内部の、境界近
+傍の点をGhost-Cellとして、その場所を$\bm{r}_G$とする。また、境界が定義さ
+れている点を$\bm{r}_O$とする。境界内部の値と、流体の境界近傍の値から補完
+する。
+
+Ghost-Cellは境界から最も近い計算上の格子点。$\bm{r}_O$はGhost-Cellの中
+心点に対する再近接点ともいえる。
+\begin{equation}
+ \emptyset_\text{G} = \bm{a} \bm{r}_\text{G},
+\end{equation}
+\begin{equation}
+ \bm{a} =
+  \begin{pmatrix}
+   a_0 \\ a_1 \\ a_2
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \bm{r}_\text{G} =
+  \begin{pmatrix}
+    1 \\ x_\text{G} \\ y_\text{G}
+  \end{pmatrix},
+\end{equation}
+
+補完行列$a$は最小自乗法によって求める。
+\begin{equation}
+ \bm{\emptyset} = B \bm{a},
+\end{equation}
+\begin{equation}
+ \bm{\emptyset} = 
+  \begin{pmatrix}
+   \emptyset_0 \\ \emptyset_1 \\ \emptyset_2
+  \end{pmatrix},
+\end{equation}
+
+Ghost-Cellと境界の界面が近い場合に補完関数の勾配が急になって大変なので、
+Ghost-Cellの値を求めるときに、$\bm{r}_G$から$\bm{r}_O$へ直線を伸ばして、
+流体内部へ投影した仮想的な点$\bm{r}_I$の値を用いる。
+\begin{equation}
+ \emptyset_\text{G} = 2\emptyset_\text{O} - \emptyset_\text{I},
+\end{equation}
+
+\subsection{Dirichlet条件}
+流速のように境界条件がDirichlet条件で与えられる場合は、境界上で値が決ま
+る。補完するときの行列は、一次の補完をする場合は、次のように与えられる。
+\begin{equation}
+ B =
+ \begin{pmatrix}
+  1 & x_0 & y_0  \\ 
+  1 & x_1 & y_1  \\
+  1 & x_2 & y_2 
+ \end{pmatrix},
+\end{equation}
+
+二次の補完を行う場合は、
+\begin{equation}
+ B =
+  \begin{pmatrix}
+   1 & x_0 & y_0 & x_0^2 & x_0y_0 & y_0^2  \\ 
+   \vdots & & & \ddots& & \vdots  \\
+   1 & x_5 & y_5 & x_5^2 & x_5y_5 & y_0^2
+  \end{pmatrix},
+\end{equation}
+
+\begin{equation}
+ \bm{a} =
+ \begin{pmatrix}
+  a_0 \\ a_1 \\ \vdots \\ a_m
+ \end{pmatrix}
+ = B^{-1}
+ \begin{pmatrix}
+  \frac{\partial\emptyset_0}{\partial \bm{n}} \\
+  \emptyset_1 \\ \vdots \\ \emptyset_m
+ \end{pmatrix},
+\end{equation}
+
+
+\subsection{Neumann条件}
+\begin{equation}
+ \left.\frac{\partial\emptyset}{\partial\bm{n}}\right|_{\partial\Omega}
+  = \frac{\partial\emptyset}{\partial x}\hat{\bm{n}}_x +
+  \frac{\partial\emptyset}{\partial y}\hat{\bm{n}}_y = 
+  0,
+\end{equation}
+$\hat{\bm{n}}_x$, $\hat{\bm{n}}_y$は境界曲面上の法線ベクトルが定義されて
+いる点上での法線ベクトルの$x$方向成分と$y$方向成分のベクトル。
+
+\begin{equation}
+ B = 
+ \begin{pmatrix}
+  0 & \sin \theta_0 & \cos \theta_0  \\
+  1 & x_1 & y_1 \\
+  1 & x_2 & y_2
+ \end{pmatrix},
+\end{equation}
+
+\begin{equation}
+ B = 
+ \begin{pmatrix}
+  0 & -\sin \theta_0 & \cos \theta_0  & -2x_0 \sin \theta_0 
+  & x_0 \cos \theta_0 - y_0 \sin \theta_0 & 2 y_0 \cos \theta_0\\
+  1 & x_1 & y_1 & x_1^2 & x_1y_1 & y_1^2 \\
+  \vdots & * & & \ddots& * & \vdots \\
+  1 & x_5 & y_5 & x_5^2 & x_5y_5 & y_5^2
+ \end{pmatrix},
+\end{equation}
+
+
+\begin{equation}
+ \bm{n} = \frac{\text{grad}\phi}{\|\text{grad}\phi\|},
+\end{equation}
+
+\begin{equation}
+ l_n: \left.\text{grad}\phi\right|_{\bm{r}_0} = \bm{r} - \bm{r}_0,
+\end{equation}
+
+\begin{equation}
+ \theta_0 = \arccos (\bm{n}\cdot\bm{x}_1),
+\end{equation}
+
+\subsection{Ghoset-Cell Methodの計算手順}
+\begin{enumerate}
+ \item 計算格子から近い境界上の点を探す
+ \item Ghost-Cellの場所を探す
+ \item 流体中の補完に使う点を探す
+ \item 補完行列を作る
+ \item Ghost-Cell上の値を補完して計算する
+ \item 暇があったらImaginary-Cellの値も同じ手順で計算する
+\end{enumerate}

@@ -1,0 +1,227 @@
+\section{音波}
+\subsection{固有振動}
+あつ閉じた境界の内部問題を考える場合は、考えている現象の方程式の境界値を
+考える必要がある。それに対して、波動方程式の一般解は、開いた空間で与えら
+れる。
+
+また、有限の領域内での運動方程式はどのような振動数に対しても解を持つ訳で
+はなく、固有振動数に対して解を持つ。固有振動数は容器の形に依存する。これ
+を求めるために、境界条件のもとで運動方程式をとくことになる。
+
+固有振動のオーダーは次元解析からすぐにわかり、波長$\lambda$、固有振動数
+$\omega$はそれぞれ次のように与えられる。
+\begin{equation}
+ \lambda \sim l, \mspace{20mu}\gamma \sim \frac{l}{c},
+\end{equation}
+ここで、$l$は考えている領域の代表長さである。
+
+次時、実際に速度ポテンシャルを$\phi = \phi_0(x,y,z)e^{-i\omega t}$と仮定
+してみると、$\phi_0$について、
+\begin{equation}
+ \triangle \phi_0 + \left(\frac{\omega}{c}\right)^2\phi_0 = 0,
+\end{equation}
+のようなHelmholtzの方程式を得る。この方程式は一般的な、無限領域での条件
+が与えられる場合は、$e^{ikr}$に比例するような解を持ち、$\phi_0=Const.$に
+なるような、
+\begin{equation}
+ \phi = \phi_0 e^{i(\bm{k}\cdot\bm{r}-\omega t)},
+\end{equation}
+という一般解を持つ。
+
+境界条件が決められている場合には、境界条件は実数で与えられているので、境
+界値が実数を持つような解を選ばなければならない。また、領域内部では実数で
+解が与えられるので、解$\phi_0$の共役複素数$\phi_0^*$もまた方程式の解であ
+り、更に、共役複素数の公式から、$\phi_0\phi_0^*=|\phi_0|^2$なので、
+\begin{equation}
+ \phi_0 = f(x,y,z)e^{i\alpha},
+\end{equation}
+という方程式の形を取る。そして、速度ポテンシャルは、
+\begin{equation}
+ \phi = f(x,y,z)\cos (\omega t + \alpha),
+\end{equation}
+である。
+
+このような波に対しては、特性曲線を定義することができず、明らかに伝播しな
+い。このような波を定在波、定常波と呼ぶ。そして、固有振動は定在波である。
+
+平面波を考える場合、
+\begin{equation}
+ \phi = a \cos\omega t cos \left(\frac{\omega x}{c}\right),
+\end{equation}
+となる。このとき、波数は$k=\omega /c$で、$x = n\pi c/ \omega$の点では常
+に速度ポテンシャルは0になるような節を持つ。一方で、それらの中間になる点
+は腹と呼ばれる。
+
+\paragraph{直方体内部の固有振動数}
+直方体の内部の速度ポテンシャルを、
+\begin{equation}
+ \phi = a \cos qx \cos ry \cos sz,
+\end{equation}
+とすると、$q^2 + r^2 + s^2 = \omega^2 / c^2$である。また、$q = m\pi /a$
+のように任意の整数を定義すると、
+\begin{equation}
+ \omega^2 = c^2\pi^2
+  \left(\frac{m^2}{a^2} + 
+  \frac{n^2}{b^2} +
+ \frac{p^2}{c^2}\right),
+\end{equation}
+が得られる。
+
+\paragraph{Helmholtz共鳴管}
+Helmholtz共鳴管の固有振動は、管の長さ$l$、断面積$S$とすると、管内の気体
+の質量は$\rho S l$、管内の気体に作用する力は、$S (p_0-p)$である。これよ
+り、運動方程式が、
+\begin{equation}
+ S\rho l u_t = S (p - p_0),
+\end{equation}
+として与えられる。一方で、音速の公式から、圧力変動と密度変動の関係は、
+\begin{equation}
+ \frac{\partial p}{\partial t} = 
+  \frac{dp}{d\rho}
+  \frac{\partial \rho}{\partial t},
+\end{equation}
+なので、これをまとめて、
+\begin{equation}
+ \frac{\partial^2p}{\partial t^2} = 
+  -c^2\frac{\rho S u_t}{V} = 
+  -c^2 \frac{S (p - p_0)}{lV},
+\end{equation}
+が得られる。
+
+これより、この系の固有値が、
+\begin{equation}
+ \omega = c\sqrt{\frac{S}{lV}}、
+\end{equation}
+として得られ、これが固有振動数である。
+
+\subsection{管内の音波}
+管内を伝搬する音波の支配方程式を考える。このとき、管内の断面積は場所によっ
+て変化すると仮定する。積分形式で書くと、質量保存則は、
+\begin{equation}
+ \int_{\Omega}dV\frac{\partial\rho}{\partial t}
+  + \int_{\partial\Omega}dS\rho u = 0,
+\end{equation}
+であり、これを微分形式で書くと、
+\begin{equation}
+ S\frac{\partial\rho}{\partial t} +
+  \frac{\partial\rho Su}{\partial x} = 0,
+\end{equation}
+が得られる。
+
+音響近似した場合の運動方程式は、
+\begin{equation}
+ \frac{\partial u}{\partial t} 
+  + \frac{1}{\rho}\frac{\partial p}{\partial x} = 0,
+\end{equation}
+で与えられる。
+
+これらの方程式から、管内流の波動方程式を求める。
+
+質量保存について、質量流束の項は、微小振幅波を仮定する場合には、
+$u=O(\epsilon)$、$\rho_t = O(\epsilon)$のため、$(\rho u)_x = \rho u_x$と
+いう近似ができる。これより、$S\rho_{tt} = \rho S u_{xt}$が得られる。これ
+に運動方程式を代入すると、
+\begin{equation}
+ \frac{1}{S}\frac{\partial}{\partial x}
+  \left(S\frac{\partial p}{\partial x}\right)
+  -\frac{1}{c^2}\frac{\partial^2p}{\partial t^2} = 0,
+\end{equation}
+という波動方程式が得られる。
+
+ここで、圧力について周期解を仮定すると、
+\begin{equation}
+  \frac{1}{S}\frac{\partial}{\partial x}
+  \left(S\frac{\partial p}{\partial x}\right)
+  -k^2p = 0,
+\end{equation}
+が得られる。
+
+このような場合の簡単からの音の放射の強度は、
+\begin{equation}
+ I = \frac{\rho S^2\bar{u}_t^2}{4\pi c},
+\end{equation}
+で与えられる。
+
+\subsection{音波の散逸}
+音の散逸を考える。
+
+音波の運動エネルギー$K$は、内部エネルギー$E_0$と熱の項$E(S)$から、
+$K=E_0-E(S)$である。ここで、運動エネルギーの時間微分は、
+$K_t =E_t(S)$である。そして、エネルギーのエントロピーによる微分は温度な
+ので、$K_t = -T_0S_t$である。
+
+熱伝導と粘性がある場合のエントロピーの保存則から、運動エネルギーの保存則
+は次のように得られる。
+\begin{equation}
+ \frac{\partial K}{\partial t} = 
+  \frac{-\kappa}{T}\int dV\left(\text{grad}T\right)^2 -
+  \frac{1}{2}\mu\int dV
+  \left(\frac{\partial u_k}{\partial x_i} +
+   \frac{\partial u_i}{\partial x_k} -
+   \frac{2}{3}\delta_{ik}\frac{\partial u_j}{\partial x_j}
+  \right)^2 - 
+  \Theta\int dV\left(\text{div}\bm{u}\right)^2.
+\end{equation}
+そして、音波が$x$方向にだけ進行するとすると、
+\begin{equation}
+ \frac{\partial K}{\partial t} = 
+  \frac{-\kappa}{T}\int dV \left(\frac{\partial T}{\partial x}\right)^2 -
+  \frac{4}{3}\mu\int dV
+  \left(\frac{\partial u}{\partial x}\right)^2 - 
+  \Theta\int dV\left(\frac{\partial u}{\partial x}\right)^2,
+\end{equation}
+が得られる。
+
+また、このときの固有関数を$u = u_0 \cos (kx - \omega t)$とする。これによ
+り、粘性の項は、
+\[
+   \frac{4}{3}\mu\int dV
+  \left(\frac{\partial u}{\partial x}\right)^2 - 
+  \Theta\int dV\left(\frac{\partial u}{\partial x}\right)^2
+  = -k^2\left(\frac{4}{3}\mu + \Theta\right) u_0^2
+  \int dV\mspace{5mu}\sin^2 (kx - \omega t),
+\]
+平均値は、$-k^2(4/3\mu + \Theta)u_0^2V_0/2$になる。
+
+熱伝導の項は、温度と流早の関係が与えられることから求めることができる。温
+度と圧力の関係は$dT=(\partial_pT)|_sdp$なので、$T_p|_s=T/c_pV_T|_p$と、
+$v=p/(\rho c)$から、次のように得られる。
+\[
+ T_t = c\beta T\frac{u}{c_p}.
+\]
+ここで、$\beta$は熱膨張係数で、$\beta =V_T|_p/V$で表される。この関係から、
+\[
+ \frac{\partial T}{\partial x} 
+ = \frac{\beta c T}{c_p}\frac{\partial u}{\partial x}
+ = -\frac{\beta c T}{c_p}u_0k\sin(kx - \omega t)m,
+\]
+が得られる。ここで、
+\[
+ c_p - c_v 
+ = \beta^2 T \left.\frac{\partial p}{\partial\rho}\right|_T
+ = \beta^2 T \left(\frac{c_v}{c_p}\right)
+ \left.\left(\frac{\partial p}{\partial \rho}\right)\right|_S
+ = \beta^2Tc^2\frac{c_v}{c_p},
+\]
+という関係式があるので、$-k(1/c_v-1/c_p)k^2u_0^2V_0/2$となる。
+
+これらをまとめると、
+\begin{equation}
+ \frac{\partial K}{\partial t}
+  = -\frac{1}{2}k^2u_0^2V_0
+  \left[\left(\frac{4}{3}\mu + \Theta\right)
+  + \gamma\left(\frac{1}{c_v}-\frac{1}{c_p}\right)\right],
+\end{equation}
+のように散逸の関係式が得られる。ここで、減水係数のような形式で表そうとす
+ると、$e^{-\kappa x}$のように減衰するとすると、
+\begin{equation}
+ \kappa = \frac{\left| K \right|}{2cE},
+\end{equation}
+のようになり、
+\begin{equation}
+ \kappa = \frac{\omega^2}{2\rho c}
+  \left[\left(\frac{4}{3}\mu + \Theta\right)
+  + \gamma\left(\frac{1}{c_v}-\frac{1}{c_p}\right)\right],
+\end{equation}
+
+

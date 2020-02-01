@@ -1,0 +1,63 @@
+\chapter{2相流の計算}
+混相流には、異なる物性を持つ流体による混相流と、同じ物質で気体-液体相転
+移によってわけられる混相流に分類される。気液相転移のような現象を解析する
+場合にはPhase-field法、異なる物質同士の混相流の場合にはlevel set法を用い
+る。
+
+\section{Level-set法}
+Level-set関数$\phi$を定義する。ここで、界面を構成する曲面の方程式は
+$\phi(\bm{x})=0$である。
+
+\section{Phase-field法}
+ある物質の相を秩序関数$C$によって定義する。秩序関数は相のエネルギー状態
+を表現する変数であり、0以上で気体、0未満で液体として相境界を
+$C=C(\bm{x})=0$により定義する。
+
+ここで、秩序変数に対する作用積分は秩序変数についての化学ポテンシャルと相
+境界の間の界面の自由エネルギーの勾配により決定されると仮定する。また、表
+面自由エネルギーは当方的な性質を持つと仮定して、秩序変数の勾配の自乗に比
+例すると仮定する。以上より、秩序変数の作用積分$\mathcal{L}$は、
+\begin{equation}
+ \mathcal{L}\left(\bm{x},\frac{\partial C}{\partial\bm{x}}\right)=
+  \Phi(C(\bm{x})) + \frac{1}{2}\alpha\left\|\frac{\partial C}{\partial\bm{x}}\right\|^2,
+\end{equation}
+により表される。
+
+この作用積分の秩序変数についての変分は以下のようになる。
+\begin{equation}
+ \delta\mathcal{L} 
+  = \frac{\partial\mathcal{L}}{\partial C} \delta C
+     + \frac{\partial\mathcal{L}}{\partial\frac{\partial C}{\partial
+     \bm{x}}}
+     \cdot\delta \frac{\partial C}{\partial\bm{x}}
+     =
+     \left\{\frac{\partial\mathcal{L}}{\partial C}-
+     \frac{d}{d\bm{x}}\cdot \frac{\partial\mathcal{L}}{\partial\frac{\partial C}{\partial\bm{x}}}\right\} \delta C
+\end{equation}
+
+Noetherの定理から、上記の作用積分が秩序変数と秩序変数の勾配について対称
+性を持つとすると、秩序変数についての保存則が得られる。
+即ち、秩序変数の微小変化が作用積分の変分により表せて、
+$dC = \delta\mathcal{L}/\delta C$であり、これに作用積分の表現を代入
+することで、秩序変数の微分が得られる。更に、秩序変数を場の量とすることで、
+以下のような秩序変数の方程式、Cahn-Hilliard方程式が得られる。
+\begin{equation}
+ \frac{\partial C}{\partial t}
+  + \bm{u}\frac{\partial C}{\partial\bm{x}}
+%  = \frac{\partial \Phi}{\partial C} -
+  %  \alpha\frac{\partial^2C}{\partial\bm{x}\cdot\partial\bm{x}},
+  = \frac{\partial \Phi}{\partial C} - \alpha\triangle C,
+\end{equation}
+
+これは直ちには保存則の形式にはならない。これに流れ場の沸き出しの項を追加
+することで、以下のような保存形式を得られる。
+\begin{equation}
+  \frac{\partial C}{\partial t}
+  + \text{div} C\bm{u}
+  = C\text{div} \bm{u}
+  + \frac{\partial \Phi}{\partial C} - \alpha\triangle C.
+\end{equation}
+
+ここで、化学ポテンシャルの形式は、秩序変数に対する相の変化の様式に対して
+様々な形式が考えられるが、一番簡単な形として、井戸形ポテンシャルが挙げら
+れる。

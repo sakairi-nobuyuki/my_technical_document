@@ -1,0 +1,243 @@
+\section{非圧縮性流体の構成方程式}
+空気も液体も流速があまり速い領域でなければ圧縮性を無視するような近似をし
+ても問題ない。その場合は、流体の運動方程式は大幅に簡略化される。
+
+流れの中の媒体が一様な場合は、常に全領域で密度が一定と見なすことができる
+ので、質量保存則は連続の式として、
+\begin{equation}
+ \text{div}\bm{u} = 0,
+\end{equation}
+と表される。
+
+また、運動方程式も、非粘性の場合は、
+\begin{equation}
+ \frac{\partial \bm{u}}{\partial t}
+  + \bm{u} \cdot \text{grad} \bm{u} 
+  = -\frac{1}{\rho}
+  \text{grad}p,
+\end{equation}
+と表される。
+
+このような近似が成り立つ条件は非常に重要なので、それについて考える。圧縮
+性流体では圧力と密度の間の構成則を$PV^{\gamma}=Const.$と仮定しており、ま
+た、圧縮性流体の音響近似の知見から、音速は密度と圧力により関係付けられる。
+その場合の圧縮性流体の微小な密度変化は、$\Delta \rho = \Delta p / c^2$で
+ある。ところで、Bernoulliの定理からの次元解析によると、圧力の変化
+$\Delta p$は$\rho u^2$のオーダーである。従って、
+$\Delta \rho \sim \rho (u/c)^2$である。流体が非圧縮性であると見なせる条件は、
+$\Delta \rho \ll \rho$ なので、それは流速が音速に比べて十分に遅いことが
+圧縮性流体と見なせる条件である。
+\begin{equation}
+ u \ll c
+\end{equation}
+
+ただ、これは定常流についてのBernoulliの定理から出てくるオーダーの評価で
+あり、非定常運動をする場合にはまた異なる指標が必要になる。このときの時間
+と距離のオーダーを$\tau$、$l$とする。非圧縮性の条件は、質量保存則で密
+度の時間微分の項が0に近ければ成り立ちそうである。従って、
+$\Delta \rho \ll \rho u / l$がその条件である。ここで、$\Delta \rho$は
+$\Delta \rho \sim \rho (u/c)^2$で評価される。そして、運動方程式の対流項
+が十分に小さい場合には、$u/\tau \sim \Delta p / (l \rho)$であり、これに
+次元解析からの考察を加えると、$\Delta \rho \sim \rho u l / (c^2 \tau)$で
+ある。そして、質量保存則の対流項が密度の時間変化に比べて十分に大きいこと
+が非圧縮性をもつことと同じなので、それにより、
+\begin{equation}
+ \frac{l}{c} \ll \tau,
+\end{equation}
+が非定常での非圧縮性が仮定できる条件になる。
+
+非圧縮性流体では密度が変わらないため、密度と圧力間の構成則も存在せず、圧
+力の項について取り除いた渦度方程式に運動方程式をすることができる。
+\begin{equation}
+ \frac{\partial\bm{\omega}}{\partial t}
+  = \text{rot} \left(\bm{u}\times\bm{\omega}\right),
+\end{equation}
+また、エンタルピーが$h=p/\rho$で置き換えることができるので、Bernoulliの
+定理が、
+\begin{equation}
+ \frac{u^2}{2} + \frac{p}{\rho} + gz = Const.
+\end{equation}
+と表される。更には、エネルギー流束も、
+\begin{equation}
+ \rho \bm{u}
+  \left(\frac{u^2}{2} + \frac{p}{\rho}\right),
+\end{equation}
+のようになる。
+これにより、内部エネルギー$d\epsilon = Tds - p/\rho^2d\rho$は、
+$\rho = Const.$になるので、$d\epsilon = Tds$になる。更に、断熱の条件では、
+$d\epsilon = 0$であり、$\epsilon = Const.$である。つまり、非圧縮性流体
+では常に考えている領域内での内部エネルギーは一定の値を持ち、そのため、エ
+ネルギー流束の中の内部エネルギーの項は無視することができる。
+
+\subsection{Stokesの流れ関数の導入}
+2次元流について、連続の式から、$\text{div}\bm{u}=0$なので、これを満たす
+ようなスカラー関数を定義する。これを流れ関数と読んで、次のように定義する。
+\begin{equation}
+ u = \frac{\partial \psi}{\partial y},  \mspace{20mu}
+  v = -\frac{\partial \psi}{\partial x}.
+\end{equation}
+渦度は$\bm{\omega} = \text{rot}\bm{u}$で定義されており、従って、2次元の
+渦度は$\omega=-\triangle\psi$のように表されるので、
+これを2次元の渦度方程式に代入すると、
+\begin{equation}
+ \frac{\partial \triangle\psi}{\partial t}
+  +\frac{\partial \psi}{\partial y}
+  \frac{\partial\triangle\psi}{\partial x}
+  -\frac{\partial \psi}{\partial x}
+  \frac{\partial\triangle\psi}{\partial y}
+  = 0,
+\end{equation}
+のようになる。これにより流れ関数が特定できると流れの様子を得ることができ
+る。つまり、流れ関数の定義から、
+$d\psi = \partial_y\psi dx-\partial_x\psi dy = vdx - u dy$であり、
+流れ関数が一定$d\psi = 0$の場合は、$u/dx = v/dy$となり、流れ関数の接線と速度
+の方向が同じことを表している。すなわち、流れ関数から流線についての等高線
+を得られる。
+
+また、点$A$と$B$の間を流れる流量を求める場合、
+\begin{equation}
+ Q = \int_{A}^{B}d\bm{n}\cdot\bm{u} 
+  = \int_{A}^{B} (udy - vdx)
+  = \psi_B - \psi_A,
+\end{equation}
+となる。
+
+\section{渦なし流れ}
+
+
+
+\section{ポテンシャル流}
+非圧縮性流体で、しかも渦なしを仮定できる場合について考える。
+渦なし流れを仮定する場合には$\text{rot}\bm{u}=0$から速度ポテンシャル
+$\phi$を$\bm{u}=\text{grad}\phi$として定義できる。従って、速度ポテンシャ
+ルと流れ関数の間には、
+\begin{equation}
+ u = \frac{\partial \phi}{\partial x} 
+  = \frac{\partial \psi}{\partial y},
+\end{equation}
+\begin{equation}
+ v = \frac{\partial \phi}{\partial y}
+  = -\frac{\partial \psi}{\partial x},
+\end{equation}
+の関係がある。これは取りも直さず、複素関数$w$を$w=u+iv$として定義した場
+合に成立するCauchy-Riemannの定理であることから、渦なし非圧縮のポテンシャ
+ル流れの場合には複素関数の知見が使えることを意味する。また、これより、流
+れ関数と速度ポテンシャルは互いに共役複素関数の関係にあることから、直行性
+があることがわかる。また、複素関数の様々な公式から、調和関数はLaurent展
+開により$[-\infty, \infty]$の冪級数に展開できること、留数の定理から特異
+点周りでも積分可能なことがわかっている。従って、ポテンシャル流は境
+界条件に即した解を探すことによって解析ができる。
+
+また、複素速度ポテンシャル$w$は、Cauchy-Riemannの定理により、
+\begin{equation}
+ \frac{dw}{dz} = 
+  \frac{\partial \phi}{\partial x}
+  + i\frac{\partial \psi}{\partial x}
+  = u + iv,
+\end{equation}
+と表される。
+
+また、留数の定理から、複素速度ポテンシャルの積分は、
+\begin{equation}
+ \oint wdz = 2\pi i\sum_{\alpha} \text{Res}_{\alpha} w
+  = \oint (u-iv)(dx + idy),
+  = \oint (udx +vdy) + i\oint (udy - vdx),
+\end{equation}
+である。
+
+このようにポテンシャル流については調和関数の解を流体力学の境界条件に適用
+することで様々な流れ場の様子を簡単にみることができるので、多くの研究がな
+されてきている。特に、\cite[Lamb]{Lamb}の第4章に詳しい。一般的に調和関数
+の解はLaurent級数により得られるが、かなり系統的に解を得ることができる。
+何となれば、Laurent級数は複素数$z$についての負の冪も含む冪級数であり、更
+に、それに対して、幾つかの周期関数が解に含まれていることが知られており、
+境界条件に合わせて適当な冪関数、周期関数を選ぶことで解を構成することが可
+能だからである。すなわち、ポテンシャル流の一般解は、
+$w=A\log z + \sum_{n=-\infty}^{\infty}B_nz^n$のように与えられるが、境界
+条件を満たすのはそのうちの幾つかの部分空間の線形和を選ぶものであり、境界
+条件に合わせて発見的な手法で解を得ることができるのである。
+
+ただし、それとは別に代表的な流れのパターンとして、一様流、湧き出し、吸い
+込み、角を曲がる流れ、隅を回る流れ、ポテンシャル渦、淀み点流れのような代
+表的な流れのパターンについては回答例が豊富に用意されている。そして、その
+ような代表的な流れから、流れ場に対して適切な写像を施すことで特定の境界条
+件を満たす流れを得ることができる。
+
+以下、所謂代表的な問題について例を挙げることにする。
+
+\subsection{冪関数で構成されるポテンシャル流の例}
+任意の冪関数により構成される解について考える。ここで、$n$の値を変化させ
+たときの挙動について考える。複素速度ポテンシャル$w$の冪関数を、
+\begin{equation}
+ w = Az^n,
+\end{equation}
+としたときに、それぞれの$n$の値にどのような流れが対応するかを考える。
+
+\subsubsection{一様流 ($n=1$)}
+$n=1$のとき、$w = A(x+iy)$であり、$\phi = Ax$、$\psi = Ay$となる。
+この場合、流速$A$の一様流が$x$軸に沿って流れる一様流になる。
+
+これに対して、$i$を掛けると、$w = -A(y - ix)$であり、$y$軸に沿った流速
+$-A$の一様流になる。
+$i=\cos (\pi/2) + i\sin (\pi / 2) = e^{i(\pi/2)}$であり、
+これは一様流に対して90度の回転変換を施したものになる。このように複素速度
+ポテンシャルに等角写像を施すと流れを変形させることができる。
+
+\subsubsection{隅を回る流れ ($n=2$)}
+$n=2$のときは、$w=z^2 = x^2+y^2 - 2ixy$となる。このとき、速度ポテンシャ
+ルと流れ関数はそれぞれ$\phi = A(x^2 + y^2)$、$\psi = 2Axy$となる。これは
+$\theta =0$と$\theta = \pi/2$の剛体壁で構成される境界の隅を回る流れにな
+る。
+
+\subsubsection{($n=-1$)}
+
+\subsection{周期関数で構成されるポテンシャル流の例}
+複素関数の範疇では対数関数は周期関数になる。極座標で複素関数を表すと、例
+えば、$\log z = \log r + i\theta$となる。
+\subsubsection{対数関数の湧き出し}
+複素速度ポテンシャルを、
+\begin{equation}
+ w = -A\log z,
+\end{equation}
+とすると、$\phi = -A \log r$、$\psi = -A\theta$となる。これは原点を中心
+に強さ$A$で原点から外側へ向かって流出する湧き出し流れになる。また、$r=0$
+で解は収束しないので原点は特異点になる。
+
+\subsubsection{対数関数によるポテンシャル渦}
+湧き出し流れに直交する流れは、原点を中心にして流れ関数が単連結な円を描く
+ポテンシャル渦である。幾何学的な直交性は複素速度ポテンシャルに虚数単位を
+掛けることで写像できて、
+\begin{equation}
+ w = -iA\log z,
+\end{equation}
+である。
+
+念のため、このときの速度ポテンシャルと流れ関数は、
+$\phi = A\theta$、$\psi = -A\log r$である。
+
+ポテンシャル渦は渦なしを仮定して得られるCauchy-Riemannの定理により得られ
+る解のうちの一つだが、Cauchyの積分定理から、解の正則性が保証されているの
+は特異点近傍から離れた場所であり、特異点では必ずしも正則な訳ではないの
+で、そこでは渦なしの仮定は成立しなくてもよい。
+
+\subsubsection{湧き出しと吸い込みの二重極}
+複素速度ポテンシャル、
+\begin{equation}
+ w = -A\log \frac{z - a}{z + a},
+\end{equation}
+を考える。
+
+ここで、簡単のため、$a=(a, 0)$とする。また、複素速度ポテンシャルは、
+$w = -A \{\log (z-a) - \log (z+a)\}$のような、$x=a$に湧き出し、$x=-a$に
+吸い込みがあるような二重極を構成することになる。調和関数は線形方程式であ
+るLaplace方程式の解であり、従って、解の重ね合わせにより解を構成すること
+ができる。
+
+
+
+\begin{thebibliography}{10}
+ \bibitem{Landau_Fluid_Mech1} ランダウ リフシッツ, 流体力学 I, 東京書籍
+ \bibitem{Lamb} LAMB, Sir Horrace, Hydrodynamics, 6th ed.,
+	 Dover publications, New York
+ \bibitem{Horikawa} 堀川頴二、複素関数論の要諦、日本評論社
+\end{thebibliography}

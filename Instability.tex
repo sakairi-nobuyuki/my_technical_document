@@ -1,0 +1,720 @@
+\chapter{流体の不安定性}
+Reynolds数が大きい場合の流れの安定性を考える。臨界Reynolds数$Re_c$に対し
+て、$Re<Re_c$の場合は、安定なので、その場合は$\omega=\omega_r+i\omega_i$
+のうち$\omega_i$は負の値を取り、中立不安定の場合は$\omega_i=0$であり、
+$Re_c<Re$の場合には$\omega_i$は正の値をとる。ただ、不安定性がそれ程多く
+ない領域では$\omega_i<\omega_r$のように観測的に見れる。
+ここで、流速の1次の微少量の項$\bm{u}_1$について、
+\begin{equation}
+ \bm{u}_1 = A(t)\bm{f}(x,y,z),
+\end{equation}
+と表せると仮定し、更に、
+\begin{equation}
+ A(t) = \alpha e^{-i(\omega_r + i\omega_i)t},
+\end{equation}
+で表される。
+ここで、$A(t)$は流れに乱れが発生し始めてすぐの時間でだけ成り立つ。
+$e^{\omega_it}$は急速に増加するため、このような近似は乱れが発生してから
+の短い時間でしか適用できない。$Re\simeq Re_c$で、$Re_c<Re$のような状況を
+考える。
+流れの乱れのパラメータとして、$|A(t)|^2$を考えて、その時間発展を考える。
+\begin{equation}
+ \frac{d|A|^2}{dt} = 2\omega_i |A|^2,
+\end{equation}
+のように、$\omega_i$が$|A|^2$の固有値として現れる。更に、高次の項まで考
+えると、
+\begin{equation}
+  \overline{\frac{d|A|^2}{dt}} = 2\omega_i |A|^2 - \beta |A|^4,
+\end{equation}
+で、これを解くと、
+\begin{equation}
+ \frac{1}{|A|^2} = \frac{\beta}{2\omega_i} + \beta e^{-2\omega_it} ,
+\end{equation}
+で、$|A|^2$の漸近解が得られる。
+\begin{equation}
+ |A|^2\rightarrow\frac{2\omega_i}{\beta},
+\end{equation}
+更に、乱れの広がりがReynolds数に比例すると考えると、$\omega_i\sim
+Re-Re_c$と仮定できるので、
+\begin{equation}
+ |A|\rightarrow \sqrt{Re-Re_c},
+\end{equation}
+となり、乱流の乱れはReynolds数の平方根にある程度までは比例する。更にそれ
+よりも乱れが大きくなる場合は2次の微少量についても考慮することになる。
+
+\section{境界層}
+\subsection{境界層方程式}
+
+壁面流れについて、特異摂動法による解法の1つとして、壁面近傍の境界層内部を近方場、境
+界層の外側の主流を遠方場として考える。境界層外縁での境界条件を決めて解の
+接合を行う。
+特徴を箇条書きで書くと。
+\begin{enumerate}
+ \item 定常流を仮定する
+ \item 境界層厚さ$\delta$は十分に薄いと仮定して、$v\ll u$
+ \item 流速は$y$方向に$\delta$のオーダーの空間で急激に変化する
+ \item 流速は$x$方向に$l$のオーダーで緩やかに変化する
+\end{enumerate}
+上記の考察から、$\partial\emptyset/\partial x = O(\emptyset/l)$であ
+り、$\partial\emptyset/\partial y = O (\emptyset/\delta)$である。この仮
+定から、運動方程式の各項は、
+\begin{equation}
+ \frac{\partial\emptyset}{\partial x} \ll
+  \frac{\partial\emptyset}{\partial y}, \mspace{30mu}
+ \frac{\partial^2\emptyset}{\partial x^2} \ll
+  \frac{\partial^2\emptyset}{\partial y^2}, 
+\end{equation}
+の近似から、
+\begin{equation}
+ u\frac{\partial u}{\partial x}
+\end{equation}
+また、$x$方向と$y$方向の圧力勾配は、それぞれの方向の流速に比例するオーダー
+と仮定すると、運動方程式の$x$方向と$y$方向成分から、その比率
+$(\partial p/\partial y)/(\partial p/\partial x) = v / u$なので、これよ
+り$y$方向の方程式は$\partial p/\partial y \simeq 0$と近似できる。
+
+以上より、境界層内部での運動方程式と連続の式は、
+\begin{equation}
+ u\frac{\partial u}{\partial x}
+ + v\frac{\partial u}{\partial y}
+ = -\frac{1}{\rho}\frac{\partial p}{\partial x}
+ + \nu \frac{\partial^2u}{\partial y^2},
+\end{equation}
+\begin{equation}
+ \frac{\partial p}{\partial y} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial u}{\partial x}
+  + \frac{\partial v}{\partial y}
+  = 0,
+\end{equation}
+である。一方で、境界層外部はポテンシャル流れであるとすると、単純に
+Bernoilliの定理が成り立っていると考えると、
+\begin{equation}
+ \frac{1}{2}\rho U^2 + P = Const.,
+\end{equation}
+である。
+
+ここで、境界層外縁での方程式系の接合を考える。
+
+境界層内部の運動方程式より、$p=p(x)$であり、これより境界層内部では$y$方
+向に圧力分布がない上に、圧力は$x$方向について与えられた関数になる。これ
+が境界層の内部で常に成り立っているため、当然境界層外縁でも成立する。従っ
+て、境界層外縁での主流の圧力もまた流れ方向$x$に対してのみ分布を持つこと
+になる。これより、境界層外部でも圧力は$y$方向に分布を持たないことから、
+圧力と流速の関係が得られる。また、境界層外部の圧力が即ち境界層内部の圧力
+となる。
+
+ここで、境界層外部で成立してるBernoulliの定理を$x$方向について微分すると、
+\begin{equation}
+ \frac{\partial P}{\partial x} = -\rho U \frac{\partial U}{\partial x},
+\end{equation}
+これを境界層内部の運動方程式に代入すると、所謂境界層方程式が以下のような
+形式で得られる。
+\begin{equation}
+ u\frac{\partial u}{\partial x} 
+ +v\frac{\partial u}{\partial y} 
+ -\nu\frac{\partial^2u}{\partial y^2}
+ = U\frac{\partial U}{\partial x},
+\end{equation}
+\begin{equation}
+ \frac{\partial u}{\partial x}
+  +\frac{\partial v}{\partial y}
+  = 0.
+\end{equation}
+
+\subsection{Reynolds相似}
+境界層方程式を次のような無次元化を施す。
+\begin{align}
+ x'=\frac{x}{l}, & y' = \frac{\sqrt{Re}}{l}y, \\
+ u' = \frac{u}{U}, & v = \sqrt{Re}\frac{v}{U}.
+\end{align}
+ここで、微分は次のように変数変換される。
+\begin{equation}
+ \frac{\partial}{\partial x} = \frac{1}{l}\frac{\partial}{\partial x'},
+  \mspace{25mu}
+  \frac{\partial}{\partial y} = \frac{\sqrt{Re}}{l}\frac{\partial}{\partial y},
+\end{equation}
+これを境界方程式に適用すると、
+\begin{equation}
+ u\frac{\partial u}{\partial x}
+  + v\frac{\partial u}{\partial y}
+  - \frac{\partial^2U}{\partial y^2}
+  = U\frac{\partial U}{\partial x},
+\end{equation}
+\begin{equation}
+ \frac{\partial u}{\partial x} 
+  +\frac{\partial v}{\partial y} = 0,
+\end{equation}
+が得られる。
+
+これより境界層があるような流れでは、流れ場はReynolds数に依存しないため、
+Reynolds数に対して相似性がある。特に、$v$と$y$はReynolds数によりスケール
+される。
+また、これより無次元化された境界層方程式は全て0次の微少量なため、
+$v'=\sqrt{Re}/Uv=O(1)$、$y'=\sqrt{Re}/ly=O(1)\equiv \delta$のため、
+\begin{equation}
+ \delta = \frac{l}{\sqrt{Re}}, \mspace{25mu}
+  v = \frac{U}{\sqrt{Re}},
+\end{equation}
+のような関係が得られ、境界層厚さ、流れと垂直方向の流れはReynolds数の変化
+に影響を受けることが分る。
+
+次に半無限の平板上を流れる流れを考える。ここで、$U=Const.$として、
+$\partial U/\partial x=0$なので、
+\begin{equation}
+ u\frac{\partial u}{\partial x}
+  + v\frac{\partial u}{\partial y}
+  - \nu\frac{\partial^2u}{\partial y^2} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial u}{\partial x} 
+  +\frac{\partial v}{\partial y} = 0,
+\end{equation}
+だが、このような場合には特徴的な長さ$l$を定義できない。従って、無次元化
+を$x$、$y$の組み合わせで行って、Reynolds相似になるようなものを変数に選ぶ。
+無次元化にReynolds数が関わるのは$y$と$v$で、それぞれ以下のようである。
+\[
+ v' = \sqrt{\frac{l}{\nu U}}v, \mspace{25mu}
+ y' = \sqrt{\frac{U}{\nu l}}y.
+\]
+これより、
+\begin{equation}
+ y\longrightarrow　\frac{y'}{\sqrt{x'}} = \sqrt{\frac{U}{\nu x}} y,
+\end{equation}
+\begin{equation}
+ v\longrightarrow \sqrt{x}v = \sqrt{\frac{x}{\nu x}}y,
+\end{equation}
+のような無次元化が仮定できる。これは$v$と$y$に$l$が入らない形式であり、
+解を次のように仮定する。
+\begin{equation}
+ u = U f \left(\sqrt{\frac{U}{\nu x}y}\right), \mspace{25mu}
+  v = \sqrt{\frac{U \nu}{x}} g \left(\sqrt{\frac{U}{\nu x}y}\right),
+\end{equation}
+これを連続の式に代入することで$f$と$g$の関係が得られる。
+\begin{equation}
+ \xi = \sqrt{\frac{U}{\nu x}}y,
+\end{equation}
+\begin{equation}
+ f(\xi) = \phi_{\xi},
+ % \frac{\partial\phi}{\partial\xi} = f(\xi),
+\end{equation}
+\begin{equation}
+ g(\xi) = \frac{1}{2}\left(\xi \phi_{\phi} - \phi\right).
+\end{equation}
+ これを運動方程式に適用すると、
+\begin{equation}
+ \phi\phi_{\xi\xi} + 2\phi_{\xi\xi\xi} = 0,
+\end{equation}
+ が得られる。
+
+ 更に、$u$の変数変換は、$u = U f(\xi)$であることから、
+ $0\leq f(\xi) \leq U$であり、$y = \delta$で$f(\xi) = 1$になることが特異
+ 摂動法の解の接合の考え方から見込まれる。従って、境界層厚さは、半無限の平
+ 板上では、
+\begin{equation}
+ \delta \simeq \sqrt{\frac{\nu x}{U}},
+\end{equation}
+ のようなオーダーとして与えられる。
+
+
+\subsection{境界層の剥離}
+無限遠までつづく平板を考えたときに、境界層は主流につられて徐々に発達して
+いく。境界層内部では粘性が卓越し、有限の渦度を持ち、一方で、主流は乱れが
+十分発達しているため、そのような場合は非粘性を仮定できるため、一般的に渦
+度が0になる。そして、渦度が境界層内部で生成され、それが主流へ拡散してい
+く。ただし、そのような状態は循環の保存則とは矛盾するためある種の特異点に
+なる。また、そのような状態は平板に対する垂直方向の速度成分が発散するため、
+そのような状態を仮定して、境界層方程式に適用することで検討を進める。
+
+最初に、境界層の剥がれ点を$x_0$と仮定する。また、そこでの$v$は十分大きく、
+$v(x_0,y)\rightarrow\infty$と仮定できる。更に、その微分も十分大きい数値
+を取ると仮定できて、$\partial v/\partial y \rightarrow\infty$とする。
+これを連続に式に適用すると、$\partial u/\partial x\rightarrow\infty$であ
+る。これより、逆に$\partial x/\partial u=0$であり、剥がれ点の場所を流速
+の関数として、流速で展開することができる。また、$v(x_0,y)=u_0(y)$として
+剥がれ点での垂直方向の流速は$y$だけの関数である。
+
+ここで、$x_0$を$u$で展開する。ただし、$\partial x/\partial u=0$なので、
+\begin{equation}
+  x_0-x = \frac{1}{2}\frac{\partial^2x}{\partial u^2} (u_0 - u)^2,
+\end{equation}
+である。これより、流速は逆に流れ方向の関数として与えられて。
+\begin{equation}
+ u = u_0(y) + \alpha (y)\sqrt{x_0-x},
+\end{equation}
+がえられる。一方で、連続の式から、
+\[
+ v = -\int dy \frac{\partial u}{\partial x},
+\]
+なので、
+\begin{equation}
+ v = \frac{\beta(y)}{2\sqrt{x_0-x}},
+\end{equation}
+である。
+
+また、境界層方程式に立ち返ると、圧力項と粘性項はそれぞれ圧力勾配が有限の値を
+取ること、流速の2階微分は有限の値を取ることがわかる。一方で、移流項は流
+速の1階微分なので、無限大に発散する。ただし、方程式が成り立つには、これ
+らが互いに相殺しなければならない。従って、$uu_x + vu_y=0$でなければなら
+ない。これと連続の式$u_x+v_y=0$より、
+\begin{equation}
+ \frac{\partial}{\partial y}\frac{v}{u}=
+  \frac{\partial}{\partial y}\frac{\beta(y)}{u_0(y)\sqrt{x_0-x}}
+\end{equation}
+これより、$v/u$は$x$だけの関数なので、$\beta=Au_0(y)/2$でなければならな
+い。また、$\alpha=Adu_0/dy$なので、
+\begin{equation}
+ u = \frac{Au_0(y)}{2\sqrt{x_0-x}},
+\end{equation}
+\begin{equation}
+ v = u_0(y)+A\left(\frac{du}{dy}\right)\sqrt{x_0-x},
+\end{equation}
+ である。
+
+ここで、流れと垂直方向の方向の流速は$x_0$に近づくにつれて無限大に近づき、
+更に、$x_0<x$では$u$、$v$ともに虚数解を持つため、境界層方程式は意味のあ
+る解を持たなくなることがわかる。また、粘着条件から、
+$u|_{x=x_0}=v|_{x=x_0}=0$であるから、
+\begin{equation}
+ u_0(0) = 0, \mspace{25mu} \left.\frac{du_0}{dy}\right|_{y=0} = 0,
+\end{equation}
+であることがわかる。これより、$A\neq 0$の場合には境界層の剥離が発生する
+ことが分る。一方で、$A=0$のときには境界層の剥離は発生しない。その場合は、
+$u$は流れ方向に進行するに連れて$u$は加速していくが、$x_0<x$に達した場合
+に$\partial u/\partial x<0$となり、減速し、逆流が発生する。この場合は渦
+度は境界層内部から主流へは拡散しては行かない。
+
+\section{Orr-Sommerfeld方程式}
+流体の不安定性を流れ関数を導入して検討する。非圧縮の2次元の運動方程式を
+考えることで、流れ関数の導入が可能である。また、それにあたって運動方程式
+から渦度方程式を経由して考える。
+
+最初に、2次元での渦度と流れ関数について、
+\begin{equation}
+ \omega = \frac{\partial v}{\partial x} 
+  - \frac{\partial u}{\partial y},
+\end{equation}
+\begin{equation}
+ u = \frac{\partial \psi}{\partial y}, \mspace{25mu}
+  v = -\frac{\partial \psi}{\partial x},
+\end{equation}
+のように定義する。これにより、渦度と流れ関数は、$\omega=-\triangle\psi$
+で与えられる。
+
+一方で、渦度方程式を導出する。3次元の場合の運動方程式にrotを取ることで渦
+度方程式が求められるが、それは、
+$\epsilon_{ijk}\partial / \partial x_j$を左から$\emptyset_i$に掛けること
+で得られる。
+
+今、粘性を考慮した場合の運動方程式は
+\begin{equation}
+ \frac{\partial u_i}{\partial t}
+  + u_j\frac{\partial u_i}{\partial x_j}
+  = -\frac{1}{\rho}\delta_{ij}\frac{\partial p}{\partial x_j}
+  + \nu\frac{\partial}{\partial x_j}
+  \left(\frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i}\right),
+\end{equation}
+であるが、これから、渦度方程式が、
+\begin{equation}
+ \frac{\partial\omega_i}{\partial t}
+  + u_j\frac{\partial \omega_i}{\partial x_j}
+  + \omega_j\frac{\partial u_i}{\partial x_j}
+  = \nu\delta_{jk}\frac{\partial^2\omega_i}{\partial x_j\partial x_k},
+\end{equation}
+で得られる。これを2次元に適用する場合は、渦度による流れ場の伸長の項は消
+える。また、$z$方向の渦度を$\omega$と考えることで、
+\begin{equation}
+ \frac{\partial\omega}{\partial t}
+  + u\frac{\partial\omega}{\partial x}
+  + v\frac{\partial\omega}{\partial y}
+  = \nu\triangle\omega,
+\end{equation}
+である。
+
+ここで、流れ方向の流速に摂動を取る。
+\begin{equation}
+ \psi(x,y,t) = \int_{0}^{y}dy U(y) + \tilde{\psi}(x,y,t),
+\end{equation}
+により、
+\begin{equation}
+ u = U + \frac{\partial\tilde{\psi}}{\partial y}, \mspace{25mu}
+  v = -\frac{\partial\tilde{\psi}}{\partial x},
+\end{equation}
+が得られる。ただし、$U=O(1)$、$\tilde{¥psi}=O(\epsilon)$である。
+これをもとの方程式に適用して、1次の微少量と2次の微少量にわけると、
+\begin{align}
+ \frac{\partial}{\partial t}\triangle\tilde{\psi}
+  + U\frac{\partial}{\partial x}\triangle\tilde{\psi}
+  = \frac{\partial\tilde{\psi}}{\partial x}\frac{\partial^2U}{\partial
+  y^2} 
+  + \nu\triangle^2\tilde{\psi}, & & O(\epsilon),  \label{proto_orr-sommerfeld}\\
+  \frac{\partial\tilde{\psi}}{\partial y}
+  \frac{\partial}{\partial x}\triangle\tilde{\psi}
+  -  \frac{\partial\tilde{\psi}}{\partial x}
+  \frac{\partial}{\partial y}\triangle\tilde{\psi} = 0, & & O(\epsilon^2) 
+\end{align}
+が得られる。
+
+ここで、解を$\tilde{\psi}(x,y,t)=\phi(x)e^{i(kx-\omega t)}$と仮定して、
+$y$方向の分布を考えると、
+\begin{equation}
+ (U-c)(\phi_{yy}-k^2\phi) = \phi U_{yy}
+  + \frac{\nu}{ik}\left(k^2-\frac{\partial^2}{\partial y^2}\right)^2\phi,
+\end{equation}
+としてOrr-Sommerfeld方程式が得られる。ここで、$\omega = ck$として位相速
+度$c$を仮定した。Orr-Sommerfeld方程式の問題では$\phi$を$y$の4階の微分方程
+式として求めることで、解を$x$、$t$について級数和をとりもとの厳密解を得る
+ことが出来る。この方程式は既知の$U$を使って$\phi$についての線形方程式を
+解く問題になり、外部から与えられる主流$U$について$\phi$の固有値を解く問
+題になる。これをOrr-Sommerfeld固有値の問題という。
+
+今、方程式系を(\ref{proto_orr-sommerfeld})まで戻って考えたとき、
+主流は$y$方向について均一とすると、$U_{yy}=0$となり、1次の項は
+$\triangle\tilde{\psi}$についての移流拡
+散方程式のような形式をとる。
+\begin{equation}
+  \frac{\partial}{\partial t}\triangle\tilde{\psi}
+  + U\frac{\partial}{\partial x}\triangle\tilde{\psi}
+  = \nu\triangle^2\tilde{\psi},
+\end{equation}
+ここで$\triangle\psi$は誤差関数を解として、更にそこから$\psi$を誤差関数
+をGreen関数として計算することで少なくとも形式解を得ることが出来る。
+
+\subsection{渦度方程式からの解法}
+ここで、移流拡散方程式を解くために、$\tau = t - x/U$と仮定すると、
+$\partial/\partial\tau=\partial/\partial t +U\partial/\partial x$となる。
+また、境界層方程式の導出からの洞察を援用して、$\tilde{v}\simeq\tilde{u}$、
+$\tilde{u}_x\ll\tilde{v}_x$、となるため、
+$\triangle\tilde{\psi}\simeq\tilde{\psi}_{xx}$と仮定する。このため、
+$\Psi\equiv\tilde{\psi}_xx$と置くと、
+\begin{equation}
+ \frac{\partial\Psi}{\partial \tau}=\nu\frac{\partial^2\Psi}{\partial x^2},
+\end{equation}
+となる。ここで、この移流拡散方程式を教科書的な解法に則って解いていく。変
+数分離法を使うことで、この方程式の固有値を$\lambda$と仮定すると、
+\begin{equation}
+ \Psi = \int_{-\infty}^{\infty}\mspace{5mu}
+  e^{\lambda}\left\{a(\lambda)e^{\sqrt{\frac{\lambda}{\nu}}x}+
+	     b(\lambda)e^{-\sqrt{\frac{\lambda}{\nu}}x}\right\},
+\end{equation}
+が得られる。ここで問題にしているのは1次の微少量についてであり、更に初期
+値問題を扱っているため、初期条件は全ての空間で解が穏やかであることである。
+また、空間的な境界条件についてはノズル出口では0が仮定できるが無限遠、ま
+たは有限区間でのある程度の擾乱について認める必要がある。仮に不安定性の議
+論をする場合に、境界条件に無限大に発散する条件を認めることは数学的に不適
+切である。
+そこで、有限区間で有限振幅の乱れに達すると仮定する。例えば、$x=L$のとき
+に$\tilde{v}=V$と仮定しておくことで後で漸近解を得ることができるかもしれ
+ない。
+
+初期条件の適用にあたっては、$\Psi|_{t=0}=0$とすると、$a(\lambda)$、
+$b(\lambda)$について自明解しか選べないように見受けられる。これが非自明解
+を持つ条件は、
+
+
+\section{2次元直交座標系のKelvin-Helmholtz不安定}
+2相流の解析を行うにあたって、相の間の界面は流体の方程式がもつ非線形性に
+よりReynolds数が大きくなるに従い無限の自由度を持ってくるため非常に複雑な
+形になってくる。そこで、摂動法や、線形安定解析により不安定性を評価する。
+\subsection{非粘性比圧縮の場合の線形安定解析}
+流速$\bm{u}$を定常流を仮定できる主流$\bm{u}_0$と非定常な乱れの成分
+$\bm{u}_1$にわけて、$\bm{u}(t,x,y)=\bm{u}(x,y)+\bm{u}_1(t,x,y)$とする。
+ここで、$\bm{u}_0=O(1)$、$\bm{u}_1=O(\epsilon)$とする。
+まず最初に、非粘性の場合を考えるが、これを非粘性の流体の運動方程式に適用する
+と、
+\begin{equation}
+\begin{cases}
+ \bm{u}_0\cdot\text{grad}\bm{u}_0 = -\frac{1}{\rho}\text{grad}p_0, 
+ &O(1), \\
+ \frac{\partial\bm{u}_1}{\partial t} + \bm{u}_0\cdot\text{grad}\bm{u}_1
+ = -\frac{1}{\rho}\text{grad}p_1,
+ & O(\epsilon), \\
+ \bm{u}_1\cdot\text{grad}\bm{u}_1 = 0,
+ & O(\epsilon^2), \\
+\end{cases}
+\end{equation}
+のように支配方程式が与えられる。
+
+今、主流はポテンシャル流で与えられているとして、1次の微少量のみ解く。ここで、完全流体を仮定した場合に
+$O(\epsilon)$の項は以下のように与えられる。
+\begin{equation}
+ \frac{\partial u_1}{\partial t}
+  +u_0\frac{\partial u_1}{\partial x}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial x},
+\end{equation}
+\begin{equation}
+ \frac{\partial v_1}{\partial t}
+  +u_0\frac{\partial v_1}{\partial x}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial y},
+\end{equation}
+\begin{equation}
+ \frac{\partial u_1}{\partial x}
+  + \frac{\partial v_1}{\partial y} = 0,
+\end{equation}
+また、ここで、運動方程式の両辺にdivを掛けると、圧力については$\triangle p_1=0$
+が成立する。
+
+まず、流速の流れ方向成分は流れ方向に変化しないと仮定する。
+その上で、流速、圧力ともに次のように解を仮定する。
+$u_1=\tilde{u}_1e^{i(kx-\omega t)}$、
+$v_1=\tilde{v}_1e^{i(kx-\omega t)}$、
+$p_1=\tilde{p}_1f(y)e^{i(kx-\omega t)}$。これを方程式に代
+入すると、
+$p=\tilde{p}_1(e^{ky}+e^{-ky})$
+がえられるが、流れと鉛直方向に解が収束しなければならないので、
+\begin{equation}
+ p=\tilde{p}_1e^{-ky},
+\end{equation}
+となる。また、流速については、
+\begin{equation}
+ (-i\omega + iku_0)\tilde{u}_1
+  = \frac{1}{\rho}ik\tilde{p}_1,
+\end{equation}
+\begin{equation}
+ (-i\omega + iku_0)\tilde{v}_1
+  = \frac{1}{\rho}ik\tilde{p}_1,
+\end{equation}
+となり、
+\begin{equation}
+ v_1=\tilde{v}_1\frac{k\tilde{p}_1}{i\rho (ku_0-\omega)},
+\end{equation}
+が得られる。
+
+ここで、界面$\zeta=\zeta(t,x)$についての境界条件を考える。
+
+運動学の条件は、
+\begin{equation}
+ \frac{\partial\zeta}{\partial t}+u_0\frac{\partial\zeta}{\partial x} 
+  = v_1,
+\end{equation}
+力学的条件は界面での応力の連続性から得られて、気体側の圧力を$p_a$とする
+と、
+\begin{equation}
+ \frac{1}{2}\rho \bm{u}^2 + p = p_a,
+\end{equation}
+である。
+
+ここで、界面の位置も固有問題で与えられると仮定して、方程式の解を代入すると、
+\begin{equation}
+ \omega =
+  ku_0\frac{\rho\pm i\sqrt{\rho\rho_a}}{\rho+\rho_a},
+\end{equation}
+のような分散関係式が得られる。この関係から、$0<\Re[\omega]$が常に成り立
+つため、このような流れは常に不安定である。
+
+\subsection{非圧縮の粘性流体の安定解析の支配方程式}
+粘性非圧縮の場合を考える。
+\begin{equation}
+ \frac{\partial u}{\partial t} 
+  + u\frac{\partial u}{\partial x}
+  + v\frac{\partial u}{\partial y}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial x}
+  + \frac{1}{Re}\triangle u,
+\end{equation}
+\begin{equation}
+ \frac{\partial v}{\partial t} 
+  + u\frac{\partial v}{\partial x}
+  + v\frac{\partial v}{\partial y}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial y}
+  + \frac{1}{Re}\triangle v,
+\end{equation}
+\begin{equation}
+ \frac{\partial u}{\partial x}
+  + \frac{\partial v}{\partial y}
+  = 0.
+\end{equation}
+摂動を考える。
+\begin{equation}
+ u=\left\{\left.U\right|U=Const.=O(1)\right\},
+\end{equation}
+\begin{equation}
+ v=\left\{\left.\tilde{v}\right|\tilde{v}=\tilde{u}(x,t)=O(\epsilon)\right\},
+\end{equation}
+これをもとに運動方程式を整理して、1次の微少量の項を抜き出すと、
+\begin{equation}
+ \frac{\partial p}{\partial x} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial v}{\partial t} 
+  + U\frac{\partial v}{\partial x}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial y}
+  + \frac{1}{Re}\frac{\partial^2v}{\partial x^2},
+\end{equation}
+\begin{equation}
+ \frac{\partial v}{\partial y} = 0,
+\end{equation}
+で、更に、運動方程式にdivを掛けることで圧力についてLaplace方程式が得られ
+る。また、簡単のため$\tilde{\emptyset}$は$\emptyset$とした。
+\begin{equation}
+ \frac{\partial^2p}{\partial y^2}=0,
+\end{equation}
+これらから微少量については解を求められる。
+\begin{equation}
+ v=v(x,t)=\bar{v}e^{i(kx-\omega t)},
+\end{equation}
+\begin{equation}
+ p=\left\{\left.\bar{p}_yy+\bar{p}_0\right|\bar{p}_y=\bar{p}_y(t),\bar{p}_0=\bar{p}_0(t)\right\},
+\end{equation}
+これを運動方程式のy方向の方程式に代入することで、圧力と流速の関係を得る。
+\begin{equation}
+ \left(\omega+kU-\frac{k^2}{Re}\right)\bar{v} = \frac{\bar{p}_y}{\rho}
+\end{equation}
+\subsection{自由表面の場合}
+境界条件は、運動学の条件と、力学的な条件を考えるが、力学的な条件として、
+界面での圧力の連続性を考える。また、界面の位置を$Y$とする。
+\begin{equation}
+ \frac{\partial Y}{\partial t}+U\frac{\partial Y}{\partial x}=v,
+\end{equation}
+\begin{equation}
+ p=p_{\infty}
+\end{equation}
+また、界面について、$Y=\eta e^{i(kx - \omega t)}$と仮定すると、運動学の
+条件から、
+\begin{equation}
+ i(kU-\omega)\bar{v}=\eta,
+\end{equation}
+が得られ、更に、力学的条件から、
+\begin{equation}
+ \bar{p}_yY+\bar{p}_0 = p_{\infty},
+\end{equation}
+が得られる。
+\section{円筒座標系のKelvin-Helmholtz不安定}
+\subsection{支配方程式}
+円筒座標系の非圧縮粘性の運動方程式と連続の式。
+\begin{equation}
+ \frac{\partial u_r}{\partial t} + u_r\frac{\partial u_r}{\partial r}
+  + \frac{u_\theta}{r}\frac{\partial u_r}{\partial\theta} +
+  u_z\frac{\partial u_r}{\partial z} = 
+  -\frac{1}{\rho}\frac{\partial p}{\partial r} 
+  + \nu \left(\frac{\partial^2u_r}{\partial r^2}
+	+\frac{1}{r}\frac{\partial u_r}{\partial r}
+	+\frac{1}{r^2}\frac{\partial^2u_r}{\partial\theta^2}
+	-\frac{2}{r^2}\frac{\partial^2u_{\theta}}{\partial\theta}
+	-\frac{u_r}{r^2}
+	+\frac{\partial^2u_r}{\partial z^2}\right),
+\end{equation}
+\begin{equation}
+ \frac{\partial u_{\theta}}{\partial t} + \cdots,
+\end{equation}
+\begin{equation}
+ \frac{\partial u_z}{\partial t} + u_r\frac{\partial u_z}{\partial r}
+  + \frac{u_\theta}{r}\frac{\partial u_z}{\partial\theta} +
+  u_z\frac{\partial u_r}{\partial z} = 
+  -\frac{1}{\rho}\frac{\partial p}{\partial z} 
+  + \nu \left(\frac{\partial^2u_z}{\partial r^2}
+	 +\frac{1}{r}\frac{\partial u_z}{\partial r}
+	+\frac{1}{r^2}\frac{\partial^2u_z}{\partial\theta^2}
+	+\frac{\partial^2u_z}{\partial z^2}
+	\right),
+\end{equation}
+\begin{equation}
+ \frac{\partial u_r}{\partial r} + \frac{u_r}{r}
+  +\frac{1}{r}\frac{\partial u_\theta}{\partial \theta}
+	+\frac{\partial u_z}{\partial z} = 0.
+\end{equation}
+軸対称、周方向流速がない場合を考えて、
+$\partial/\partial\theta\rightarrow 0$、$u_\theta = 0$と仮定すると、
+\begin{equation}
+ \frac{\partial u_r}{\partial t} + u_r\frac{\partial u_r}{\partial r}
+  + u_z\frac{\partial u_r}{\partial z} = 
+  -\frac{1}{\rho}\frac{\partial p}{\partial r} 
+  + \nu \left(\frac{\partial^2u_r}{\partial r^2}
+	+\frac{1}{r}\frac{\partial u_r}{\partial r}
+	-\frac{u_r}{r^2}
+	+\frac{\partial^2u_r}{\partial z^2}\right),
+\end{equation}
+\begin{equation}
+ \frac{\partial u_z}{\partial t} + u_r\frac{\partial u_z}{\partial r}
+  u_z\frac{\partial u_r}{\partial z} = 
+  -\frac{1}{\rho}\frac{\partial p}{\partial z} 
+  + \nu \left(\frac{\partial^2u_z}{\partial r^2}
+	 +\frac{1}{r}\frac{\partial u_z}{\partial r}
+	+\frac{\partial^2u_z}{\partial z^2}
+	\right),
+\end{equation}
+\begin{equation}
+ \frac{\partial u_r}{\partial r} + \frac{u_r}{r}
+	+\frac{\partial u_z}{\partial z} = 0.
+\end{equation}
+
+また、界面での境界条件は、
+\begin{equation}
+ \frac{\partial Y}{\partial t} = v_1 - U\frac{\partial Y}{\partial z} = v_2,
+\end{equation}
+\begin{equation}
+ \frac{1}{2}\rho_1 \left(U_1^2 + v_1^2\right) + p_1
+  = \frac{1}{2} \rho_2 v_2^2 + p_2,
+\end{equation}
+で与えられる。ただし、ここで、下付き1と2はそれぞれ第1相と、第2相を示し、
+$Y=Y(z,t)$は界面の位置を示す。
+\subsection{ジェットの広がりを考えない場合}
+摂動をとる。流れ方向に主流があると仮定する。噴流の広がりを考える場合は、
+$\rho u_z A = Const.$になるが、ジェットの広がりがない場合を仮定する。
+\begin{equation}
+ u_r = V + \tilde{v},
+\end{equation}
+\begin{equation}
+ u_z = U + \tilde{u},
+\end{equation}
+ここで、規格化された状態で、$U, V = O(1)$、
+$\tilde{u}, \tilde{v} = O (\epsilon)$とする。更に、$V = 0$、
+$\tilde{u} = 0$の仮定ができる。ここで、簡単のため$\tilde{v}=v$とする。
+更に某かの無次元化を施したとする。
+以上より、
+\begin{equation}
+ \frac{\partial v}{\partial t}
+  + v\frac{\partial v}{\partial r}
+  + U\frac{\partial v}{\partial z}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial r}
+  + \frac{1}{Re}\left(
+		\frac{\partial^2v}{\partial r^2}
+		+\frac{1}{r}\frac{\partial v}{\partial r}
+		-\frac{v}{r^2}
+		+\frac{\partial^2v}{\partial z^2}\right),
+\end{equation}
+\begin{equation}
+ \frac{\partial p}{\partial z} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial v}{\partial r}+\frac{v}{r} = 0.
+\end{equation}
+ここで、流速についての$O(\epsilon)$の項を抜き出し、更に上記の摂動を取っ
+た方程式に$\nabla\cdot$を作用させて、圧力項の方程式を求めると、
+\begin{equation}
+ \frac{\partial v}{\partial t}
+  + U\frac{\partial v}{\partial z}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial r}
+  + \frac{1}{Re}\left(
+		\frac{\partial^2v}{\partial r^2}
+		+\frac{2}{r}\frac{\partial v}{\partial r}
+		+\frac{\partial^2v}{\partial z^2}\right), \label{eq_motion_cyl_inst}
+\end{equation}
+\begin{equation}
+ \frac{\partial^2 p}{\partial r^2} 
+  + \frac{1}{r}\frac{\partial p}{\partial r} = 0, \label{eq_press_cyl_inst}
+\end{equation}
+\begin{equation}
+ \frac{\partial v}{\partial r}+\frac{v}{r} = 0. \label{eq_cont_cyl_inst}
+\end{equation}
+式(\ref{eq_press_cyl_inst})、(\ref{eq_cont_cyl_inst})から、$v$と$p$は厳
+密解が求められて、
+\begin{equation}
+ v = \left\{\left.\frac{A}{r}\right|A=A(z,t)\right\},
+\end{equation}
+\begin{equation}
+ p = \left\{B_1\log r + B_2|B_1 = B_1 (z, t), B_2 = B_2 (z, t)\right\}
+\end{equation}
+これを式(\ref{eq_motion_cyl_inst})に代入する。
+\begin{equation}
+ A_t + U A_z = -\frac{B_1}{\rho}+\frac{A_{zz}}{Re},
+\end{equation}
+が得られる。ここで、$\emptyset_t$、$\emptyset_z$の下付き$t$、$z$はそれぞ
+れ$t$と$z$についての微分である。ここで、$A=\alpha e^{i(kz - \omega t)}$
+とすると、
+\begin{equation}
+ \omega = ikU + \frac{k^2}{Re},
+\end{equation}
+のような関係式が得られる。
+
+更に

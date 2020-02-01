@@ -1,0 +1,394 @@
+\chapter{粘性流体の解析}
+粘性流体の支配方程式を考える. 
+
+粘性があるときは, 粘性は剪断速度に作用するという仮定と, 単純に回転する運
+動には作用しないという仮定を行う. 剪断速度は, 
+$\partial u_i/\partial x_k$
+で与えられるが, 回転運動は角速度$\omega_i$について, $u_i=\omega_j r_k$で
+与えられるときに, 剪断速度は0にならないが, 
+\begin{equation}
+ \frac{\partial u_i}{\partial x_k} + \frac{\partial u_k}{\partial x_i}, \label{ShearVelosity}
+\end{equation}
+のときには, 角速度$\omega$に対して, 
+\[
+ \frac{\partial }{\partial x_k} \epsilon_{ijk}\omega_jr_k + \frac{\partial}{\partial x_i}\epsilon_{ljk}\omega_jr_k=0,
+\]
+なので, 剪断速度テンソルは(\ref{ShearVelosity})式で与えられ, 
+\begin{equation}
+ \sigma_{ik} = 
+  \mu\left\{\frac{\partial u_i}{\partial x_k} + \frac{\partial u_k}{\partial x_i}\right\}
+  + \left(\Theta-\frac{2}{3}\mu\right)\delta_{ik}\frac{\partial u_l}{\partial x_l}
+\end{equation}
+のように表される. ここで, $\mu$, $\Theta$は粘性係数, 体積弾性係数. 
+
+これにより, 運動量流束と, エネルギー流束はそれぞれ, 
+\begin{equation}
+ \rho u_iu_k + p\delta_{ik} - 2\mu D_{ik},
+\end{equation}
+\begin{equation}
+ \rho \left(h + \frac{1}{2}u_ku_k\right) - u_k\sigma_{ik} -
+  \kappa\frac{\partial T}{\partial x_k},
+\end{equation}
+で, これを代入すると, 以下のように粘性と熱伝導がある場合の支配方程式が得
+られる. また, ここで, $D_{ik}$は剪断速度テンソルで, 
+\begin{equation}
+ D_{ik} = \frac{1}{2}\left\{\frac{\partial u_i}{\partial x_k} + \frac{\partial u_k}{\partial x_i}\right\},
+\end{equation}
+である. 
+
+\begin{equation}
+ \frac{\partial \rho}{\partial t} + \frac{\partial \rho u_l}{\partial
+  x_l} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial \rho u_i}{\partial t}
+  + \frac{\partial}{\partial x_k}
+  \left\{\rho u_iu_k + p \delta_{ik} - 2\mu D_{ik} 
+  - \left(\Theta - \frac{2}{3}\mu\right)\delta_{ik}\frac{\partial u_l}{\partial x_l}\right\} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial \rho e}{\partial t} 
+  + \frac{\partial}{\partial x_k}
+  \left\{\rho u_k \left(h + \frac{1}{2}u_lu_l\right) - u_k\sigma_{ik} -
+   \kappa\frac{\partial T}{\partial x_k}\right\} = 0.
+\end{equation}
+ここで、エネルギー保存の粘性項は、以下のように表される。
+\begin{equation}
+ \frac{\partial u_i\sigma_{ik}}{\partial x_k} =
+  \mu\left\{D_{ik}D_{ik} 
+      + u_i\frac{\partial^2 u_i}{\partial x_k \partial x_k}
+      + \frac{1}{3}u_i\frac{\partial^2 u_i}{\partial x_k\partial x_k}
+	  \right\}
+  + \Theta \left(
+	    \frac{\partial u_k}{\partial x_l}
+	    \frac{\partial u_k}{\partial x_l}
+	    + u_k\frac{\partial^2 u_k}{\partial x_i \partial x_i}
+       \right)
+\end{equation}
+
+また, 熱輸送の式は, 単位質量あたりのエントロピー, $s$, により, 
+\begin{equation}
+ \rho T 
+  \left(\frac{\partial s}{\partial t} + u_k\frac{\partial s}{\partial x_k}\right)
+  = \sigma_{ik}\frac{\partial u_i}{\partial x_k} 
+  + \frac{\partial}{\partial x_k}\kappa\frac{\partial T}{\partial x_k},
+\end{equation}
+で表される. 
+
+\section{乱流の計算}
+面倒なので非圧縮性の場合を考える. 非圧縮の場合は質量保存と運動方程式は以下のようになる. 
+\begin{equation}
+ \frac{\partial u_k}{\partial x_k} = 0,
+\end{equation}
+\begin{equation}
+ \frac{\partial u_i}{\partial t} + \frac{\partial u_iu_k}{\partial x_k}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial x_i}
+  + \nu \frac{\partial^2 u_k}{\partial x_i\partial x_k} ,
+\end{equation}
+
+乱流の場合は, 平均場だけ求めることを考えて, 何らかの平均を方程式に掛ける
+ことにする. 以下のような平均を求めるフィルタ$K$を考える. 
+\begin{equation}
+ \bar{u} = \mathcal{F}[u]
+  = \int_{-\infty}^{\infty} d\xi^3d\tau \mspace{5mu}
+  K(\xi_1, \xi_2, \xi_3, \tau) 
+  u(x_1-\xi_1, x_2-\xi_2, x_3-\xi_3, t-\tau),
+\end{equation}
+ここで, 平均値$\bar{\emptyset}$と変数$\emptyset$は, 摂動$\emptyset'$によっ
+て, $\emptyset = \bar{\emptyset} + \emptyset'$と定義する. 
+以上により, 平均値についての方程式を求める. フィルタを掛けることで, 運動
+方程式は, 
+\begin{equation}
+ \frac{\partial \overline{u}_i}{\partial t} + \frac{\partial \overline{u_iu_k}}{\partial x_k}
+  = -\frac{1}{\rho}\frac{\partial \overline{p}}{\partial x_i}
+  + \nu \frac{\partial^2 \overline{u_k}}{\partial x_i\partial x_k} , 
+\end{equation}
+このとき, 非線形項の平均値$\overline{u_iu_k}$は, 
+\[
+ \overline{u_iu_k} = 
+ \overline{(\overline{u}_i + u'_i)(\overline{u}_k + u'_k)} =
+ \overline{\overline{u}_i\overline{u}_k} +
+ \overline{\overline{u}_iu'_k} +
+ \overline{u'_i\overline{u}_k} +
+ \overline{u'_iu'_k} 
+\]
+だが, 平均場の解は$\overline{u}_i$同士の積$\overline{u}_i\overline{u}_k$
+により与えられるので, Reynolds応力$\tau_{ik}$を以下のように定義する. 
+\begin{equation}
+ \tau_{ij} = \overline{u_iu_k} - \overline{u}_i\overline{u}_k.
+\end{equation}
+更に, Reynolds平均を, $\overline{u'}=0$, $\overline{\overline{u}u'}=0$,
+$\overline{\overline{u}}=0$のような選び方をすると, Reynolds応力は, 
+$\tau_{ik}=\overline{u'_iu'_k}$の摂動の自己相関項の平均値だけになる. 
+また, Reynolds方程式は以下のように記述される. 
+\begin{equation}
+ \frac{\partial \overline{u}_i}{\partial t} + \frac{\partial \overline{u}_i\overline{u}_k}{\partial x_k}
+  = -\frac{1}{\rho}\frac{\partial \overline{p}}{\partial x_i}
+  + \frac{\partial}{\partial x_k}\left\{-\tau_{ik}+\nu\frac{\partial \overline{u_k}}{\partial x_i}\right\} , 
+\end{equation}
+一次の擾乱の項は, 摂動を取り, 平均場の方程式を差し引くことで求める. 
+\begin{equation}
+ \frac{\partial u'_i}{\partial t} 
+  + \overline{u}_k\frac{\partial u'_i}{\partial x_k}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial x_i}
+  + \frac{\partial}{\partial x_k}
+  \left(-u'_iu'_k - \overline{u}_iu'_k + \tau_{ik} + 2\nu D'_{ik}\right),
+\end{equation}
+Reynolds応力の保存則を$\partial (u'_iu'_k)/\partial t$から求めると, 
+\begin{equation}
+ \frac{\partial\tau_{ij}}{\partial t}
+  + \overline{u}_k\frac{\partial\tau_{ij}}{\partial x_k}
+  = P_{ij} + \Pi_{ij} - \epsilon_{ij} 
+  + \frac{\partial}{\partial x_k}\left(J^T_{ijk} + J^P_{ijk} + J^V_{ijk}\right),
+\end{equation}
+\begin{equation}
+ P_{ij} = -\tau_{ik}\frac{\partial\overline{u}_j}{\partial x_k}
+  - \tau_{jk}\frac{\partial\overline{u}_i}{\partial x_k},
+\end{equation}
+\begin{equation}
+ \Pi_{ij} 
+  = \overline{p'\left(\frac{\partial u'_i}{\partial x_j} - \frac{\partial u'_j}{\partial x_i}\right)},
+\end{equation}
+\begin{equation}
+ \epsilon_{ij} = 
+  2\nu\overline{\frac{\partial u'_k}{\partial x_i}\frac{\partial u'_i}{\partial x_k}},
+\end{equation}
+\begin{equation}
+ J^T_{ijk} = -\overline{u'_iu'_ju'_k},
+\end{equation}
+\begin{equation}
+ J^P_{ijk} = -\frac{1}{\rho}
+  \left(\overline{p'u'_i}\delta_{jk} + \overline{p'u'_j}\delta_{ik}\right),
+\end{equation}
+\begin{equation}
+ J^V_{ijk} = \nu\frac{\partial\tau_{ij}}{\partial x_k}.
+\end{equation}
+乱流の解析では, Reynolds応力を何らかのモデルを使って表現することで渦の解
+析を行う. 
+
+
+\section{LES}
+乱流の計算では平均場の値だけ分れば良いので, 平均場の解を求める方法を考え
+る. 平均場を$\overline{u}$, 計算格子以下のスケールの擾乱を$u'$とする. 
+
+Reynolds応力を分解する. 
+\begin{equation}
+ \tau_{ik} = \overline{\overline{u}_i\overline{u}_k}
+  -\overline{u}_i\overline{u}_k
+  +\overline{\overline{u}_iu'_k}
+  +\overline{u'_i\overline{u}_k}
+  +\overline{u'_iu'_k},
+\end{equation}
+これをいくつかの項にわける. 
+
+\begin{equation}
+ L_{ik} = \overline{\overline{u}_i\overline{u}_k} 
+  - \overline{u}_i \overline{u}_k,
+\end{equation}
+\begin{equation}
+ C_{ik} = \overline{\overline{u}_iu'_k}
+  +\overline{u'_i\overline{u}_k},
+\end{equation}
+\begin{equation}
+ R_{ik} = \overline{u'_iu'_k},
+\end{equation}
+
+
+Galillei不変な形式にすると, 修正Leonard項, 
+修正cross項, 修正SGS-Reynolds応力はそれぞれ, 
+\begin{equation}
+ L^m_{ik} = \overline{\overline{u}_i\overline{u}_k} 
+  - \overline{\overline{u}}_i \overline{\overline{u}}_k
+\end{equation}
+\begin{equation}
+ C^m_{ik} = \overline{\overline{u}_iu'_k}
+  +\overline{u'_i\overline{u}_k}
+  - \left(\overline{\overline{u}}_i \overline{u'}_k
+  +  \overline{u'}_i \overline{\overline{u}}_k\right),
+\end{equation}
+\begin{equation}
+ R^m_{ik} = \overline{u'_iu'_k} - \overline{u}_i\overline{u}_k,
+\end{equation}
+\begin{equation}
+ B_{ik} = L^m_{ik} - L_{ik} = \overline{u}_i\overline{u}_k
+ - \overline{\overline{u}}_i \overline{\overline{u}}_k.
+\end{equation}
+
+Smagorinskyモデルを使ってLESを実装する. 
+
+平均場の運動エネルギーの時間発展を, グリッドスケールと, サブグリッドスケー
+ルについて考える. グリッドスケールの運動エネルギー,
+$K_{\mathrm{GS}}=\overline{u}_k\overline{u}_k/2$, サブグリッドスケールの運動エネル
+ギー,
+$K_{\mathrm{SGS}}=(\overline{u_ku_k}-\overline{u}_k\overline{u}_k)/2$に
+ついての計算をする. 
+\begin{equation}
+ \frac{\partial K_{\mathrm{GS}} }{\partial t} +
+  \overline{u}_k\frac{\partial K_{\mathrm{GS}} }{\partial x_k}
+ = \tau_{ik}\overline{D}_{ik} - \overline{\epsilon}_{\mathrm{GS}} 
+ + \frac{\partial}{\partial x_k}
+ \left\{-\overline{u}_i\tau_{ik} 
+  - \frac{\overline{p}\overline{u}_k}{\rho} 
+ + \nu\frac{\partial K_{\mathrm{GS}}}{\partial x_k}\right\},
+\end{equation}
+\begin{equation}
+ \frac{\partial K_{\mathrm{SGS}} }{\partial t} +
+  \overline{u}_k\frac{\partial K_{\mathrm{SGS}}}{\partial x_k}
+ = -\tau_{ik}\overline{D}_{ik} + \overline{\epsilon}_{\mathrm{SGS}} 
+ + \frac{\partial}{\partial x_k}
+ \left\{-\overline{u}_i\tau_{ik} 
+  - \frac{\overline{pu_k}-\overline{p}\overline{u}_k}{\rho} 
+  - \frac{1}{2}\left(\overline{u}_i\overline{u}_i\overline{u}_k
+	       + \overline{u}_k\overline{u}_i\overline{u}_i\right)
+ + \nu\frac{\partial K_{\mathrm{GS}}}{\partial x_k}\right\},
+\end{equation}
+になるが, グリッドスケールの生成項からの散逸が, サブグリッドスケールへ伝
+達され, サブグリッドスケールの生成項と散逸項が釣り合うというモデルを考え
+ると, 
+\begin{equation}
+ \epsilon_{\mathrm{SGS}} = - \tau_{ik}\overline{D}_{ik},
+\end{equation}
+になる. また, ここで, Reynolds応力に対して, 渦粘性, $\nu_e$, を仮定する
+と, 
+\begin{equation}
+ \tau_{ik} = -2\nu_e\overline{D}_{ik}.
+\end{equation}
+渦粘性係数を代表流速と代表長さで仮定する。
+\begin{equation}
+ \nu_e = C_{\nu}\frac{U}{L},
+\end{equation}
+次元解析から、渦粘性係数は、
+\begin{equation}
+ \nu_{e}\overline{D}_{ik}\overline{D}_{ik}
+  = C_s\frac{U^3}{L},
+\end{equation}
+である。ここで、代表長さは数値計算のグリッドスケール, $\Delta$, で代表さ
+せて、代表流速を消去すると、
+\begin{equation}
+ \nu_e = (C_s\Delta)^2 \|\overline{D}\|,
+\end{equation}
+\begin{equation}
+ \|\overline{D}\| = \sqrt{2D_{ik}D_{ik}},
+\end{equation}
+サブグリッドスケールの散逸項に代入すると、
+$\epsilon_{\mathrm{SGS}}=(C_s\Delta)^2\|\overline{D}\|^3$, なので、乱流
+の統計理論から剪断速度テンソルの自己相関をKolmogorovのスペクトル
+$E=\alpha\epsilon^{2/3}k^{-5/3}$を用いて、
+$\|\overline{D}\|^2/2=\int_{0}^{\pi/\Delta}dk\mspace{5mu}k^2E$, 
+になるので、
+\begin{equation}
+ \frac{1}{2}\|\overline{D}\|^2 = \frac{3}{4}\alpha\epsilon^{2/3}k^{-5/3},
+\end{equation}
+が得られて、
+\begin{equation}
+ C_s=\frac{1}{\pi}\left(\frac{3\alpha}{2}\right)^{-3/4}
+  = 0.235\alpha^{-3/4},
+\end{equation}
+で、$\alpha$=1.5を仮定すると、$C_s=0.173$が得られる。
+
+\section{圧縮性流体へのLESの実装}
+圧縮性流体の場合の運動方程式の平均場の方程式を求める。移流項の平均化は、
+\[
+ \overline{u_k\frac{\partial u_i}{\partial x_k}}
+  = \frac{\partial\overline{u_ku_i}}{\partial x_k}
+  - \overline{u_i\frac{\partial u_k}{\partial x_k}} 
+  = \frac{\partial\overline{u}_k \overline{u}_i}{\partial x_k} 
+  - \frac{\partial\tau_{ik}}{\partial x_k}
+  - \overline{u_i\frac{\partial u_k}{\partial x_k}}, 
+\]
+で、$\partial(\overline{u_iu_k})/\partial x_k$について陽的な形式にすると、
+体積粘性の項の残余応力も求められる。
+\begin{equation}
+  \overline{u_k\frac{\partial u_i}{\partial x_k}}
+  = \overline{u}_k \frac{\partial\overline{u}_i}{\partial x_k} 
+  - \frac{\partial\tau_{ik}}{\partial x_k}
+  - \left(\overline{u_i\frac{\partial u_k}{\partial x_k}} 
+     - \overline{u}_i\frac{\partial\overline{u}_k}{\partial x_k} \right)
+\end{equation}
+体積粘性の残余応力も渦粘性を定義して、運動方程式に代入すると、
+\begin{equation}
+ \frac{\partial u_i}{\partial t}
+  + u_k \frac{\partial u_i}{\partial x_k}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial x_i}
+  + \frac{\partial}{\partial x_k}
+  \left[2\left(\nu + \nu_e\right)D_{ik}
+   + \left\{\Theta - \frac{2}{3}\left(\nu + \nu_e\right)\right\}\delta_{ik}\frac{\partial u_l}{\partial x_l}\right],
+\end{equation}
+面倒臭くない形に書き直すと、
+\begin{equation}
+  \frac{\partial u_i}{\partial t}
+  + u_k \frac{\partial u_i}{\partial x_k}
+  = -\frac{1}{\rho}\frac{\partial p}{\partial x_i}
+  + \nu'\frac{\partial^2 u_i}{\partial x_k\partial x_k}
+  + \left(\Theta + \frac{1}{3}\nu'\right)\frac{\partial}{\partial x_i}\frac{\partial u_l}{\partial x_l},
+\end{equation}
+保存則の形式に直すと、
+\begin{equation}
+   \frac{\partial \rho u_i}{\partial t}
+  + \frac{\partial (\rho u_iu_k + p)}{\partial x_k}
+  = \mu'\frac{\partial^2 u_i}{\partial x_k\partial x_k}
+  + \left(\Theta + \frac{1}{3}\mu'\right)\frac{\partial}{\partial x_i}\frac{\partial u_l}{\partial x_l}.
+\end{equation}
+エネルギー保存の形式。
+\begin{equation}
+ \frac{\partial \rho e}{\partial t} 
+  + \frac{\partial}{\partial x_k}
+  \left\{\rho u_k \left(h + \frac{1}{2}u_lu_l\right) - u_i\sigma_{ik} -
+   \kappa\frac{\partial T}{\partial x_k}\right\} = 0.
+\end{equation}
+
+粘性項と、熱伝導の項を強制項として表すと、
+\begin{equation}
+  \frac{\partial \rho e}{\partial t} 
+  + \frac{\partial}{\partial x_k}
+  \left\{\rho u_k \left(h + \frac{1}{2}u_lu_l\right)\right\} 
+  = \frac{\partial}{\partial x_k}\left\{u_i\sigma_{ik} +
+   \kappa\frac{\partial T}{\partial x_k}\right\}.
+\end{equation}
+
+面倒臭いけど、成分形式で全部書き下すと、2次元の場合は、
+\begin{equation}
+ \frac{\partial \bm{Q}}{\partial t} 
+  + \frac{\partial \bm{E}}{\partial x} 
+  + \frac{\partial \bm{F}}{\partial y} 
+  = \bm{S},
+\end{equation}
+\begin{equation}
+ \bm{S} =
+  \begin{pmatrix}
+   0 \\
+  \mu' \triangle u
+   + (\Theta + \frac{1}{3}\mu') (u_{xx} + v_{yx})  \\
+   \mu' \triangle v
+   + (\Theta + \frac{1}{3}\mu') (u_{xy} + v_{yy}) \\
+   \mu'\left\{(u\tau_{xx} + v\tau_{xy})_x 
+   + (u\tau_{yx} + v\tau_{yy}) + \Theta (\Sigma_x + \Sigma_y)\right\}
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \begin{cases}
+  \tau_{xx} = \frac{4}{3}u_x - \frac{2}{3}v_y, \\
+  \tau_{xy} = \tau_{yx} = u_y + v_x, \\
+  \tau_{yy} = \frac{4}{3}v_y - \frac{2}{3}u_x.
+ \end{cases}
+\end{equation}
+
+\begin{equation}
+ \frac{\partial \bm{Q}}{\partial t} 
+  + \frac{\partial \bm{E}}{\partial x} 
+  + \frac{\partial \bm{F}}{\partial y} 
+  = \bm{S},
+\end{equation}
+\begin{equation}
+ \bm{S} =
+  \begin{pmatrix}
+   0 \\
+  \mu' \triangle u
+   + (\Theta + \frac{1}{3}\mu') (u_{xx} + v_{yx} + w_{zx})  \\
+   \mu' \triangle v
+   + (\Theta + \frac{1}{3}\mu') (u_{xy} + v_{yy} + w_{zy}) \\
+   \mu' \triangle w
+   + (\Theta + \frac{1}{3}\mu') (u_{xz} + v_{yz} + w_{zz}) \\
+   \rho\mu' (u\triangle u + v\triangle v + \triangle w) + \cdots   
+  \end{pmatrix},
+\end{equation}

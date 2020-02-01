@@ -1,0 +1,73 @@
+\chapter{容器の計算}
+容器の計算は密度の保存則と、そこから導かれるエネルギー保存によって計算す
+る。ここで、容器の中の物理量は直ちに変化すると仮定し、内部での物理量は常
+に一様の分布をとると仮定する。従って、容器内部の運動量の変動は考慮しない。
+以上より、エネルギー保存を考える場合には運動量保存は考慮しないで行う。
+
+質量保存則は、積分形式で、
+\begin{equation}
+ \int_{\Omega}dV\mspace{5mu}\frac{\partial \rho}{\partial t} 
+ + \int_{\partial\Omega}dS\mspace{5mu}\rho u = 0,
+\end{equation}
+で表される。ここで、内部の物理量、境界上での物理量は一様と仮定すると、体
+積積分、面積積分は、領域内部の体積、境界上での断面積の積になり、
+\begin{equation}
+ \frac{\partial \rho}{\partial t} + \sum\frac{Q}{V}\rho = 0,
+\end{equation}
+となる。
+
+また、音速の定義から、圧力と密度の関係は、$dp/r\rho = c^2$なので、これと
+質量保存により、容器内の圧力は、
+\begin{equation}
+ \frac{\partial p}{\partial t} + \gamma\sum\frac{Q}{V}p = 0,
+\end{equation}
+で与えられる。
+
+容器と管の間での境界条件は、管側では基本量の密度、流速、圧力により与えら
+れるが、容器については、境界上で与えられる物理量は流量のみであり、流速と
+境界の断面積により与えられる。従って、管側で与える境界条件と、容器側の境
+界条件での物理量の数が異なる。一方で、管と容器の間では相互作用があるため、
+管側で容器側の物理量を参照して計算を行う必要がある。
+
+そこで、境界上で仮想的な領域を設定し、保存則を解くことで境界条件を与える。
+管側にとっては境界は遠方場であり、また、境界値は常に物理的平衡状態に至っ
+ている必要がある。そこで、いくつかの計算格子を仮想的に境界上に与えて、計
+算を行う。
+
+式(\ref{conservertive_low_of_mass})-(\ref{conservertive_low_of_energy})
+を積分形式で表すと、
+\begin{equation}
+ \int_{\Omega} dV \mspace{5mu} \frac{\partial\rho}{\partial t}  
+ + \int_{\partial\Omega} dS \mspace{5mu} \rho u =  0, 
+ \label{conservertive_low_of_mass_int}
+\end{equation}
+\begin{equation}
+ \int_{\Omega} dV \mspace{5mu} \frac{\partial \rho u}{\partial t} 
+ + \int_{\partial\Omega} dS \mspace{5mu} \left(\rho u^2 + p\right) = 0,
+   \label{conservertive_low_of_momentum_int}
+\end{equation}
+\begin{equation}
+ \int_{\Omega} dV \mspace{5mu} \frac{\partial \rho e}{\partial t} 
+  + \int_{\partial\Omega} dS \mspace{5mu} \rho u \left(e+\frac{p}{\rho}\right) = 0,
+   \label{conservertive_low_of_energy_int}
+\end{equation}
+で表される。
+
+実際の定式化にあたっては、式
+(\ref{conservertive_low_of_mass_int})-(\ref{conservertice_low_of_energy_int})
+を変形して、
+\begin{equation}
+ \frac{\partial\rho}{\partial t}  
+ + \sum \frac{Q}{V} \rho =  0, 
+ \label{conservertive_low_of_mass_sum}
+\end{equation}
+\begin{equation}
+ \frac{\partial \rho u}{\partial t} 
+ + \sum \frac{Q}{V} \left(\rho u^2 + p\right) = 0,
+   \label{conservertive_low_of_momentum_sum}
+\end{equation}
+\begin{equation}
+ \int_{\Omega} dV \mspace{5mu} \frac{\partial \rho e}{\partial t} 
+  + \int_{\partial\Omega} dS \mspace{5mu} \rho u \left(e+\frac{p}{\rho}\right) = 0,
+   \label{conservertive_low_of_energy_sum}
+\end{equation}

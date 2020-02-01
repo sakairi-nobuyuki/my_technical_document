@@ -1,0 +1,111 @@
+
+\section{熱力学の公式}  \label{ThermoDynamics}
+
+気体力学を扱うときのいくつかの公式。基本的に、気体の構成則、Mayerの法則、
+気体の断熱圧縮の公式から求める。
+\begin{equation}
+ \frac{p}{\rho}=\frac{N}{m}k_BT,
+\end{equation}
+\begin{equation}
+ c_p - c_V = \frac{k_B}{N},
+\end{equation}
+\begin{equation}
+ \frac{p}{\rho^\gamma}=Const.,
+\end{equation}
+で、ここで、$k_B$, $c_p$, $c_V$はBoltzmann定数、定圧比熱、定積比熱で、比
+熱はそれぞれ、
+\begin{equation}
+ c_p = \left.\frac{\partial Q}{\partial T}\right|_p, 
+\end{equation}
+\begin{equation}
+ c_V = \left.\frac{\partial Q}{\partial T}\right|_V, 
+\end{equation}
+で定義される。比熱比$\gamma$は定圧比熱、定積比熱の比から、
+$\gamma = c_p / c_V$で定義される。
+
+また、比熱の定義から、
+\begin{equation}
+ dQ|_V=\epsilon=c_VdT,
+\end{equation}
+\begin{equation}
+ dQ|_p=h=c_pdT.
+\end{equation}
+比熱に関する議論は断熱でなくてもいつも成立する。
+
+波動方程式の一般解から洞察される音速の定義は、
+\begin{equation}
+ c^2=\frac{\partial p}{\partial \rho},
+\end{equation}
+だが、これと断熱圧縮の気体の構成則から、音速は、
+\begin{equation}
+ c^2 = \gamma \frac{p}{\rho},
+\end{equation}
+で表される。当然構成則が変われば音速の形式も変化する。
+
+全部まとめるとエンタルピーと内部エネルギーの関係式、
+\begin{equation}
+ \rho h = p + \rho \epsilon,
+\end{equation}
+が求められる。
+
+熱力学変数同士の変換について、密変数に含まれる基本量$\rho$, $u$, $p$から
+エンタルピー、エネルギーを求める。
+
+エネルギーについて、
+\[
+ \frac{p}{\rho} = (c_p - c_V)T = \frac{c_p - c_V}{c_p}c_pT, 
+\]
+から、
+\begin{equation}
+ h = \frac{\gamma}{\gamma - 1}\frac{p}{\rho},
+\end{equation}
+\begin{equation}
+ \epsilon = \frac{1}{\gamma - 1}\frac{p}{\rho},
+\end{equation}
+
+断熱圧縮を仮定したときの音速と関連づけると、
+\begin{equation}
+ h = \frac{c^2}{\gamma - 1},
+\end{equation}
+\begin{equation}
+ \epsilon = \frac{c^2}{\gamma(\gamma - 1)},
+\end{equation}
+だけど、断熱圧縮でないときは使えない。
+
+これにTaitの経験式を用いると、
+\begin{equation}
+ \frac{p + B}{p_0 + B} = \left(\frac{\rho}{\rho_0}\right)^\gamma,
+\end{equation}
+である。ここで、Taitの式は断熱の液体についての圧力と密度の間の構成則なの
+で、断熱でない場合にも成り立つ支配方程式の形式には影響を与えない。
+
+また、状態方程式も構成則と同様に以下のような仮定を行う。
+\begin{equation}
+ \frac{p + B}{\rho} = RT.
+\end{equation}
+
+これにより、音速が以下のように表される。
+\begin{equation}
+ c^2 = \gamma \frac{p+B}{\rho}.
+\end{equation}
+これらの公式により、Jacobi行列を求める場合には、断熱条件なしに導出できるので、Jacobi行
+列の形式は不変である。音速について考慮する場合もエンタルピー、全エネルギー
+と音速の関係は不変である。
+\begin{equation}
+ h = \frac{c^2}{\gamma - 1}
+  =\frac{\gamma}{\gamma - 1}\frac{p + B}{\rho},
+\end{equation}
+\begin{equation}
+ \epsilon = \frac{c^2}{\gamma(\gamma - 1)}
+  =\frac{1}{\gamma - 1}\frac{p + B}{\rho},
+\end{equation}
+\begin{equation}
+ h = \epsilon + \frac{p + B}{\rho},
+\end{equation}
+になる。
+
+従って、液体の場合には音速のRoe平均は、
+\begin{equation}
+ \bar{c}^2 = (\gamma - 1) \left(\bar{H} - \frac{\bar{u}^2}{2}\right) + \gamma\frac{B}{\bar{\rho}},
+\end{equation}
+である。また、水の場合は$\gamma$=7.2, $B$=2.99$\times$10$^8$(MPa)である。

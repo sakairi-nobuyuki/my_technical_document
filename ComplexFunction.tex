@@ -1,0 +1,773 @@
+\chapter{簡単な複素関数}
+\section{複素関数の微分と調和関数}
+複素数は実部と虚部に分かれていて、複素平面上では空間的に分布しているので、
+ある複素数で構成される関数$f(z)$を複素平面上のある点$z_0$で微分しようと
+したときに、実軸上から微分する場合と、虚軸上で微分する場合が考えられる。
+
+微分を考える前に、極限について確認する。$f(z)$が$z=a$で極限値$b$をもつと
+き、
+\begin{equation}
+ \forall \epsilon > 0, \exists \delta > 0, 0<|z-a|<\delta
+  \Rightarrow |f(z)-b| < \epsilon,
+\end{equation}
+という形で極限が定義される。また、複素平面上での場合は、半径$\delta$の円
+の中での関数の値を評価することになる。
+
+無限大の定義も同じようにできて、
+\begin{equation}
+ \forall R > 0, \exists \delta > 0, 0<|z-a|<\delta
+  \Rightarrow |f(z)| > R,
+\end{equation}
+として、半径$\delta$の円の外側で値を評価することになる。複素関数を考える
+ときはこのように複素平面に空間が拡張されることにより、経路、半径で物事を
+考えることになる。
+
+複素関数の連続性と極限が定義できるようになったので、微分を定義する。極限
+$\lim_{z\to a}f(z)$が存在するとき$f(z)$は$z=a$で微分可能で、その際の極限
+操作をする。ただ、複素関数の微分は複素平面上での微分になり、$z=a$につい
+て極限をとる方向が一意に定まらない。
+
+実軸上から微分する場合は、
+\begin{equation}
+ \lim_{h\to 0} \frac{f(a+h,b) - f(a,b)}{a+h+ib - (a+ib)}
+  = \lim_{h\to 0} \frac{f(a+h,b) - f(a,b)}{h} 
+  = \frac{\partial f}{\partial x},
+\end{equation}
+であり、虚軸上で微分する場合は、
+\begin{equation}
+ \lim_{h\to 0} \frac{f(a,b+h) - f(a,b)}{h} 
+  = -i\frac{\partial f}{\partial y},
+\end{equation}
+になる。
+
+微分の定義から微分値は一意に決まらなければならないので、
+Cauchy-Riemannの方程式が成立する。
+\begin{equation}
+ \frac{\partial f}{\partial x} = -i\frac{\partial f}{\partial y},
+\end{equation}
+また、$f=\{u+iv|u, v\in \mathbf{C}\}$とすると、
+\[
+ \frac{\partial u}{\partial x} + i\frac{\partial v}{\partial y}
+ = \frac{\partial v}{\partial x} -i\frac{\partial u}{\partial y},
+\]
+なので、
+\begin{equation}
+  \frac{\partial u}{\partial x} = = \frac{\partial v}{\partial x},
+  \mspace{10mu}
+   \frac{\partial v}{\partial y} = -\frac{\partial u}{\partial y},
+\end{equation}
+とも表される。
+
+また、複素関数の微分は$df/dz$と表記されて、その絶対値は$(x,y)$から
+$(u,v)$へのJacobianの標識になっている。
+\begin{equation}
+ \left|\frac{df}{dz}\right|^2 
+  = \frac{\partial u}{\partial x}\frac{\partial v}{\partial y}
+  - \frac{\partial u}{\partial y}\frac{\partial v}{\partial x}
+  =\left|\frac{\partial (u,v)}{\partial (x,y)}\right|.
+\end{equation}
+
+Cauchy-Riemannの方程式が成り立っているとき、
+\[
+ \frac{\partial^2u}{\partial x^2}  
+ = \frac{\partial}{\partial x}\frac{\partial v}{\partial y}
+ = \frac{\partial}{\partial y}\frac{\partial v}{\partial x}
+ = -\frac{\partial}{\partial y}\frac{\partial u}{\partial y}
+\]
+で、$v_{yy}$についでも同様の計算から$\triangle v$が導かれるので、
+Cauchy-Riemannの方程式から、Laplace方程式が導出される。
+\begin{equation}
+ \triangle f = 0,
+\end{equation}
+従って、Cauchy-Riemannの公式を満たすような、微分可能な複素関数は調和関数
+である。すなわち、調和関数は、複素平面上で微分可能な関数を選ぶことで得ら
+れるといえる。また、$v$は$u$によって決まる共役調和関数と呼ばれる。
+
+\section{冪級数}
+ある複素関数で構成される冪級数を考える。任意の係数について収束性を考える。
+収束するとは、$z-a$の冪で表される級数の$a$近傍の$z_0$が有限の値を持つこ
+とで、そのとき$z=z_0$で級数が収束するという。
+\begin{equation}
+ \sum_{n=0}^{\infty}a_n(z-a)^n,
+\end{equation}
+
+ここで、簡単のために、変数変換$w=z-a$を導入する。これによって、$w$の
+$w=0$周りでの級数の収束性を考えることと同じになる。
+
+\subsection{級数の絶対収束}
+級数の収束を各項の絶対値$|a_nw^n|$で考える。この級数和が収束するとき、そ
+れを絶対収束と呼ぶ。各項の絶対値が収束するときは級数自体も収束する。
+
+級数自身の絶対値収束のCauchy条件は、
+\begin{equation}
+ \forall\epsilon >0, \exists N, k>m\geq N
+  \Rightarrow \left|\sum_{n=0}^k a_nz_0^n - \sum_{n=0}^m a_nz_0^n\right| 
+  = \left|\sum_{n=m+1}^{k} a_nz_0^n\right|
+  <\epsilon,
+\end{equation}
+であり、級数の各項の収束条件は、
+\begin{equation}
+  \forall\epsilon >0, \exists N, k>m\geq N
+  \Rightarrow \left|\sum_{n=m+1}^{k} \left|a_nz_0^n\right|\right|
+  <\epsilon,
+\end{equation}
+である。
+
+これと、三角不等式から、
+\begin{equation}
+ \left|\sum_{n=m+1}^{k} a_nz_0^n\right| 
+  < \left|\sum_{n=m+1}^{k} \left|a_nz_0^n\right|\right|
+  <\epsilon,
+\end{equation}
+である。
+
+また、$z=z_0$で絶対収束していれば、$|z_1|<|z_0|$になるような$z_1$につい
+ても$z=z_1$で絶対収束している。
+
+\subsection{級数の一様収束}
+冪級数の$N_0$までの部分級数が級数展開する領域によらず収束する場合級数が
+一様収束するという。ある空間$K$を
+\begin{equation}
+ K=\left\{z\in\mathbf{C}\left|\right.|z|\leq |z_0|\right\},
+\end{equation}
+で定義する。これにより関数$f(z)$を次のように定義
+する。
+\begin{equation}
+ \forall z\in K, \exists\epsilon>0, \exists N_0, N>N_0
+  \Rightarrow 
+  \left|f(z)-\sum_{n=0}^Na_nz^n\right| < \epsilon,
+\end{equation}
+これを更に拡張して、級数の拡張により定義する。すなわち、$N_0$が級数和を
+定義する空間によらず決められることを一様収束と呼ぶ。
+\begin{equation}
+  \forall\epsilon > 0, \exists N_0, \forall z\in K, \exists\epsilon>0, N>N_0
+  \Rightarrow 
+  \left|f(z)-\sum_{n=0}^Na_nz^n\right| < \epsilon,
+\end{equation}
+
+級数が$z_0$で絶対収束しているとすると、
+\begin{equation}
+ \forall\epsilon>0, \exists N_0, N \geq N_0
+  \Rightarrow
+  \sum_{n=N+1}^{\infty}\left|a_n\right|\left|z_0\right|^n < \epsilon,
+\end{equation}
+が成り立つ。更に、$z<z_0$で、$N\geq N_0$なら、
+\begin{equation}
+ \sum_{n=N+1}^{\infty}\left|a_n\right|\left|z\right|^n
+  < \sum_{n=N+1}^{\infty}\left|a_n\right|\left|z_0\right|^n
+  < \epsilon
+\end{equation}
+これと一様収束する級数の定義から、
+\begin{equation}
+ \left|f(z) - \sum_{n=0}^N a_nz^n\right| 
+  \leq \left|\sum_{n=0}^{\infty} a_nz^n - \sum_{n=0}^N a_nz^n\right|
+  = \left|\sum_{n=N+1}^{\infty} a_nz^n\right|
+\end{equation}
+これと、絶対収束の補題から、
+\begin{equation}
+ \left|\sum_{n=N+1}^{\infty} a_nz^n\right|
+  \leq \sum_{n=N+1}^{\infty} \left|a_n\right|\left|z^n\right| < \epsilon.
+\end{equation}
+
+
+\subsection{級数の収束半径}
+ある実数$R$を複素平面上点列の上界の値として$R\sup (z_n)$とする。このとき
+$R$を収束半径といって、Cauchy-Hadamardの公式から、
+\begin{equation}
+ R = \frac{1}{\rho},
+\end{equation}
+\begin{equation}
+ \rho = \overline{\lim}\sqrt[n]{\left|a_n\right|},
+\end{equation}
+により求められる。が、上極限$\overline{\lim}$の計算が面倒なので、別の簡
+単な方法で収束半径を評価する。ある級数$\sum_{n=0}^{\infty}a_nz^n$につい
+て、
+\begin{equation}
+ \rho = \lim_{n\to\infty}\frac{\left|a_{n+1}\right|}{\left|a_n\right|},
+\end{equation}
+が存在するとき、$R=1/\rho$を収束半径と評価できる。
+
+\section{複素積分}
+\subsection{線積分と積分経路}
+複素数の積分を考える。実数のときの積分と同じようにRiemann和から考えてみ
+る。積分値を$I$、被積分関数を$f(z)$、積分区間を$[a ,b]$とする。ただし、
+複素関数の積分は複素平面上での積分になるので、積分区間上の任意の経路を媒
+介変数$t$で表して、それで積分する。つまり、複素関数の積分では線積
+分を考えることになる。
+\begin{equation}
+ I = \int_{a}^{b} f(t) dt,
+\end{equation}
+になるが、これを分割する。そのときに媒介変数$t$と積分区間$[a, b]$の関係
+は、
+\begin{equation}
+ a = t_0 < t_1 < \cdots < t_{n-1} < t_n = b,
+\end{equation}
+で、これのRiemann和は、$t_n < \xi_n < t_{n+1}$として、
+\begin{equation}
+ S = \sum_{n=0}^{n-1} f(\xi_n) (t_{n+1} - t_n),
+\end{equation}
+で表される。
+
+ここで、分割の仕方を小さくしていくと極限値が積分値に収束すれば積分は
+Riemann和の極限で表されることになる。収束の条件は、
+\begin{equation}
+ \forall\epsilon > 0, \exists\delta > 0, 
+  \max_{0\leq k\leq n-1} (t_{k+1} - t_k) < \delta, 
+  \forall \xi_k \in [t_k, t_{k+1}]
+  \Rightarrow
+  \left|I - \sum_{n=0}^{n-1} f(\xi_n) (t_{n+1} - t_n) \right| < \epsilon,
+\end{equation}
+である。ここで、$\delta$を十分に小さい適当な値をとれば$\xi_k$の位置はど
+こでも問題ないことが上記の収束条件からわかる。
+
+また、三角不等式が積分についても成り立つ。
+\begin{equation}
+ \left|\int_{a}^{b}f(t)dt\right| < \int_{a}^{b}\left|f(t)\right|dt.
+\end{equation}
+
+\subsection{複素平面上での面積積分とGreenの定理}
+ここで、経路の決め方を考える。
+
+最初に、複素平面上での積分経路として$\gamma$を$\gamma (\phi (t), \psi (t))$のように媒介変数を
+使って定義する。実関数の積分と同じように、複素平面上での積分も媒介変数で
+積分することでRiemann和が積分値に収束する。
+\begin{equation}
+ \forall\epsilon >0, \exists\delta>0, 
+  \max_{0\leq k\leq n-1} (t_k - t_{k-1}) < \delta
+  \Rightarrow\left|I - S\right| < \epsilon.
+\end{equation}
+
+ここで、$\gamma$が連続だとすると、複素平面上での座標と媒介変数の間の関係
+が、平均値の定理から、
+\begin{equation}
+ \phi (t_{k+1}) - \phi (t_k) = \phi_t (\xi_k) (t_{k+1} - t_k),
+\end{equation}
+\begin{equation}
+ \psi (t_{k+1}) - \phi (t_k) = \psi_t (\eta_k) (t_{k+1} - t_k),
+\end{equation}
+\begin{equation}
+ \xi_k, \eta_k \in [t_k, t_{k+1}],
+\end{equation}
+のように表される。これをRiemann和に代入することで、
+\begin{equation}
+ S = \sum_{k=0}^{n-1} f (\xi_k, \eta_k) 
+  \left\{\phi_t (\xi_k) + i\psi_t (\eta_k)\right\})(t_{k+1} - t_k),
+\end{equation}
+で定義できる。
+
+微分幾何での方法から、一般的に、平面上の積分は一次微分形式で表される。
+これに上記の媒介変数と座標の関係性から、
+\begin{equation}
+ \int_{\gamma}(pdx + qdy) 
+  = \int_{a}^{b}dt
+  \left\{p\left(\phi(t), \psi(t)\right)\frac{d\phi}{dt} 
+   + q\left(\phi(t), \psi(t)\right)\frac{d\psi}{dt}\right\},
+\end{equation}
+のように表される。ここで、$p=p(x, y)$、$q=q(x,y)$、$\gamma\in\mathbf{C}$、
+$\gamma(t) = \phi (t) + i \psi (t)$である。
+
+このような一次微分形式からどのような表式が得られるか考える。
+
+まず、$n$から$n+1$までの部分和で積分した場合を考える。そのときの積分値の
+増分は以下の通りである。
+\begin{align}
+ &(x_n, y_n) \rightarrow (x_{n+1}, y_n) & p\Delta x, \\
+ &(x_n, y_n) \rightarrow (x_n, y_{n+1}) & q\Delta y, \\
+ &(x_n, y_n) \rightarrow (x_{n+1}, y_{n+1}) & p\Delta x + q \Delta y, \\
+ &(x_{n+1}, y_n) \rightarrow (x_n, y_n) & -p\Delta x,
+\end{align}
+
+次に、$(x_0, y_0)$から矩形の経路で積分した場合を考える。
+\[
+ E = p(x_0, y_0) \Delta x + q (x_0+\Delta x, y_0) \Delta y
+  - p(x_0 + \Delta x, y_0 + \Delta y) \Delta x 
+  - q(x_0, y_0 + \Delta y) \Delta y 
+\]
+で、これをまとめると、
+\[
+  E = \left\{p (x_0, y_0) - p (x_0 + \Delta x, y_0)\right\} \Delta x
+  - \left\{q (x_0, y_0) - q (x_0, y_0 + \Delta y)\right\} \Delta y,
+ \]
+だが、更に単位面積あたりの形式でかいて、
+\[
+ \frac{E}{\Delta x\Delta y} =
+ \frac{p (x_0, y_0) - p (x_0 + \Delta x, y_0)}{\Delta y}
+ - \frac{q (x_0, y_0) - q (x_0, y_0 + \Delta y)}{\Delta x} 
+ \rightarrow -\frac{\partial q}{\partial x} + \frac{\partial p}{\partial y},
+\]
+が得られる。これによりGreenの定理が、
+\begin{equation}
+ \int_{\partial\Omega} (pdx + qdy)
+  = \int_{\Omega} dxdy 
+  \left(\frac{\partial q}{\partial x} - \frac{\partial p}{\partial y}\right),
+\end{equation}
+として得られる。
+
+これは円環領域には適用できないので、領域を円環を横切るように分割して、再
+度組み合わせることで、外周から内周を差し引くことでGreenの定理を適用でき
+る。今、円環領域$D$を$D=\{r < |z-a| < R|(x,y)\in\mathbf{R}^2\}$で定義す
+ると、
+\begin{equation}
+ \int_{D}dxdy\left(
+	      \frac{\partial q}{\partial x} 
+	      - \frac{\partial p}{\partial y}
+	     \right)
+ = \left(\int_{|z|=R} - \int_{|z|=r}\right)
+ (pdx + qdy),
+\end{equation}
+という形で適用できる。
+
+\subsection{積分経路の変更}
+次に、積分経路の形状、位相を考える。積分経路が必ずしも滑らかだったり、交
+差したり、複数回集会していないとも限らず、そういう場合には媒介変数を使っ
+た積分経路の定義の仕方はあまりよくないので、とりあえず積分区間$[a, b]$か
+ら二次元空間上への写像として積分経路$\gamma$を考える。
+\begin{equation}
+ \gamma \gamma[a, b] \rightarrow \mathbf{R}^2.
+\end{equation}
+その次に、この積分経路から別の積分経路$\delta$への経路の変更について考え
+る。変更先の積分経路への写像を$h$とすると、
+\begin{equation}
+ h : [a, b] \rightarrow [c, d],
+\end{equation}
+のように表される。そして、
+\begin{equation}
+ \delta = \gamma \circ h,
+\end{equation}
+である。ここで、$h$が一対一の写像で、また、上への写像のときは$\gamma$と
+$\delta$の間の積分の方向は保たれたままの変換になる。
+
+実際に積分経路の変更をしてみる。媒介変数$t$を使って、$p$の積分は、
+\begin{equation}
+ \int_{\gamma}p(x, y) dx 
+  = \int_{a}^{b}dt\mspace{5mu}p(\phi(t), \psi(t))\frac{d\phi}{dt},
+\end{equation}
+と書かれる。ここで、媒介変数$t$は積分経路$\gamma$上でのものだが、これと
+積分経路$\delta$上の媒介変数$s$の間の関係が写像$h$で与えられているので、
+$t=h(s)$である。これより媒介変数の変数変換ができて、$dt = (dh/ds) ds$で、
+媒介変数$s$と座標はそれぞれ$x=\Phi(s)$、$y=\Psi(s)$のように関係付けられ
+ている。従って、$\Phi$は$\Phi=\phi\circ h$のような合成写像になっているの
+で、合成関数の微分の公式から、$d\Phi/ds=d\Phi/dt dt/ds$になる。$\Psi$に
+ついても同じような変換ができるので、
+\begin{equation}
+ \int_{a}^{b}dt\mspace{5mu}p(\phi(t), \psi(t))\frac{d\phi}{dt}
+ = \int_{c}^{d}ds\mspace{5mu}p(\Phi(s), \Psi(s))\frac{d\Psi}{ds} 
+ = \int_{\delta}(pdx + qdy),
+\end{equation}
+となる。これにより任意の写像により積分経路の変更ができることがわかる。
+
+ちなみに、$h$が減少関数のときには、
+\begin{equation}
+ \int_{\gamma} = -\int_{\delta},
+\end{equation}
+のようになる。
+
+同じように、ある積分経路$\gamma$を幾つかの区間に分けて、
+$\gamma=\gamma_1 + \gamma_2 + \cdots + \gamma_m$のときには積分経路も分離
+できて、
+\begin{equation}
+ \int_{\gamma}(pdx+qdy) 
+  = \int_{\gamma_1 + \gamma_2 + \cdots + \gamma_m}(pdx+qdy) 
+  = \left(\sum_{j=1}^m\int_{\gamma_j}\right)(pdx+qdy) ,
+\end{equation}
+の用にできる。
+
+また、二つの積分経路をつなぐときも同じ要領である。
+
+\subsection{Cauchyの積分定理}
+ある閉じた領域で正則な複素関数$f(z)$について考える。このとき、
+$\gamma(t) = \phi (t) + i\psi(t)$、$t\in[a,b]$のような定義を積分経路につ
+いてしておく。すると、
+\begin{equation}
+ \int_{\gamma}f(z)dz 
+  = \int_{a}^{b}dt\mspace{5mu}
+  f(\gamma(t)) \left(\frac{d\phi}{dt} + i\frac{d\psi}{dt}\right),
+\end{equation}
+である。ここで、座標と媒介変数の関係が、$dx=(d\phi/dt) dt$、
+$dy = (d\psi/dt)dt$で与えられるので、Greenの定理から、
+\begin{equation}
+ \int_{\gamma}f(z)dz 
+  = \int_{\gamma}
+  \left(f(x+iy) dx + i f(x+iy) dy\right)
+  = \int_{D}dxdy\mspace{5mu}
+  \left(i\frac{\partial f}{\partial x} - 
+  \frac{\partial f}{\partial y}\right),
+\end{equation}
+が得られる。
+
+一方で、$f(z)$は正則な関数なので、Cauchy-Riemannの定理が成り立っているの
+で、$i(\partial f/\partial x) = \partial f/\partial y$なので、積分値が0
+になる。従って、領域$D$で正則な関数$f(z)$については、積分値が0になる
+Cauchyの積分定理が成り立つ。
+\begin{equation}
+ \int_{\gamma} f(z)dz = 0,
+\end{equation}
+
+\subsection{Cauchyの積分公式}
+上記のCauchyの積分定理から積分領域の内部に特異点を含むような関数について
+も積分ができるようになる。今、領域$D$で正則な$f(z)$の定義域を
+$\bar{D}=\left\{\left|z-a\right|\leq r\left|\right.z\in\mathbf{C}\right\}$
+とする。また、その領域の内部に任意の場所$\zeta$に特異点を置くことにする。
+$\zeta$は領域$D$の内部に
+$D=\left\{\left|z-a\right|< r\left|\right.z\in\mathbf{C}\right\}$のどこ
+かにあるとする。
+
+ここで、領域$D$で正則な関数$f(z)$を使って、内部に特異点を含むような関数
+$f(z)/(z-\zeta)$を定義して、その積分を考える。
+
+まず、点$\zeta$近傍の領域を$E$として、それを半径$s$の領域とする、そうす
+ると、$D-E$は$D$の内部から特異点を取り除いた領域になるので、そこでは
+Cauchyの積分定理が成立するので、
+\begin{equation}
+ \left(\int_{D}-\int_{E}\right)\frac{f(z)}{z-\zeta}dz = 0,
+\end{equation}
+が得られる。
+
+次に領域$E$での$f(\zeta)/(z-\zeta)$積分の値を考える。
+$z-\zeta = s e^{i\theta}$とすると、
+$z=\zeta + s e^{i\theta}$で、$dz/d\theta = ise^{i\theta}$が得られて、
+\begin{equation}
+ \int_{E}\frac{f(\zeta)}{z-\zeta}dz
+  = \int_{0}^{2\pi}d\theta\mspace{5mu}
+  \frac{f(\zeta)}{se^{i\theta}}ise^{i\theta}
+  = 2\pi i f(\zeta),
+\end{equation}
+である。
+
+このとき、$0<s$は十分に小さい数を仮定しているため、
+\begin{equation}
+ \left|f(z) - f(\zeta)\right| < \epsilon
+\end{equation}
+であり、
+\begin{equation}
+ \left|\int_E\frac{f(z) - f(\zeta)}{z - \zeta}\right| 
+  \leq \int_{0}^{2\pi}\epsilon dz
+  = 2\pi \epsilon,
+\end{equation}
+なので、$s\to 0$のときに
+\begin{equation}
+ \lim_{s\to 0}\int_E\frac{f(z)}{z - \zeta} = 2\pi i f(\zeta),
+\end{equation}
+ となる。
+
+また、$s$が変化する場合について考える。$0<s'<s$になるような$s'$を考える
+と、$E-E'$も同じようにCauchyの積分定理が適用できる領域だから、
+\begin{equation}
+ \left(\int_{E}-\int_{E'}\right)\frac{f(z)}{z-\zeta}dz = 0,
+\end{equation}
+が得られる。これにより、$E$の領域の積分では$s$の半径によらず積分値は一定
+なので、結局$s\to 0$の場合にも成立するので、
+\begin{equation}
+ 2\pi i f(\zeta) = \int_{\delta} \frac{f(z)}{z - \zeta}dz,
+\end{equation}
+のCauchyの積分公式が得られる。
+
+\subsection{Cauchyの積分定理から導かれる系}
+\subsubsection{正則関数の零点}
+複素関数$f(a)=0$のとき$a$を零点と呼ぶ。ここで、$a$の周りでの級数展開は
+$f(z)=\sum_{n=0}^{\infty}a_n (z-a)^n$であり、$f(z)$が非自明な零点をもっ
+ていないときは係数$a_n$のうち少なくとも一つは0ではない
+\footnote{自明な零点を持つときは全領域で関数の値が0になる。}。
+そのうちの最小のものを$a_m$とすると、
+\begin{equation}
+ a_0 = a_1 = \cdots = a_{m-1}, \mspace{10mu} a_m \ne 0,
+\end{equation}
+である。このときのTaylor展開は、
+\begin{equation}
+ a_m (z - a)^m + a_{m+1} (z-a)^{m+1} + \cdots,
+\end{equation}
+になり、このとき$f(a)$は$m$位の零点と呼ぶ。
+
+ここで、あらたに補助的な係数$g(z)$を、
+\begin{equation}
+ g (z) = \sum_{n=0}^{\infty}a_n (z-a)^{n-m},
+\end{equation}
+を定義すると、
+\begin{equation}
+ f(z) = g(z) (z - a)^{n-m},
+\end{equation}
+のように表される。そして、$f(z)$が$z=a$に零点を持つとき、$z=a$の近傍には
+ほかの零点はなく孤立している。
+
+\subsubsection{平均値の定理}
+複素関数$f(z)$が$D$で正則で、$|z-a| = r \in D$で定義されているとき、
+\begin{equation}
+ f(a) = \frac{1}{2\pi}\int_{0}^{2\pi}f(a+re^{i\theta})d\theta,
+\end{equation}
+であり、
+\begin{equation}
+ f(a) = \frac{1}{2\pi i}\int_{r=|r-a|}\frac{f(z)}{z-a}dz,
+\end{equation}
+である。
+
+\subsubsection{調和関数の平均値の定理}
+$u$が調和関数のときは
+\begin{equation}
+ u (a) =\frac{1}{2\pi}\int_{0}^{2\pi}u(a+re^{i\theta})d\theta,
+\end{equation}
+である。
+
+\subsection{Taylor展開と項別積分}
+Cauchyの積分定理から複素関数でのTaylor展開が実関数でのものと同じように使
+えるか考察する。Taylor展開を経て特異点を含む領域でも級数展開できる
+Laurent展開へと展開していく。
+Cauchyの積分公式から、
+\[
+ \frac{f(z)}{z - \zeta}  
+ = \frac{f(z)}{z - a}\frac{1}{1-\frac{\zeta - a}{z - a}}, 
+\]
+が得られる。
+
+ここで、等差数列$x_n$の総和公式が$\sum_{n=0}^N = (1 - x^n)/(1 - x)$で与
+えられている。今、$x \ll 1$とすると、$x^n \to 0$なので、
+$\sum_{n=0}^N \to 1/(1-x)$である。これより、
+\[
+  \frac{f(z)}{z - \zeta}  
+ = \frac{f(z)}{z - a}\sum_{n=0}^{\infty}
+ \left(\frac{\zeta - a}{z - a}\right)^n
+\]
+が得られる。これをもとの積分に戻すと、
+\[
+   \int_{\gamma}\frac{f(z)}{z - \zeta}  dz
+ = \int_{\gamma}\frac{f(z)}{z - a}\sum_{n=0}^{\infty}
+ \left(\frac{\zeta - a}{z - a}\right)^n dz
+\]
+である。このときこの積分に対して項別積分が適用できると大変便利である。こ
+の数列の総和を、
+\[
+ S (z) = f (z) \sum_{n=0}^{\infty} 
+ \left(\frac{\zeta - a}{z - a}\right)^n,
+\]
+として、部分和$S_N(z)$は、
+\[
+ S_N (z) = f (z) \sum_{n=0}^N
+ \left(\frac{\zeta - a}{z - a}\right)^n,
+\]
+で定義する。数列の総和と部分和の差を評価することで項別積分が可能か考える
+ことにする。
+\[
+ \left|S(z) - S_N (z)\right| 
+ \leq \left|f(z)\right|\sum_{n=N+1}^{\infty}
+ \left|\frac{\zeta - a}{z - a}\right|^n,
+\]
+である。これに対して積分すると、$f(z)$は有界な関数なので、その最大値が見
+つけられる性質のものなので、$|f(z)| < M$という最大値で評価ができる。一方
+で、三角不等式と、級数の収束性から、
+\[
+ \left|\int \frac{S(z) - S_N (z)}{z - a}\right|
+ \leq \int_{0}^{2\pi}dz\mspace{5mu}
+ \left|\frac{S (z) - S_N (z)}{z - a}\right|
+ \leq 2\pi M \epsilon,
+\]
+が得られる。これにより、
+\[
+ \int \frac{S(z)}{z - a}dz
+ = \lim_{n\to \infty}
+ \int \frac{S_N(z)}{z - a}dz
+\]
+が得られる。
+
+\section{Laurent展開}
+これまでTaylor展開で正則な複素関数が級数展開できることを学んだ。次に、
+Cauchyの積分公式を通して特異点周りでの積分値をえることができるようになっ
+たので、その性質を利用して特異点を含む領域での級数展開をえることにする。
+
+領域$D$で正則な関数$f(z)$、$g(z)$を考える。
+これらの関数から新しく$h(z)$という特異点を持つであろう関数を
+定義する。
+\begin{equation}
+ f(z) = f_1 (z) (z - a)^m,
+\end{equation}
+\begin{equation}
+ g(z) = g_1 (z) (z - a)^n,
+\end{equation}
+であり、$f_1(z)$、$g_1(z)$はともに$z=a$で零点
+を持たない。これより新しい関数$h(z)$を、
+\begin{equation}
+ h(z) = \frac{g (z)}{f (z) }
+  = \frac{g_1(z)}{f_1(z)}(z - a)^{n-m},
+\end{equation}
+と定義する。この関数は$n$と$m$の関係により性質が場合分けできて、
+
+\begin{enumerate}
+ \item $m < n$のときは$h(a)=0$であり、$z=a$に$n-m$位の零点を持つ
+ \item $m=n$のとき$h(a)=g_1(a)/f_1(a)$のとき$h(a)\ne 0$
+ \item $n < m$のとき$z=a$で発散するので正則にならず、$z=a$を$h(z)$の極と
+       いい、それを$m-n$位の極と呼ぶ
+\end{enumerate}
+のような特徴を持つ。そして、$D$から$a$を除いた領域で正則な関数は$z-a$の
+負の冪級数で展開できる。
+\begin{equation}
+ f(z) = \sum_{n=-\infty}^{\infty}
+  a_n (z - a)^n,
+\end{equation}
+で、その収束条件は、
+\begin{equation}
+ \lim_{N\to \infty\\M\to \infty}
+  \left|f(z) - \sum_{n=-M}^Na_n(z-a)^n\right| < 0,
+\end{equation}
+である。
+
+具体的なLaurent展開の形式を得ることにする。
+
+今、特異点が$z=a$にあったとするが、これを変数変換して、$z=0$にある場合を
+考える。そして、もう一つの特異点の近傍ではないてんに位置する$w\in D-O$を1
+つの定数として定義する。ここで、$D-E_1$は$D$から特異点を取り除いた領域で
+あり、$E_2$は特異点のない領域近傍として、
+\begin{equation}
+ D = \left\{z\left|\right.|z| < r\right\},
+\end{equation}
+\begin{equation}
+ E_1 = \left\{z\left|\right.|z| < s\right\},
+\end{equation}
+\begin{equation}
+ E_2 = \left\{z\left|\right.|z-w| < \delta\right\},
+\end{equation}
+のように定義する。
+
+Cauchyの積分定理から、
+\begin{equation}
+ \left(\int_D - \int_{E_1} - \int_{E_2}\right)
+  \frac{f(z)}{z - w}dz = 0,
+\end{equation}
+が得られ、更に、$E_2$の領域での積分はCauchyの積分公式から、
+\begin{equation}
+ \int_{E_2}   \frac{f(z)}{z - w}dz = 2\pi i f(w),
+\end{equation}
+となる。これにより、
+\begin{equation}
+ \left(\int_{|z| = r} - \int_{|z| = s}\right)
+  \frac{f(z)}{z - w} dz
+  = 2\pi i f(w),
+\end{equation}
+となる。
+
+ここで、更に、$D$については、
+\begin{equation}
+ \int_{|z| = r}  \frac{f(z)}{z - w} dz
+  =  \int_{|z| = r}  \frac{f(z)}{1 - \frac{w}{z}} \frac{dz}{z}
+  =  \int_{|z| = r}  \frac{f(z)}{z} 
+  \sum_n=0^{\infty} \left(\frac{w}{z}\right)^n,
+\end{equation}
+である。このとき、$w$は$z$に大して十分小さい値であることから、等差数列の
+総和公式を適用した。また、それにより項別積分が可能なことがわかっているの
+で、
+\begin{equation}
+  \int_{|z| = r}  \frac{f(z)}{z - w} dz
+  = \sum_{n=0}^{\infty} \int_{|z| = r}  \frac{f(z)}{z} 
+  \left(\frac{w}{z}\right)^n,
+\end{equation}
+となる。
+
+$E_1$では、$|z| = s < |w|$になる程度の遠い場所に$w$を定義しているので、
+$z/w$で展開することにする。
+\begin{equation}
+ \int_{|z| = s} \frac{f(z)}{z - w} dz
+  = -  \int_{|z| = s} dz \frac{f(z)}{w} \frac{dz}{1 - \frac{z}{w}}
+  = -  \int_{|z| = s} dz \frac{f(z)}{w} 
+  \sum_{n=0}^{\infty} \left(\frac{z}{w}\right)^n,
+\end{equation}
+となり、
+\begin{equation}
+  \int_{|z| = s} \frac{f(z)}{z - w} dz
+  = - \sum_{n=0}^{\infty} 
+  \frac{\int_{|z| = s} dz \frac{f(z)z^n}{w}}{w^{n+1}}
+\end{equation}
+となる。これらをまとめると、
+\begin{equation}
+ f(w) 
+  = \frac{1}{2 \pi i}\sum_{n=0}^{\infty}
+  \left\{
+   \int_{|z|=r} \frac{f(z)}{z^{n+1}}w^n dz
+   - \int_{|z|=s} \frac{f(z)z^n}{w^{n+1}}dz
+  \right\},
+\end{equation}
+となる。
+
+これを更に右辺の第二項を$n\rightarrow -n$と変換することで、
+\begin{equation}
+ f(w) 
+  = \frac{1}{2 \pi i}
+  \left\{
+   \sum_{n=0}^{\infty}
+   \int_{|z|=r} \frac{f(z)}{z^{n+1}} dz
+   + \sum_{n=-\infty}^{-1}
+   \int_{|z|=s} f(z)z^{n-1}dz
+  \right\}w^n.
+\end{equation}
+が得られる。
+
+\subsubsection{除去可能な特異点}
+ここで、改めて$z=a$周りでのLaurent展開にすると、
+\begin{equation}
+ f(z) = \sum_{n=0}^{\infty}
+  a_n (z-a)^n,
+\end{equation}
+\begin{equation}
+ a_n = \frac{1}{2\pi i}\oint \frac{f(z)}{(z - a)^{n+1}},
+\end{equation}
+が得られる。ここで、$a_n$が$1\leq n$で0の場合は$z=a$までは正則な関数に
+Laurent展開によって拡張することができる。このように、有理関数に分解して
+正則な関数に拡張することができる特異点をRiemannの除去可能な特異点という。一方で、
+有理関数に分解できないような関数の場合はLaurent展開によっても正則な関数
+には拡張できない。
+
+\subsubsection{極と真性特異点}
+Laurent展開の係数について、
+\begin{enumerate}
+ \item 有限の$a_n$以外は$a_n=0$
+ \item 無限の$a_n$が$a_n\ne 0$
+\end{enumerate}
+の場合に分けられる。
+
+このうち、有限の$a_n$が0になるような場合には負の冪の下限$-m$を決めること
+ができて、
+\begin{equation}
+ \frac{a_{-m}}{(z-a)^{m}}
+  + \frac{a_{-m+1}}{(z-a)^{m+1}}
+  + \frac{a_{-m+2}}{(z-a)^{m+2}}
+  + \cdots 
+  + \frac{a_{-1}}{z-a}
+  + a_0
+  + a_1 (z-a) + \cdots,
+\end{equation}
+のように$m$位の極に展開できる。
+
+一方で、2の場合にはWierstrau\ss の定理から、$z=a$の値は高々それに近い値
+しか決めることができない真性特異点という。
+
+\subsection{留数定理}
+複素関数$f(z)$が$z=0$で$m$位の極を持つときのLaurent展開は、
+\begin{equation}
+ f(z) = \frac{b_m}{z^m} + \frac{b_{m-1}}{z^{m-1}}
+   + \cdots + \frac{b_1}{z} 
+   + \sum_{n=0}^{\infty} a_n z^n,
+\end{equation}
+であり、これを$|z|=r$の周上で積分すると、
+\begin{equation}
+ \int_{|z|=r} f(z) dz 
+  = \sum_{n=1}^{m} \int_{|z|=r}dz \frac{b_n}{z^n}
+  + \sum_{n=0}^{m} \int_{|z|=r}dz a_nz^n,
+\end{equation}
+である。
+
+このうち、第二項はCauchyの積分定理から0になり、第一項は、
+\begin{equation}
+ \sum_{n=1}^{m} \int_{|z|=r}dz \frac{b_n}{z^n}
+  = \int_{0}^{2\pi}\frac{re^{i\theta}d\theta}{r^ne^{in\theta}}
+  =
+  \begin{cases}
+   2\pi & (n=1) \\
+   0 & (1 < n)
+  \end{cases},
+\end{equation}
+なので、
+\begin{equation}
+ \int_{|z|=r}^{f(z)dz} = 2\pi i b_1,
+\end{equation}
+であり、このとき$b_1$を留数と呼ぶ。これは留数定理として、留数$Res$によ
+り、
+\begin{equation}
+  \int_{|z|=r}^{f(z)dz} = 2\pi i \sum_{a\in S}Res_{a} f(z),
+\end{equation}
+のように表される。

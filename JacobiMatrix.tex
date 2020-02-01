@@ -1,0 +1,189 @@
+\chapter{Jacobi行列}   \label{chap_jacobi}
+Jacobi行列を求める。基本的に保存形式のJacobi行列を求めるのは面倒なので、
+変数変換を施して行う。
+
+非保存形式の方程式が、
+\begin{equation}
+ \frac{\partial\bm{Q}^*}{\partial t}
+  + A^*_x \frac{\partial\bm{Q}^*}{\partial x}
+  + A^*_y \frac{\partial\bm{Q}^*}{\partial y}
+  + A^*_z \frac{\partial\bm{Q}^*}{\partial z}
+  = 0,
+\end{equation}
+で与えられているとする。一方で、線形化された保存形式の方程式は、
+\begin{equation}
+ \frac{\partial\bm{Q}}{\partial t}
+  + A_x \frac{\partial\bm{Q}}{\partial x}
+  + A_y \frac{\partial\bm{Q}}{\partial y}
+  + A_z \frac{\partial\bm{Q}}{\partial z}
+  = 0,
+\end{equation}
+\begin{equation}
+ A_i = \frac{\partial \bm{F}_i}{\partial \bm{Q}},
+\end{equation}
+である。
+
+ここで、非保存形式のJacobi行列$A^*$は簡単に求められる。また、非保存形式
+から保存形式の未知変数への変数変換を$N$で$Nd\bm{Q}^* = d\bm{Q}$とする。
+$N$を非保存形式の方程式に左から掛けると、
+\begin{equation} 
+ N\frac{\partial\bm{Q}^*}{\partial t}
+  + (NA^*_xN^{-1}) N\frac{\partial\bm{Q}^*}{\partial x}
+  + (NA^*_yN^{-1}) N\frac{\partial\bm{Q}^*}{\partial y}
+  + (NA^*_zN^{-1}) N\frac{\partial\bm{Q}^*}{\partial z}
+  =  0,
+\end{equation}
+\begin{equation} 
+ \frac{\partial\bm{Q}}{\partial t}
+  + (NA^*_xN^{-1}) \frac{\partial\bm{Q}}{\partial x}
+  + (NA^*_yN^{-1}) \frac{\partial\bm{Q}}{\partial y}
+  + (NA^*_zN^{-1}) \frac{\partial\bm{Q}}{\partial z} = 0,
+\end{equation}
+で、更にこれを保存系の方程式と比べると、Jacobi行列は、
+\begin{equation}
+ A_i = NA^*_iN^{-1} \mspace{15mu} (i = x, y, z),
+\end{equation}
+で表される。従って、非保存系のJacobi行列を求めて、それに保存系と非保存系
+の間のJacobi行列を作用させることで得られる。
+
+
+Jacobi行列は$\bm{Q}\rightarrow\bm{F}$にする行列で、中身は比熱比とエンタ
+ルピーの関数として表現することにする。$\bm{Q}$と$\bm{F}$をそれぞれ比熱比
+とエンタルピーで書き換える。
+\begin{equation}
+ p = \frac{\gamma - 1}{\gamma}\rho H
+  - \frac{\gamma - 1}{\gamma}\frac{1}{2}\rho q^2,
+\end{equation}
+\begin{equation}
+ e = \frac{H}{\gamma}
+  + \frac{\gamma - 1}{\gamma}\frac{q^2}{2},
+\end{equation}
+
+\section{1次元の場合}
+\begin{equation}
+ \bm{Q} =
+  \begin{pmatrix}
+   \rho \\
+   \rho u \\
+   \rho \left(\frac{h}{\gamma} + \frac{u^2}{2}\right)
+  \end{pmatrix},
+\end{equation}
+
+\begin{equation}
+ \bm{F} =
+  \begin{pmatrix}
+   \rho u \\
+   \rho u^2 + \frac{\gamma - 1}{\gamma}\rho h \\
+   \rho u \left(h + \frac{u^2}{2}\right)
+  \end{pmatrix},
+\end{equation}
+これらの式を使って$\bm{F}=A\bm{Q}$を満たす$A$を求める。$A$の2行目と3行目
+は不定になるので、中に流速、エンタルピー、比熱比が出てくるように形を整え
+る。
+\begin{equation}
+ A =
+  \begin{pmatrix}
+   0 & 1 & 0 \\
+   \frac{\gamma - 3}{2}u^2 & (3-\gamma) u & \gamma -1 \\
+   \left\{(\gamma - 1) \frac{u^2}{2} - H\right\}u & H + (1-\gamma) u&
+   \gamma u
+  \end{pmatrix}
+\end{equation}
+
+\section{2次元の多方向差分の場合}
+\begin{equation}
+ \bm{E} - \bm{F} =
+  \begin{pmatrix}
+   \rho (u-v) \\
+   \rho u^2 - \rho uv + (\gamma - 1)\rho e 
+   - (\gamma - 1) \rho \frac{u^2 + v^2}{2}   \\
+   -\rho v^2 + \rho uv - (\gamma - 1)\rho e
+   + (\gamma - 1) \rho \frac{u^2 + v^2}{2} \\
+   \rho (u - v)
+   \left\{\gamma e - (\gamma - 1)\frac{u^2 + v^2}{2}\right\}
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \bm{E} + \bm{F} =
+  \begin{pmatrix}
+   \rho (u+v) \\
+   \rho u^2 + \rho uv + (\gamma - 1)\rho e
+   + (\gamma - 1) \rho \frac{u^2 + v^2}{2}   \\
+   \rho v^2 + \rho uv + (\gamma - 1)\rho e
+   + (\gamma - 1) \rho \frac{u^2 + v^2}{2} \\
+   \rho (u - v)
+   \left\{\gamma e - (\gamma - 1)\frac{u^2 + v^2}{2}\right\}
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \bm{Q} =
+ \begin{pmatrix}
+  \rho \\
+  \rho u \\
+  \rho v \\
+  \rho e
+ \end{pmatrix},
+\end{equation}
+だらだらと計算すると、
+\begin{equation}
+ \tilde{A}_{\xi} = \frac{1}{\sqrt{2}}
+  \begin{pmatrix}
+   0 & 1 & -1 & 0 \\
+   \frac{3 - \gamma}{2}\rho u^2 - \frac{\gamma - 1}{2}\rho v^2 - uv &
+    (3 - \gamma) u - v &
+   -(\gamma - 1) v - u &
+   \gamma - 1 \\
+   -\frac{3 - \gamma}{2}\rho v^2 + \frac{\gamma - 1}{2}\rho v^2 + uv &
+   (\gamma - 1) u + v &
+   -(3 - \gamma) v - u &
+   -(\gamma - 1) \\
+   \gamma (u - v) e - (\gamma - 1)(u - v) \frac{q^2}{2} &
+   \gamma e 
+   - \frac{\gamma - 1}{2}\left\{2u(u - v) + q^2\right\} &
+   \gamma e 
+   - \frac{\gamma - 1}{2}\left\{2v(u - v) - q^2\right\} &
+   \gamma (u - v)
+  \end{pmatrix},
+\end{equation}
+\begin{equation}
+ \tilde{A}_{\eta} = \frac{1}{\sqrt{2}}
+  \begin{pmatrix}
+   0 & 1 & 1 & 0 \\
+   (\gamma - 1)\frac{q^2}{2} & u & v & \gamma - 1 \\
+   -(\gamma - 1)\frac{q^2}{2} & v & u & -(\gamma - 1) \\
+   -(\gamma - 1)(u + v)\frac{q^2}{2} &
+   (\gamma - 1)\frac{q^2}{2} &
+   -(\gamma - 1)\frac{q^2}{2} &
+   \gamma (u + v)
+  \end{pmatrix}
+\end{equation}
+\begin{equation}
+ p = (\gamma - 1) \rho \left(e - \frac{q^2}{2}\right),
+\end{equation}
+\begin{equation}
+ \rho H = \gamma \rho e - (\gamma - 1)\rho\frac{q^2}{2},
+\end{equation}
+余因子展開して行列式を求める。3次以上の行列の行列式の余因子展開と、余因
+子の定義。
+\begin{equation}
+ \det (A) = \Delta_{1j}a_{1j} + \Delta_{2j}a_{2j} + \cdots + \Delta_{nj}a_{nj},
+\end{equation}
+\begin{equation}
+ \Delta_{ij} = (-1)^{i+j}
+  \begin{vmatrix}
+   a_{11}     & \cdots & a_{1,j-1} & a_{1, j+1} & \cdots & a_{1, n} \\
+   \vdots     & \ddots & \vdots     & \vdots    &        & \vdots \\
+   a_{i-1, 1} & \cdots & a_{i-1, j-1} & a_{i-1, j+1} & \cdots & a_{i-1, n} \\
+   a_{i+11, 1} & \cdots & a_{i+1, j-1} & a_{i+1, j+1} & \cdots & a_{i+1, n} \\
+   \vdots     & \ddots & \vdots     & \vdots    &        & \vdots \\
+   a_{n, 1} & \cdots & a_{n, j-1} & a_{n, j+1} & \cdots & a_{n, j} \\
+  \end{vmatrix}
+\end{equation}
+
+ \begin{eqnarray}
+  \det(\tilde{A}_{\xi}) &= 
+   -[\{(a_{33} - \lambda)(a_{44} - \lambda) - a_{34}a_{43}\}(a_{22} -
+   \lambda) \\
+  & - a_{23}\{a_{32}(a_{44}- \lambda)\}  \\
+  & + a_{24}\{a_{32}a_{43} - a_{42}(a_33 - \lambda)\}]  \\
+ \end{eqnarray}

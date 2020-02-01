@@ -1,0 +1,72 @@
+\chapter{お金儲けの方法}
+古来統計学とか、経済学は数学の美しさのわからないバカがやるものと相場が決
+まっているので参考文献もないし、本文にも載せない。まとめないと忘れるので、
+付録に載せてやる。
+
+統計学は難しいけど、統計は簡単で、データを入れればバカチョンで回帰曲線と
+分散係数が出てくる。そんなのを飯の種にしてあたかも専門職みたいなことをい
+うのは世の中に余程バカが多いか、バカなことをシコシコやって専門職面するこ
+すい人間が高い給料を企業から翳めとってるかのどちらかである。いずれにしろ、
+統計とか、金融機関の確率計算なんぞバカだけどくだらないことをやってられる
+程度の知能程度しかなくて、人の金を扱う度胸のある人間だけである。
+
+\section{Black-Scholes方程式}
+1種類の配当のない株と、1種類の債券の2つが存在する市場を仮定したとき、株$S$
+と債券$B$の価格は
+\begin{equation}
+ d\log S = \sigma dW + \mu dt,
+\end{equation}
+\begin{equation}
+ B = e^{rt},
+\end{equation}
+を満たすという数値モデルである。このとき、$W$は確率過程で、
+$r, \sigma,　\mu$は無リスク利子率、ボラリティ、ドリフトと呼ばれる。
+時刻$t$のときの株と債券の保持量を$(a(t), b(t))$として、$C = aS + bB$とす
+る。これはある時刻$t$での資産である。これの時間発展を考えると、
+\begin{equation}
+ dC = adS + bdB = \left(\mu aS + rbB\right)dt + \sigma aS dW,
+\end{equation}
+である。
+
+\section{伊藤積分}
+斯様にバカばかりの経済学だが、確率過程の微分についての公式から確率微分に
+ついての公式を求めた伊藤清先生は偉大であり、数学者としての伊藤清は凡百の
+経済学者、金融屋とは厳に峻別されるべきである。このような確率論からの知見
+を生かした確率微分方程式の解法に至ったBlack-Scholes方程式は数多ある数学
+の公式の中から伊藤積分を探し出したことについてのみ経済学の快挙と呼べるべ
+きものである。
+
+伊藤の積分とは、Riemann積分を拡張することで確率過程の積分を正則な形で定
+義できるよう再構築した積分公式であり、ある確率過程$Y_t$とWiener過程$B_t$
+の積分が以下のように定義されることを示している。
+\begin{equation}
+ \int_{0}^{t}dB_t\mspace{5mu}Y_t = 
+  \sum_{i=1}^{n-1}Y_{i-1}\left\{B_{i} - B_{i-1}\right\}
+  + Y_{n-1}\left\{B_{n} - B_{n-1}\right\}
+\end{equation}
+
+また、確率過程$h$は$(x,t)$について少なくとも2回は微分可能であるとすると
+きに、確率微分方程式が確率過程$X_t$に対して、
+\begin{equation}
+ dX_t = f(t)dt + g(t)dB_t,
+\end{equation}
+のように表されるとすると、
+\begin{equation}
+ dh = \left.\frac{\partial h}{\partial t}\right|_{x=X}dt
+  + \left.\frac{\partial h}{\partial x}\right|_{x=X}
+      \left\{f(t)dt + g(t)dB_t\right\}
+  + \left.\frac{1}{2}\frac{\partial^2h}{\partial x^2}\right|
+      g(t)^2dt,
+\end{equation}
+が得られる。
+
+このとき、$h$の1次までの展開により、次のような伊藤の公式が得られる。
+\begin{equation}
+ dB_t^2 = dt,
+\end{equation}
+\begin{equation}
+ dB_tdt = 0,
+\end{equation}
+\begin{equation}
+ dt^2 = 0,
+\end{equation}

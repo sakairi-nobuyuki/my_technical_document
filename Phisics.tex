@@ -1,0 +1,613 @@
+\chapter{力学}
+\section{運動方程式}
+一番簡単な質点系の運動方程式を考える。
+
+運動方程式はNewtonの第二法則として、外力$f$に対して、質量$m$の質点の加速
+度$du/dt$は、
+\begin{equation}
+ m\frac{du}{dt} = f,
+\end{equation}
+として表される。これは、Newtonによる発見的方法により経験的に導かれたもの
+である。これより、運動量の保存則が簡単に導かれる。運動方程式を簡単に運動
+量保存に変換できるのは、質点の質量は保存することが前提となっている。ここ
+に、今考えている保存量は質点の質量と運動量である。それらは簡単に次のよう
+に質量や運動量の時間変化は外部からの影響を受けるという形で表される。
+\begin{equation}
+ \frac{dm}{dt} = 0,
+\end{equation}
+\begin{equation}
+ \frac{dmu}{dt} = f.
+\end{equation}
+
+これから先、場の量を扱っていくような場合には保存則を見つけることは非常に
+重要なことであり、Lagrange、Euler、Hamilton、Jacobi、Noetherのような先人
+による物理学の進歩により、形式的に保存則を探す手法が探求されてきた。これ
+らの手法は今日に於いても非常に重要な手法であることから、これらの手法によ
+り保存則を求める方法をまとめる。
+
+まず最初に、運動方程式を求める。
+
+質点の運動方程式とは、質点の運動、即ち、移動速度が従う法則である。これは
+何らかの量が保存していると考る。外力によるポテンシャルと運動の激しさを表
+すものが保存量であるという洞察から、考える。外力とは場所に依存する量であ
+ると仮定する。その次に、質点の運動による保存量は、場所、時間によらず常に
+一定であると考えられ、質点の運動を記述する要素のうち、時間でも場所でもな
+いものは速度であることから、速度により質点の運動による保存量を仮定する。
+ただ、速度も方向性を持ち、質点の運動は速度に対して等方的であるという洞察
+から、速度の自乗により表されると仮定する。これと特にLagrangeanと呼び、
+\begin{equation}
+ \mathcal{L}(q, q_t) = V (q) + \alpha u^2,
+\end{equation}
+のように表される。ここで、$q$、$q_t$はそれぞれ一般化された座標と、速度で
+ある。
+
+ここで、このLagrangeanは、時間$t_1$から$t_2$までの質点の運動に於いて、
+$(q, q_t)$の軌跡を通るが、それは常に極小値をとると考えられる。これは最小
+作用の原理と呼ばれる。ここで、そのような停留点を通る必要条件としては、
+$(q, q_t)$の軌跡の変分に対してLagrangeanの変分は不変であることである\footnote{停留点を通る必要条件はLagrangeanの変分が0であることだが、これは十分条件を満たしてはいない。これは常にLagrangeanが極小を持つという仮定と、たまたま見つけた停留点が極大点ではないという幸運によるものである。}。
+ここで、Lagrangeanの運動の軌跡に沿った積分を作用積分$S$とする。そして、
+質点の運動は、軌跡の変分$\delta q$による作用積分の変分は0であるから、
+\begin{equation}
+ S = \int_{t_1}^{t_2}dt \mspace{5mu} \mathcal{L},
+\end{equation}
+の変分は次のようになる。
+\begin{equation}
+ \delta S = \int_{t_1}^{t_2}dt \mspace{5mu} \delta\mathcal{L}
+  = \int_{t_1}^{t_2}dt \mspace{5mu} 
+  \left\{\frac{\partial\mathcal{L}}{\partial q}\delta q
+  + \frac{\partial\mathcal{L}}{\partial q_t}\delta q_t\right\}.
+\end{equation}
+ここで、座標についての変分を取っているので、右辺第二項を部分積分すると、
+\begin{equation}
+ \int_{t_1}^{t_2}dt \mspace{5mu}
+  \frac{\partial \mathcal{L}}{\partial q_t}\delta q_t
+  = \left[\frac{\partial \mathcal{L}}{\partial q}\delta q\right]^{t_2}_{t_1}
+  \int_{t_1}^{t_2}dt \mspace{5mu}
+  + \left(\frac{d}{dt}\frac{\partial \mathcal{L}}{\partial q}\right)\delta q
+\end{equation}
+このとき、右辺第一項については、軌跡の始点と終点は常に同じでなので、0に
+なる。
+
+これを元に戻すと、作用積分が0になるための非自明な条件として、以下のよう
+にEuler-Lagrangeの運動方程式が求められる。
+\begin{equation}
+ \frac{\partial\mathcal{L}}{\partial q} - 
+  \frac{d}{dt}\frac{\partial \mathcal{L}}{\partial q}
+  = 0.
+\end{equation}
+
+これにもともと考えていたLagrangeanを代入すると、
+\begin{equation}
+ \frac{dV}{dx} - 2\alpha \frac{du}{dt} = 0,
+\end{equation}
+となり、これをNewtonの運動方程式と比べると、$2\alpha$は質量、$dV/dx$はポ
+テンシャルの空間微分であり、外力に相当する。
+
+このような運動方程式の求め方は、空間の並進の自由度に対して運動量が保存す
+ると言い換えることができる。このようにあるLagrangeanに対して自由度が存在
+すると、それに対する保存量が存在するであろうことが洞察されるが、これは
+Noehterの定理として、系の対称性に対して保存則が存在するとして定式化され
+ている。
+
+\section{古典的な保存則の求め方}
+Lagrangeanをもとに各種運動の自由度を考察することで様々な保存則が求められ
+る。時間、空間、回転の自由度に対して作用積分が不変であることから、エネル
+ギー保存則、運動量保存則、角運動量の保存則がそれぞれ得られる。これを一般
+化すると、ある自由度に対する対称性がある場合には保存量が決まることを意味
+し、それは体系的にはNoetherの定理に収斂していく。このようなやり方は一見
+した所、過去の経験則から得られている力学についての保存量の再発見にしか過
+ぎないように見えるが、新たな保存則を探す際には有力な手段となる。
+そこで、これからそれぞれ個別の自由度に対しての保存量を求めていく。
+
+\subsection{エネルギー保存則}
+作用積分が任意の位置と速度に対して定義されていて、$s$の粒子からなる系を
+考える。そして、時間に対する対称性を考えた場合、Lagrangeanの時間について
+の全微分を考えることになる。今、系では$2s$の自由度があるため、その
+Legendre変換により次のように書くことが出来る。
+\begin{equation}
+ \frac{dL}{dt} = \frac{\partial\mathcal{L}}{\partial q_i}\frac{dq_i}{dt}
+  + \frac{\partial\mathcal{L}}{\partial \dot{q}_i}\frac{d\dot{q}_i}{dt},
+\end{equation}
+ここで、Euler-Lagrangeの運動方程式は、$L_q - dL_{q_t}/dt=0$で与えられて
+いたので、$L_qq_t=dq_t/dt$なので、
+\begin{equation}
+ \frac{dL}{dt} = \dot{q}_i\frac{d}{dt}\frac{\partial\mathcal{L}}{\partial \dot{q}_i}
+  + \frac{\partial\mathcal{L}}{\partial \dot{q}_i}\frac{d\dot{q}_i}{dt}　
+ = \frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial \dot{q}_i}\dot{q}_i\right),
+\end{equation}
+のようになり、これをまとめると、
+\begin{equation}
+ \frac{d}{dt}
+  \left(\frac{\partial\mathcal{L}}{\partial \dot{q}_i}\dot{q}_i -\mathcal{L}\right) = 0,
+\end{equation}
+となり、時間に対して変化しない量、即ち、保存量を得ることができる。この
+保存量をエネルギーとして、
+\begin{equation}
+ E = \frac{\partial\mathcal{L}}{\partial \dot{q}_i}\dot{q}_i -\mathcal{L},
+\end{equation}
+として定義する。いうまでもなく、エネルギーは常に一定の値を取る。また、こ
+れに質点系のLagrangeanを代入すると、
+\begin{equation}
+ E = \frac{1}{2}mq_t^2 + U,
+\end{equation}
+という風な、エネルギーの形式が得られる。
+
+\subsection{運動量保存則}
+無限小の並進変換を考える。これはLagrangeanの並進対称性についての議論に他
+ならない。このときに、それぞれの次元について任意の微小量$\epsilon$の大き
+さを持つ微小なベクトル$\bm{\epsilon}$を定義して、それにより並進変換する。
+これは全ての空間方向について等方的な並進変換を施すことを意味しており、空
+間等方性を仮定している。
+\begin{equation}
+ \bm{x}' = \bm{x} + \bm{\epsilon}.
+\end{equation}
+
+これによるLagrangeanの微小変化は、
+\begin{equation}
+ \delta\mathcal{L} = \bm{\epsilon}\sum\frac{\partial\mathcal{L}}{\partial x_i},
+\end{equation}
+である。ここで、並進変換に対してLagrangeanが対称性を持つ場合の非自明な条
+件は、
+\begin{equation}
+ \frac{\partial\mathcal{L}}{\partial x_i} = 0,
+\end{equation}
+であり、Euler-Lagrangeの運動方程式から、
+\begin{equation}
+ \frac{d}{dt}\frac{\partial\mathcal{L}}{\partial \dot{x}_i} = 0,
+\end{equation}
+であることがわかる。これから、保存量は$\partial\mathcal{L}/\partial x$で
+あることがわかる。古典力学のLagrangeanの定義から、上の保存則は、運動量
+$\bm{p}$として、
+\begin{equation}
+ \bm{p} = \frac{\partial\mathcal{L}}{\partial \bm{\dot{x}}} = m\bm{u} = Const.,
+\end{equation}
+である。これは、経験的に得られたNewtonの第二法則の慣性の法則と一致する。
+
+また、付随的に、この運動量保存の導出の過程から、あるベクトル量$\bm{F}$が
+系全体での総和として、
+\begin{equation}
+ \sum\bm{F} = \sum\frac{\partial\mathcal{L}}{\partial x_i} = 0,
+\end{equation}
+として得られる。これは、Lagrangeanの定義から、ポテンシャルの空間微分とし
+て得られる外力であり、系全体での力の総和は0であるという力の釣り合いと一
+致する。また、外力の総和は0だが、個別の外力は必ずしもそうではないことが
+わかり、次のように表される。
+\begin{equation}
+ \bm{F} = \frac{\partial\mathcal{L}}{\partial x_i}.
+\end{equation}
+
+さらにこの結論をEuler-Lagrangeの運動方程式に代入すると、
+\begin{equation}
+ \bm{F} = \frac{d\bm{p}}{dt},
+\end{equation}
+という関係が得られる。また、外力はLagrangeanの空間微分で得られるので、
+\begin{equation}
+ \frac{\partial \bm{p}}{\partial t} = \frac{\partial L}{\partial \bm{q}},
+\end{equation}
+のように表される。
+
+\section{正準方程式}
+\subsection{Hamiltonの運動方程式}
+Euler-Lagrangeの運動方程式は、系の作用積分を位置と速度で定義していた。こ
+の場合は、得られる運動方程式は、作用積分の微分の最高次が、
+が位置の一階微分で定義されていたので、二階の微分で表されることになる。つ
+まり、Euler-Lagrangeの運動方程式では、1つの独立変数に対して、2解の方程式
+系になる。
+
+一方で、微分の階数は1で、自由度が2つの場合の運動方程式について考える。そ
+のような記述をしたい場合には、速度を運動量へ変換することで対応が可能であ
+る。いうまでもなく、位置と運動量は互いに独立であり、それだけで固有の空間
+を張ることが出来る。
+
+今、Lagrangeanの全微分は、
+\begin{equation}
+ dL = L_qdq + L_{\dot{q}}d\dot{q},
+\end{equation}
+で表される。ここで、Euler-Langangeの運動方程式と運動量の定義から、
+$p_t=L_q$、$q_t=L_{\dot{q}}$なので、
+\begin{equation}
+ dL = \dot{p}dq + pd\dot{q},
+\end{equation}
+であり、ここで、$pd\dot{q}=d(p\dot{q})-\dot{q}dp$なので、これを代入する
+と、
+\begin{equation}
+ d(L - p\dot{q}) = \dot{p}dq - \dot{q}dp,
+\end{equation}
+のように変換が出来る。これにより、$L-p\dot{q}$は、位置と運動量の関数に変
+換が出来て、運動方程式を位置と運動量により記述することが出来る。また、こ
+こで、この変数の表式は、Euler-Lagrangeの運動方程式と、時間についての
+Lagrangeanの対称性から得られるエネルギー$E=p\dot{q}-L$と似た表式であり、
+既に得られているエネルギーの保存則から、$d(L-p\dot{q})=0$であることから、
+$H$をHamiltonianとして、$H=p\dot{q}-L$と定義する。また、Hamiltonianは運
+動量と位置により表されるエネルギーである。また、これにより、$dH=0$の非
+自明な条件から、次のような関係詞着替えられる。
+\begin{equation}
+ \frac{\partial q}{\partial t} = \frac{\partial H}{\partial p},
+\end{equation}
+\begin{equation}
+ \frac{\partial p}{\partial t} = -\frac{\partial H}{\partial q}.
+\end{equation}
+また、この運動方程式をHamiltonの運動方程式という。
+
+Hamiltonianの時間についての全微分を取ると、
+\begin{equation}
+ \frac{dH}{dt} = \frac{\partial H}{\partial t}
+  + \frac{\partial H}{\partial q}\frac{dq}{dt}
+  + \frac{\partial H}{\partial p}\frac{dp}{dt},
+\end{equation}
+であり、Hamiltonianが時間によらず一定のときには、Hamiltonの運動方程式か
+ら、$dH/dt = 0$が得られるので、やはりHamiltonの運動方程式からもエネルギー
+保存が証明される。
+
+\subsection{Rauss関数}
+あるけいの運動が、$(q,\xi, \dot{q}, \dot{\xi})$で与えられているとき、こ
+れを、$q$のみ位置と運動量についての記述に変換する場合を考える。
+Hamintonの運動方程式を導出したときと同じ考え方から、$L=L(q,\dot{q,
+\xi,\dot{\xi}})$とすると、
+\begin{equation}
+ dL = L_qdq + L_{\xi}d\xi +
+  L_{\dot{q}}d\dot{q} + L_{\dot{\xi}}d\dot{\xi}
+  = \dot{p}dq + pd\dot{q} + L_{\xi}d\xi + L_{\dot{\xi}}d\dot{\xi},
+\end{equation}
+これから、$(p, q)$で表される部分だけでHamiltonianで表されるようにすると、
+\begin{equation}
+ d(L-p\dot{q}) = L_{\xi}d\xi + L_{\dot{\xi}}d\dot{\xi},
+\end{equation}
+である。
+
+ここで、Rauss関数を、$R=R(q,p,\xi\dot{\xi})$として表すと、$R=p\dot{q}-L$
+であり、その全微分は、
+\begin{equation}
+ dR = \dot{q}dp-\dot{p}dq
+  -L_{\xi}d\xi - L_{\dot{\xi}}d\dot{\xi},
+\end{equation}
+で与えられて、これより、運動方程式は次のように与えられる。
+\begin{equation}
+ \dot{q} = \frac{\partial R}{\partial p},
+\end{equation}
+\begin{equation}
+ \dot{p} = -\frac{\partial R}{\partial q},
+\end{equation}
+\begin{equation}
+ \frac{\partial R}{\partial \xi} - 
+  \frac{d}{dt}\frac{\partial R}{\partial \dot{\xi}} = 0,
+\end{equation}
+のように、$(p,q)$についてはHamiltonの運動方程式、$(\xi, \dot{\xi})$につ
+いてはEuler-Lagrangeの運動方程式の表式で運動方程式が与えられる。
+つまり、Hamiltonの運動方程式で運動方程式を記述するが、時間について2階の
+項が陽的に現れる変数についてはEuler-Lagrangeの運動方程式を適用可能である。
+
+\subsection{Poisson括弧}
+ある関数$f$があったとして、それが$f=f(q,p,t)$で表されていると仮定する。
+その場合の時間についての全微分は、
+\begin{equation}
+ \frac{df}{dt} = \frac{\partial f}{\partial t}
+  + \frac{\partial f}{\partial p}\frac{dp}{dt}
+  + \frac{\partial f}{\partial q}\frac{dq}{dt},
+\end{equation}
+表される。ここで、このとき力学系が成り立っているとすると、Hamiltonの運動
+方程式から、$f$が、
+\begin{equation}
+ \frac{df}{dt} = \frac{\partial f}{\partial t}
+  - \frac{\partial f}{\partial p}\frac{\partial H}{\partial q}
+  + \frac{\partial f}{\partial q}\frac{\partial H}{\partial p},
+\end{equation}
+で表される。このときこの関係式の反対称性を、
+\begin{equation}
+ \frac{df}{dt} = \frac{\partial f}{\partial t}
+  + \left\{H \mspace{5mu} f\right\}
+\end{equation}
+と表す。ここで、$\{\}$をPoissonの括弧と呼び、
+\begin{equation}
+ \{f \mspace{5mu} H\} 
+  =  \frac{\partial f}{\partial q}\frac{\partial H}{\partial p}
+  - \frac{\partial f}{\partial p}\frac{\partial H}{\partial q},
+\end{equation}
+のように定義する。作用積分は時間について$dS/dt=0$という保存量なので、
+$f_t+\{f\mspace{5mu}H\}=0$である場合は$f$はその系の作用積分になる。
+
+Poissonの括弧の性質は次のようになる。
+\begin{equation}
+ \{f\mspace{5mu}g\} = -\{g\mspace{5mu}f\},
+\end{equation}
+\begin{equation}
+ \{f\mspace{5mu}c\} = \{0|c=Const.\}
+\end{equation}
+\begin{equation}
+ \{f_1+f_2\mspace{5mu}g\} = \{f_1\mspace{5mu}g\} + \{f_2\mspace{5mu}g\},
+\end{equation}
+\begin{equation}
+ \{f_1f_2\mspace{5mu}g\} = f_1\{f_2\mspace{5mu}g\}
+  + f_2\{f_1\mspace{5mu}g\},
+\end{equation}
+\begin{equation}
+ \frac{\partial}{\partial t}\{f\mspace{5mu}g\}
+  = \left\{\frac{\partial f}{\partial t}\mspace{5mu}g\right\}
+  +\left\{f\mspace{5mu}\frac{\partial g}{\partial t}\right\},
+\end{equation}
+\begin{equation}
+ \{f\mspace{5mu}q_i\} = 
+  \frac{\partial f}{\partial p_k}\frac{\partial q_i}{q_k}
+  - \frac{\partial f}{\partial q_k}\frac{\partial q_i}{p_k}
+  = \frac{\partial f}{\partial p_k}\delta_{ik},
+\end{equation}
+\begin{equation}
+ \{f\mspace{5mu}p_i\}  
+  = -\frac{\partial f}{\partial q_k}\delta_{ik},
+\end{equation}
+\begin{equation}
+ \{q_i\mspace{5mu}q_k\} = 0,
+\end{equation}
+\begin{equation}
+ \{p_i\mspace{5mu}p_k\} = 0,
+\end{equation}
+\begin{equation}
+ \{q_i\mspace{5mu}p_k\} = \delta_{ik},
+\end{equation}
+\begin{equation}
+ \{f\mspace{5mu}\{g\mspace{5mu}h\}\}
+  =  \{g\mspace{5mu}\{h\mspace{5mu}f\}\}
+  =  \{h\mspace{5mu}\{f\mspace{5mu}g\}\}.
+\end{equation}
+
+\subsection{作用積分の性質}
+作用積分について、変分$\delta q$が0でないような、一般的なときを考える。
+この場合は、$q(t_2)$が任意の位置にあり、複数の指向に対して異なる軌跡があ
+るときの過渡状態での作用積分について考える。それぞれの状態での作用積分の
+変分は、
+\begin{equation}
+ \delta S
+  = \left[\frac{\partial L}{\partial \dot{q}}\delta q\right]^{t_2}_{t_1}
+  + \int_{t_1}^{t_2}dt\mspace{5mu}
+  \left\{\frac{\partial L}{\partial q} - \frac{d}{dt}\frac{\partial L}{\partial \dot{q}}\right\}\delta q
+\end{equation}
+になる。
+
+このとき、既にEuler-Lagrangeの方程式を満たしているとすると、
+\begin{equation}
+ \delta S 
+  = \left[\frac{\partial L}{\partial \dot{q}}\delta q\right]^{t_2}_{t_1},
+\end{equation}
+である。$\partial L/\partial \dot{q}=p$なので、これより、任意の自由度が
+ある系では、$ \delta S = p_i \delta q_i$で、これから、
+\begin{equation}
+ p_i = \frac{\partial S}{\partial q},
+\end{equation}
+という関係が得られる。
+
+作用積分の時間に対する依存性を考える。まず、作用積分は、その定義から、
+$dS/dt = L$である。また、作用積分を時間と空間の関数と考えると、
+\begin{equation}
+ \frac{dS}{dt} = \frac{\partial S}{\partial t}
+  + \frac{\partial S}{\partial q_i}\frac{dq_i}{dt},
+  = \frac{\partial S}{\partial t} + p_i\dot{q}_i,
+\end{equation}
+が得られて、これより、作用積分の時間に対する偏微分は、
+\begin{equation}
+ \frac{\partial S}{\partial t} = L - p_i\dot{q}_i,
+\end{equation}
+\begin{equation}
+ \frac{\partial S}{\partial t} = -H,
+\end{equation}
+のように得られる。これより、作用積分は改めてエネルギーの時間についての積
+分であることがわかる。
+
+ここで、作用積分の全微分は、
+\begin{equation}
+ dS = p_idq_i - Hdt,
+\end{equation}
+のように表される。これより、Hamiltonの運動方程式を形式的に求めることが出
+来る。即ち、作用積分はHamiltonianにより、
+\begin{equation}
+ S = \int\left(p_idq_i - Hdt\right),
+\end{equation}
+のようになる。これに対して変分を取ると、
+\begin{equation}
+ \delta S = \int
+  \left(p_i\delta dq_i + dq_i \delta p_i -
+  \frac{\partial H}{\partial p_i}\delta p_i dt
+  \frac{\partial H}{\partial q_i}\delta q_i dt\right),
+\end{equation}
+になるが、$p_i\delta dq_i$の項が邪魔なので、これを部分積分して、
+$p_i\delta dq_i = d(p_i\delta q_i) - \delta q_i dp_i$とすると、
+\begin{equation}
+ \delta S = 
+  \left[p_i\delta q_i\right]
+  + \int
+  \left(\frac{\partial H}{\partial q_i}dt - dp_i\right)\delta q_i +
+  \left(\frac{\partial H}{\partial p_i}dt + dq_i\right)\delta p_i,
+\end{equation}
+のような関係になる。ここで、定数項は0になり、任意の$\delta p$、$\delta
+q$について作用積分の変分が0になるには、
+\begin{equation}
+ \frac{\partial H}{\partial q_i}dt - dp_i = 0,
+\end{equation}
+\begin{equation}
+\frac{\partial H}{\partial p_i}dt + dq_i = 0,
+\end{equation}
+となる必要がある。
+
+
+\subsection{正準変換}
+座標系$(q, p)$から$(Q, P)$への変換を考える。Hamiltonianも変わる。
+
+ある出発点からLagrangeanを積分していったときに、その途中で異なる経路をとっ
+ている最中の作用積分の変分を考える。このとき、Euler-Lagrangeの運動方程式
+が成立しているとすると、
+\begin{equation}
+ \delta S = 
+  \left[\frac{\partial L}{\partial \dot{q}}\delta q\right]_{t_1}^{t_2},
+\end{equation}
+が得られる。
+
+ここで、次のような変数変換を考える。$q(t_1)\rightarrow 0$、
+$q(t_2) \rightarrow \delta q$。これにより、作用積分の変分は、
+\begin{equation}
+ \delta S = \frac{\partial L}{\partial\dot{q}}\delta q,
+\end{equation}
+となる。
+
+
+\chapter{熱 統計力学}
+\section{統計的な性質について}
+力学で扱う問題において、多体系を論ずる場合は、解くべき方程式の数が膨大に
+なるため、大変だから、系の振る舞いを統計的に取り扱う。そのような場合には
+それぞれの粒子についての厳密な解は求められないが、それとは別に何らかの法
+則性を見いだせそうなことが期待できる。そのような法則性を統計的な性質とい
+う。また、統計的な性質は粒子の数が十分に大きい場合は成立するが、粒子の数
+が少なくなってくると個別の粒子の運動が卓越してきて、統計的な性質は見えな
+くなってしまう性質を持っている。
+
+統計的に力学の現象を扱う場合には、場所$q$と運動量$p$によって定義される位相空間
+で議論することが多い。ここで、ある粒子が位相空間内の$\delta p\delta q$の
+中にいる時間$\Delta t$を考えると、
+\begin{equation}
+ w = \lim_{T\rightarrow\infty}\frac{\Delta t}{T},
+\end{equation}
+である。これは統計的な平均は即ち時間平均であることを意味している。
+
+更にここから、系$\mathcal{s}$は$s$の粒子で構成されているとするときには、
+系は$s2$の自由度を持ち、その場合の位相空間内の体積要素$dpdq$を次のように定義する。
+\begin{equation}
+ dpdq = dp_1dp_2\cdots dp_sdq_1dq_2\cdots dq_s,
+\end{equation}
+これより、系が体積要素内にある確率を考えることによって、次のような統計密
+度関数が定義できる。
+\begin{equation}
+ dw = \rho (p_1,p_2,\cdots,p_s,q_1,q_2,\cdots,q_s)dpdq.
+\end{equation}
+また、統計密度関数は、確率の定義から、次のような規格化が施されている。
+\begin{equation}
+ \int_{-\infty}^{\infty}dpdq\mspace{5mu}\rho = 1.
+\end{equation}
+ここで、$\rho$は統計密度関数であり、これにより任意の量$f$の確率が、
+\begin{equation}
+ \bar{f} = \int dpdq\mspace{5mu}\rho (p, q) f (p, q),
+\end{equation}
+として得られる。この方法は、時間平均の計算からと、統計密度関数が規格化さ
+れたものであることからも、
+\begin{equation}
+ \bar{f} = \lim_{T\rightarrow\infty}\frac{1}{T}\int_{0}^{T}dt\mspace{5mu}f(t),
+\end{equation}
+のような時間平均と一致する。またこのことから、統計平均は時間平均と一致す
+ることもわかる。またここで、$T$は系が統計的平衡に至るまでの時間を示して
+いて、緩和時間と呼ばれる。
+
+\section{統計的な独立性}
+超多粒子系を巨視的に見る場合には、粒子相互の相互作用がなくはないが、弱い
+ので、異なる系の間の相互作用がないと見なすような仮定ができて、統計的に独
+立であるといえる。系$\mathcal{s}_1$と$\mathcal{s}_2$で構成される複合的な
+系を考えたときの統計的な諸量の振る舞いを考える。
+
+ここでも系$\mathcal{s}_1$と$\mathcal{s}_2$の統計密度関数について最初に考
+える。系$\mathcal{s}_1$と$\mathcal{s}_2$の合成系の位相空間での体積要素は、
+$dp_{12}dq_{12}$だが、これが互いに独立な場合には、
+\begin{equation}
+ dp_{12}dq_{12} = dp_1dp_2dq_1dq_2,
+\end{equation}
+のようになる。
+
+また、$\mathcal{s}_1$と$\mathcal{s}_2$の中に粒子がいる確率は、統計密度関
+数を使って表現される。系$\mathcal{s}_1$と$\mathcal{s}_2$が互いに独立であ
+るということから、
+\begin{equation}
+  \rho_{12}dp_{12}dq_{12} = \rho_1dp_1dq_1\rho_2dp_2dq_2,
+\end{equation}
+\begin{equation}
+ \rho_{12} = \rho_1\rho_2,
+\end{equation}
+という性質を持つ。そして、これらの性質から、ある量$f$の合成系での平均は、
+$\overline{f_1f_2}$で表されるが、これは統計的な独立性から、
+\begin{equation}
+ \overline{f_1f_2} = \int dp_{12}dq_{12} \rho_{12} f_1f_2 = 
+  \int dp_1dq_1 \rho_1 f_1 dp_2dq_2 \rho_2 f_2 = \bar{f}_1\bar{f}_2,
+\end{equation}
+のように互いに独立であることがいえる。
+
+次に、ある量のある時間での平均値からの変動成分、揺らぎについて考える。揺
+らぎは$\Delta f = f - \bar{f}$で定義されるが、この平均はいうまでもなく0
+である。従って、揺らぎを評価する場合には平均値は直ちには使用できない。し
+かし、これまで考察した統計的独立性があることから、自乗平均を考える場合は
+その限りではない。
+\begin{equation}
+ \sqrt{\overline{(\Delta f)^2}} = \sqrt{\overline{(f - \bar{f})^2}} 
+  = \sqrt{\overline{f^2 -2f\bar{f} + \bar{f}^２}} =\sqrt{\bar{f}^2 - \overline{f^2}},
+\end{equation}
+のようにある量の平均の自乗と、自乗の平均は統計的独立性から0になる気がす
+るが、ある系で自己相関がある場合には0に限りなく近くなるが、0ではない値を
+とる。
+
+\section{Liouvilleの定理}
+ある位相空間の時間発展を考える。古典的な質量保存則からの類推により、統計
+密度関数を、流体の密度と仮定して考察する。一般的な流体の質量保存則は、
+\begin{equation}
+ \frac{\partial \rho}{\partial t}
+  + \text{div}\rho\bm{u} = 0,
+\end{equation}
+のように表される。
+
+ここで、位相空間を構成する運動量と、位置はそれぞれ古典力学での位置ベクト
+ルに相当し、
+\begin{equation}
+ \begin{pmatrix}
+  x \\ y
+ \end{pmatrix}
+ \longrightarrow
+ \begin{pmatrix}
+  p \\ q
+ \end{pmatrix},
+\end{equation}
+であり、速度がは位置の時間微分であることから、位相空間上の運動量と位置の
+時間微分として、
+\begin{equation}
+\begin{pmatrix}
+ u \\ v
+\end{pmatrix} 
+\longrightarrow
+\begin{pmatrix}
+ \dot{p} \\ \dot{q}
+\end{pmatrix},
+\end{equation}
+で表される。これにより、質量保存則は確率密度変数の保存則として、
+\begin{equation}
+ \frac{\partial \rho}{\partial t}
+  + 
+  \begin{pmatrix}
+   \frac{\partial}{\partial p} & \frac{\partial}{\partial q}
+  \end{pmatrix}
+  \begin{pmatrix}
+   \rho\dot{p} \\ \rho\dot{q}
+  \end{pmatrix}
+  =  \frac{\partial \rho}{\partial t}
+  + \frac{\partial \rho\dot{p}}{\partial p}
+  + \frac{\partial \rho\dot{q}}{\partial q} = 0,
+\end{equation}
+と変形できる。
+
+ここで、Hamintonの運動方程式が、
+\begin{equation}
+ \frac{\partial q}{\partial t} 
+  = \frac{\partial \mathcal{H}}{\partial p}, \mspace{15mu}
+ \frac{\partial p}{\partial t} 
+  = -\frac{\partial \mathcal{H}}{\partial q},
+\end{equation}
+で表されていることから、
+\begin{equation}
+ \frac{\partial\dot{q}}{\partial q} =
+  \frac{\partial^2\mathcal{H}}{\partial q\partial p}
+  = -\frac{\partial\dot{p}}{\partial p},
+\end{equation}
+となり、これにより、
+\begin{equation}
+ \frac{\partial\rho}{\partial t}
+  - \left(\frac{\partial p}{\partial t}\frac{\partial\rho}{\partial q}
+    + \frac{\partial q}{\partial t}\frac{\partial\rho}{\partial p}\right)
+\end{equation}
+
+
+\begin{thebibliography}{}
+ \bibitem{Landau} ランダウ・リフシッツ、力学、東京書籍
+ \bibitem{LandauStatisticalPhysicsUp} ランダウ・リフシッツ、統計物理学第2版 上、東京書籍
+ \bibitem{LandauStatisticalPhysicsDown} ランダウ・リフシッツ、統計物理学
+	 第2版 下、東京書籍
+\end{thebibliography}

@@ -1,0 +1,223 @@
+\chapter{常微分方程式}
+\section{常微分方程式の一般形}
+常微分方程式とは、独立変数が1つの微分方程式で、$n$階の一般的な微分方程式
+は、次のように書ける。
+\begin{equation}
+ a_1\frac{du}{dx} + a_2\frac{d^2u}{dx^2} + \cdot + a_n\frac{d^nu}{dx^n}
+  = f(x).
+\end{equation}
+
+一階の同次方程式については変数分離法を使って簡単に解ける。今、微分方程式
+が一次の近似によって成立しているという仮定をすると、$du/dx=f(x)$は次のよ
+うに書き換えられる。
+\begin{equation}
+ du = f(x)dx.
+\end{equation}
+これは、$u$の$x$による微分は級数展開により次のように表されるとき、
+\begin{equation}
+ \phi(x+dx) = \phi(x) + \left.\frac{d\phi}{dx}\right|_{x}dx + O(dx^2),
+\end{equation}
+二次以降の項を無視して、$x$での$\phi$の微分は、$\phi$の無限小変化は
+$d\phi=\phi(d+dx)-\phi(x)$であると仮定すると、
+\begin{equation}
+ d\phi = \frac{d\phi}{dx}dx,
+\end{equation}
+であるという仮定による。これにより、一階の同次方程式は、次のような積分に
+より解を得られる。
+\begin{equation}
+ u = \int dx\mspace{5mu}f(x).
+\end{equation}
+
+次に、一階の固有値問題について考える。一番簡単な形として、
+\begin{equation}
+ u_x + au = 0,
+\end{equation}
+を考える。このとき、$a$は任意の数だが、$u$の関数ではないとする。これを変
+数分離すると、積分定数$C$を用いて、
+\begin{equation}
+ u = Ce^{-\int dx\mspace{5mu}a},
+\end{equation}
+が得られる。
+
+次に、非同次の場合の一階の方程式を考える。
+\begin{equation}
+ u_x + au = f(x).
+\end{equation}
+ここで、この方程式の特解は、同次式の解である。非同次項$f(x)$が0のような
+場合には、方程式の解は同次方程式の解となる。そこで、非同次項が0でないと
+きは、同次方程式の積分定数は$x$の関数であるという洞察から、一般解を
+$C(x)\exp(\int dx\mspace{5mu}\phi(x))$とする。これを非同次方程式に代入す
+ることで、最終的には$C$についての微分方程式が得られる。これにより、非同
+次方程式の一般解は、
+\begin{equation}
+ u = 
+  \left(\int dx\mspace{5mu}f(x)e^{-\int dx\mspace{5mu}a} + b\right)
+  e^{-\int dx\mspace{5mu}a}
+\end{equation}
+となる。
+
+次に、$n$次の方程式を考える。$n$次の微分方程式は$n$この階をもち、その一
+般解はそれらの階の線形和で、
+\begin{equation}
+ u = \sum_{i=1}^n a_iu_i,
+\end{equation}
+のように与えられる。
+
+今、この階の線形独立性を考えるために、これらの解が線形従属な場合を考える。
+その場合は、
+\begin{equation}
+  \sum_{i=1}^n a_iu_i = 0,
+\end{equation}
+のように、$n$番目の解がその他の階の線形和で表される。そして、これは$n-1$
+会は微分できるはずであり、
+\begin{equation}
+ \sum_{i=1}^n a_iu^{(i)}_i = 0,
+\end{equation}
+である。
+
+この関係により、係数$a_i$は、次のような行列方程式の解として求めることが
+出来る。
+\begin{equation}
+ \begin{pmatrix}
+  u_1 &  u_2  & \cdots & u_n \\
+  u'_1 & u'_2 & \cdots & u'_n \\ 
+  \vdots & \vdots & \ddots& \vdots \\
+  u^{(n-1)}_1 & u^{(n-1)}_2 & \cdots & u^{(n-1)}_n
+ \end{pmatrix}
+ \begin{pmatrix}
+  a_1 \\ a_2 \\ \vdots \\ a_n
+ \end{pmatrix}
+ = 0.
+\end{equation}
+このとき、この行列の行列式が0のときには方程式の解が一意には決まらないた
+め、方程式は線形従属である。従って、行列式が0ではなことが方程式の一般解
+の一次独立性の必要条件である。また、このとき、この行列をWronski行列$W(u_1,\cdots,u_n)$と呼
+び、その行列式をWronski行列式(Wronskian)と呼び、$\Delta(u_1,\cdots,u_n)$
+と表記する。
+\begin{equation}
+ W(u_1, u_2, \cdots, u_n) =
+\begin{vmatrix}
+  u_1 &  u_2  & \cdots & u_n \\
+  u'_1 & u'_2 & \cdots & u'_n \\ 
+  \vdots & \vdots & \ddots& \vdots \\
+  u^{(n-1)}_1 & u^{(n-1)}_2 & \cdots & u^{(n-1)}_n
+\end{vmatrix}
+\end{equation}
+
+また、このWronski行列式による積分定数に関する行列方程式の解は、Cramerの
+定理を使って得られて、
+\begin{equation}
+ C_i = \frac{|W_i|}{|W|},
+\end{equation}
+である。このとき、$|W_i|$は$i$行目の列と最後のを除いたWronski行列式の小行列式で
+ある。
+
+\section{非斉次方程式の一般解}
+ある$n$階の常微分方程式の作用素が$L$で与えられているとする。例えば、
+\[
+ L = a_n\frac{d^n}{dt^n} + a_{n-1}\frac{d^{n-1}}{dt^{n-1}} + \cdots + a_n.
+\]
+そして、このとき、非斉次方程式が次のように定義されていたとする。
+\begin{equation}
+ L(y) = f(x).
+\end{equation}
+このような場合の1階の方程式については定数変化法として、前節で扱ったが、
+一般的ばあいについて考える。一階の方程式の場合と同じように、基本系$u$は
+$L(u)=0$を満たすとして、
+\begin{equation}
+ u = C_1u_1 + C_2 u_2 + \cdots + C_nu_n,
+\end{equation}
+のように表されるとする。そして、これを一般解について拡張するとき、一般解
+$y$は$x$についての関数$V=V(x)$により、
+\begin{equation}
+ y = V_1u1_ + V_2u_2 + \cdots + V_nu_n,
+\end{equation}
+と表される。ここで、$V_i$は$L(y)=f(x)$を満たすような関数であるが、$n$の
+基本解を持つ$V_i$と$f(x)$の間には微分方程式による1つの関係性しか規定され
+ていないため、残りの$n-1$については任意の関係性を規定できる。
+
+今、方程式を簡単に解くために、次のように仮定する。
+\begin{equation}
+ \begin{cases}
+  V_1u_1' + V_2u_2' + \cdots + V_nu_n' = 0, \\
+  V_1'u_1' + V_2'u_2' + \cdots + V_n'u_n' = 0, \\
+  \cdots \\
+  V_1'u_1^{(n-2)} + V_2'u_2^{(n-2)}  + \cdots + V_n'u_n^{(n-2)} = 0,
+ \end{cases}
+ \label{variation_constant_method_suppose1}
+\end{equation}
+
+これをもとにして、微分方程式に$y$を代入していく。$y$の微分については、上
+記の仮定により、
+\begin{equation}
+ \begin{cases}
+  y' = V_1u_1' + V_2u_2' + \cdots + V_nu_n', \\
+  \cdots \\
+  y^{(n-1)} = V_1u_1^{(n-1)} + V_2u_2^{(n-1)} + \cdots +
+  V_nu_n^{(n-1)}, \\
+  y^{(n)} =  V_1u_1^{(n)} + V_2u_2^{(n)} + \cdots +
+  V_nu_n^{(n)} +
+  V_1u_1^{(n-1)} + V_2u_2^{(n-1)} + \cdots +
+  V_nu_n^{(n-1)},
+ \end{cases}
+\end{equation}
+である。これを微分方程式に代入する。このとき、$L(u_i)=0$は微分方程式の基
+本系全てに成立しており、たとえば、$u_1$については、
+$V_1L(u_1)+V_1'u_1^{(n-1)}$になり、更に、$L(u_1)=0$なので、
+$V_1'u_1^{(n-1)}$が残る。従って、
+\begin{equation}
+ V_1'u_1^{(n-1)} + V_2'u_2^{(n-1)} + \cdots + V_n'u_n^{(n-1)}
+ = f(x),
+\end{equation}
+が得られる。これと、式(\ref{variation_constant_method_suppose1})から、次
+のような代数方程式が得られる。
+\begin{equation}
+ \begin{pmatrix}
+  u_1 & u_2 & \cdots & u_n \\
+  u_1' & u_2' & \cdots & u_n' \\
+  \vdots & \vdots & \ddots & \vdots \\
+  u_1^{(n-1)} & u_2^{(n-1)} & \cdots & u_n^{(n-1)}
+ \end{pmatrix}
+ \begin{pmatrix}
+  V_1' \\ V_2' \\ \vdots \\ V_n'
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  0 \\ 0 \\ \vdots \\ f(x)
+ \end{pmatrix}.
+\end{equation}
+
+これはCramerの公式により、
+\begin{equation}
+ V_i' = \frac{W_i}{W},
+\end{equation}
+により解が求められ、次のような積分により一般解が求められる。
+\begin{equation}
+ y = \left(\sum_{i=0}^n\int dx \frac{|W_i|}{|W|}\right)u_i.
+\end{equation}
+
+また、このとき、Wronski行列式のうち、$W_i$は$W$の部分行列式だが、特に、
+\begin{equation}
+ W_i =
+  \begin{pmatrix}
+   u_1 & u_2 & \cdots & u_{i-1} & 0 & \cdot & u_n \\
+   u_1' & u_2' & \cdots & u_{i-1}' & 0 & \cdot & u_n' \\
+   \vdots & & &\ddots & \ddots& & \vdots \\
+   u_1^{(n-1)} & u_2^{(n-1)} & \cdots & u_{i-1}^{(n-1)} & 0 & \cdot & u_n^{(n-1)} \\
+  \end{pmatrix}
+\end{equation}
+のように定義される行列式である。
+
+また、特に、2階の方程式については、
+\begin{equation}
+ V_1 = -\int dx \frac{u_2}{W}f(x),
+\end{equation}
+\begin{equation}
+ V_2 = \int dx \frac{u_1}{W}f(x),
+\end{equation}
+である。
+
+\begin{thebibliography}{10}
+ \bibitem{Ince} INCE, E. L., Ordinary Differential Equations, Dover
+	 publishing inc., New York
+\end{thebibliography}
